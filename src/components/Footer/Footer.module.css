@@ -1,0 +1,22 @@
+.footer {
+    padding: 1rem;
+    background-color:#101f46;
+    color: #fff;
+    text-align: center;
+    margin-top: auto;
+}
+
+.infoFooter {
+    display: flex;
+    justify-content: space-between; /* Optional: Adds space between the squares */
+    width: 100%; /* Container width */
+    height: 100vh; /* Full viewport height for demonstration */
+    align-items: center; /* Center vertically if squares are smaller than container height */
+}
+
+.infoBox {
+    flex: 1;
+    margin: 0 5rem;
+    align-items: center;
+    text-align: center;
+}
