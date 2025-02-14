@@ -11,9 +11,27 @@
 }
 
 .socialBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
     padding: 0 1rem;
-    margin-top: -0.75rem; 
-    margin-left: -0.9rem;
+    margin-top: -0.75rem;
+}
+
+.socialBox1 {
+    display: flex;
+    align-items: center;
+}
+
+.socialBox2 {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding-right: 2rem;
+}
+
+.socialBox3 {
     display: flex;
     align-items: center;
 }
@@ -21,6 +39,35 @@
 .socialBox img {
     width: 25px;
     height: 25px;
+}
+
+.socialBox a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 0.5rem;
+}
+
+.socialBox1 p {
+    padding: 0 1rem;
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    color:rgb(173, 232, 251)
+}
+
+.socialBox2 p {
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    margin-left: 100rem;
+    color:rgb(173, 232, 251)
+}
+
+.socialBox3 p {
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    color:rgb(173, 232, 251)
 }
 
 .navbar {
@@ -96,6 +143,17 @@
     }
 }
 
+@media (max-width: 1024px) {
+    .socialBox {
+        flex-wrap: nowrap;
+        gap: 1rem;
+    }
+
+    .socialBox2 {
+        padding-right: 1rem;
+    }
+}
+
 @media (max-width: 768px) {
     .navbar {
         flex-wrap: wrap;
@@ -137,6 +195,15 @@
         left: 15%;
         font-size: 2rem;
     }
+
+    .socialBox {
+        padding: 0 0.5rem;
+    }
+
+    .socialBox1 p, .socialBox2 p, .socialBox3 p {
+        font-size: 0.2rem;
+    }
+
 }
 
 @media (max-width: 480px) {
@@ -165,9 +232,20 @@
         left: 13%;
         font-size: 1.8rem;
     }
+
+    .socialBox {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .socialBox2, .socialBox3 {
+        margin-left: 0;
+        padding-right: 0;
+    }
 }
 
 .navbarSpacer {
-    height: 7rem; /*Adjust this value to match the combined height of socialBar and navbar */
+    height: 4rem; /*Adjust this value to match the combined height of socialBar and navbar */
     width: 100%;
 }

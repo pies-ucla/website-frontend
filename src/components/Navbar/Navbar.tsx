@@ -10,6 +10,28 @@ export default function Navbar() {
                 <a href="https://www.instagram.com/piesatucla/" target="_blank" rel="noopener noreferrer">
                     <Image src="/instagram.png" alt="Instagram" width={24} height={24} /> 
                 </a>
+                <a href="https://www.linkedin.com/company/pilipinos-in-engineering-and-sciences/    " target="_blank" rel="noopener noreferrer">
+                    <Image src="/linkedln.png" alt="LinkedIn" width={24} height={24} /> 
+                </a>
+                <a href="" target="_blank" rel="noopener noreferrer">
+                    <Image src="/email.png" alt="Email" width={24} height={24} /> 
+                </a>
+                <a href="https://www.facebook.com/uclapies/" target="_blank" rel="noopener noreferrer">
+                    <Image src="/facebook.png" alt="Facebook" width={24} height={24} /> 
+                </a>
+                <div className={styles.socialBox1}>
+                    <p>University of California, Los Angeles</p>
+                </div>
+                <div className={styles.socialBox2}>
+                    <p>
+                        Join PIES at UCLA Today!
+                    </p>
+                </div>
+                <div className={styles.socialBox3}>
+                    <p>
+                        GM at ____
+                    </p>
+                </div>
                 </div>
             </div>
             <nav className={styles.navbar}>
