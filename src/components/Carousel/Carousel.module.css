@@ -7,15 +7,21 @@
     gap: 2rem;
     margin-top: 2rem;
     margin-bottom: 5rem;
-    width: 150%; 
+    width: min(150%, 1600px); 
     overflow: visible;
+    margin: 2rem auto 5rem; 
+    margin-left: 3rem; /* Add margin to push carousel right */
+    transform: translateX(5rem); /* Additional right shift */
 }
 
 .carouselImageContainer {
-    width: 600px;     
-    height: 400px;  
+    width: min(800px, 80vw);    
+    height: min(500px, 50vw);    
     position: relative;
-    margin: 0 3rem; 
+    margin: 0 auto; 
+    margin-right: -3rem; /* Adjust right margin */
+    overflow: hidden; /* Add this to contain the zoomed image */
+    cursor: zoom-in; /* Changes cursor to zoom icon */
 }
 
 .carouselImage {
@@ -23,6 +29,21 @@
     border-radius: 12px;  
     width: 100%;
     height: 100%;
+    transition: transform 0.3s ease;
+    transform-origin: center; 
+}
+
+.carouselImageContainer:hover .carouselImage {
+    transform: scale(1.05); /* Zoom level on hover */
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.2);
+    }
 }
 
 .carouselButton {
@@ -74,10 +95,34 @@
     background-color: #6a8ac3;
 }
 
+@media (max-width: 1440px) {
+    .carousel {
+        margin-left: 10rem;
+        transform: translateX(3rem);
+    }
+}
+
+@media (max-width: 1024px) {
+    .carousel {
+        margin-right: -5rem; 
+        margin-left: 5rem;
+        transform: translateX(0);
+    }
+    .carouselImageContainer {
+        width: 600px;
+        height: 400px;
+    }
+}
+
 @media (max-width: 768px) {
     .carouselImageContainer {
-        width: 400px;
-        height: 300px;
+        width: 500px;
+        height: 350px;
+    }
+    .carousel {
+        margin-right: 0;
+        margin-left: 0;
+        transform: none;
     }
 }
 
@@ -85,5 +130,12 @@
     .carouselImageContainer {
         width: 300px;
         height: 200px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .carouselImageContainer {
+        width: min(1000px, 70vw);
+        height: min(600px, 45vw);
     }
 }

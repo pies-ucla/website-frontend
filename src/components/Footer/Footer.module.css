@@ -12,13 +12,14 @@
 .infoFooter {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
-    min-height: 75vh;
+    min-height: 65vh; /* Reduced from 75vh */
     background-color: #eee1a1;
-    padding: 4rem 2rem;
+    padding: 2rem 1rem; /* Reduced padding */
     position: relative;
     margin-top: -30; /* Remove the white background of the main footer; or like move it up so that you don't see the white background */
+    gap: 1rem; /* Reduced gap */
 }
 
 .imageSection {
@@ -26,8 +27,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 50%;
+    max-width: 45%; /* Slightly reduced */
     position: relative;
+    padding-right: 1rem;
 }
 
 .textContainer {
@@ -36,8 +38,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0 2rem;
-    max-width: 50%;
+    padding: 30 55rem;
+    max-width: 800%; 
+    width: 350%;
+    transform: translateX(-30rem); /* Changed from -22rem to move right */
+    margin-left: 5rem; /* Add left margin */
 }
 
 .textSection {
@@ -45,9 +50,11 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    width: 100%;
-    max-width: 600px;
-    margin: 1rem 0;
+    margin: 0.5rem 0; 
+    max-width: 800px; 
+    width: 100%; /* Changed from 350% */
+    letter-spacing: 1.5px; /* Add slight letter spacing */
+    transform: translateX(8rem); /* Move text right */
 }
 
 .textSection1 {
@@ -56,13 +63,63 @@
     align-items: center;
     width: 100%;
     max-width: 600px;
-    margin: 1rem 0;
+    margin: 0.5rem 0; 
+    transform: translateX(8rem); /* Move text right */
 }
 
-.textSection h1, .textSection h2 {
+.textSection h1{
     color: red;
     margin-bottom: 0.5rem;
     text-align: center;
+}
+
+.textSection h1 {
+    color: red;
+    margin-bottom: 0.8rem;
+    text-align: center;
+    font-size: 3.2rem; /* Increased size */
+    font-weight: 600;
+
+}
+
+.textSection h1:first-child {
+    color: red;
+    margin-bottom: 0.8rem;
+    text-align: center;
+    font-size: 3.2rem;
+    font-weight: 600;
+    letter-spacing: 4px;
+    width: 150%;
+    transform: translateX(0%) scaleX(1.3);
+    font-family: 'Brush Script MT', cursive;
+}
+
+.textSection h1:nth-child(2) {
+    color: #ff0000;
+    margin-bottom: 0.8rem;
+    text-align: center;
+    font-size: 3.2rem;
+    font-weight: 800;
+    letter-spacing: 30px; /* Increased from 25px */
+    width: 200%; /* Increased from 150% */
+    transform: translateX(-25%) scaleX(1.4); /* Increased scale */
+    font-family: 'Impact', 'Arial Black', sans-serif;
+}
+
+/* Reset styles for other h1s */
+.textSection h1:not(:first-child) {
+    letter-spacing: normal;
+    width: 100%;
+    transform: none;
+}
+
+.textSection h2 {
+    color: red;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 2.4rem; /* Increased size */
+    font-weight: 600;
+    
 }
 
 .textSection1 p {
@@ -71,18 +128,26 @@
     color: darkblue;
     padding: 0;
     margin: 1rem 0;
+    max-width: 800px; 
+    width: 350%; /* Make it wider than container */
+    letter-spacing: 1.5px; 
+    transform: translateX(0rem); /* Shift left to center */
+    font-size: 1.4rem; 
+    line-height: 1.8;
+    max-width: 900px;
 }
 
 .learnMoreButton {
     background-color: #6a8ac3;
     color: white;
-    padding: 0.4rem 1.2rem;
+    padding: 0.7rem 1.2rem;
     border: 1px solid #000;
     border-radius: 15px;
     font-size: 1.1rem;
     width: fit-content;
     margin: 2rem auto; 
-    margin-left: 15rem;
+    /* transform: translateX(0rem); Move button left without affecting other elements */
+    align-self: center; /* Keep button centered horizontally in its container */
 }
 
 .learnMoreButton a {
@@ -174,14 +239,134 @@
     transform: translate(50%, 50%);
 }
 
+.mainContent {
+    flex: 2;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem; /* Added smaller gap */
+}
+
+.newsSection {
+    flex: 1;
+    padding: 1.5rem;
+    max-width: 600px; /* Slightly reduced */
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+.newsSectionTitle {
+    color: #6a8ac3;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.newsItem {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem; /* Reduced margin */
+    padding-bottom: 0.8rem; /* Reduced padding */
+    border-bottom: 1px solid rgba(106, 138, 195, 0.2);
+}
+
+.newsImageContainer {
+    flex-shrink: 0;
+}
+
+.newsImage {
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.newsContent {
+    flex: 1;
+}
+
+.newsTitle {
+    color: #6a8ac3;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.newsDate {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.newsDescription {
+    color: #333;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.mainTitle {
+    color: red;
+    margin-bottom: 0.8rem;
+    text-align: center;
+    font-size: 3.2rem;
+    font-weight: 600;
+    letter-spacing: 4px;
+    width: 180%; /* Slightly reduced from 200% */
+    white-space: nowrap;
+    transform: translateX(-20%) scaleX(1.2);
+    font-family: 'Brush Script MT', cursive;
+}
+
 /* Media queries for responsive design */
+@media (max-width: 1440px) {
+    .textContainer {
+        transform: translateX(1rem);
+        margin-left: 3rem;
+    }
+    
+    .textSection, .textSection1 {
+        transform: translateX(5rem);
+    }
+}
+
 @media (max-width: 1024px) {
     .infoFooter {
-        padding: 3rem 1.5rem;
+        padding: 2rem 1rem;
+        flex-direction: column;
     }
 
     .eventImages {
         gap: 1.5rem;
+    }
+
+    .newsSection {
+        max-width: 100%;
+        padding: 1rem;
+    }
+
+    .textSection h1 {
+        font-size: 2.8rem;
+    }
+    
+    .textSection h2 {
+        font-size: 2rem;
+    }
+    
+    .textSection1 p {
+        font-size: 1.2rem;
+    }
+
+    .textSection h1:first-child {
+        letter-spacing: 3px;
+        width: 130%;
+    }
+
+    .mainTitle {
+        font-size: 2.8rem;
+        width: 140%;
+        transform: translateX(-15%) scaleX(1.1);
+    }
+
+    .textSection h1:nth-child(2) {
+        width: 160%;
+        transform: translateX(-20%) scaleX(1.2);
+        letter-spacing: 20px;
     }
 }
 
@@ -196,16 +381,25 @@
         padding: 1rem;
     }
     
+    .textContainer {
+        transform: none;
+        margin-left: 0;
+    }
+    
+    .textSection, .textSection1 {
+        transform: none;
+    }
+
     .textSection h1 {
-        font-size: 1.5rem;
+        font-size: 2.4rem;
     }
     
     .textSection h2 {
-        font-size: 1.2rem;
+        font-size: 1.8rem;
     }
     
     .textSection1 p {
-        font-size: 0.9rem;
+        font-size: 1.1rem;
     }
 
     .eventImages {
@@ -231,6 +425,22 @@
         bottom: 20%;
         right: 20%;
     }
+
+    .learnMoreButton {
+        transform: translateX(-5rem); /* Adjust position for smaller screens */
+    }
+
+    .textSection h1:first-child {
+        letter-spacing: 2px;
+        width: 110%;
+    }
+
+    .mainTitle {
+        font-size: 2rem;
+        width: 120%;
+        transform: translateX(-10%) scaleX(1);
+        letter-spacing: 2px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -240,6 +450,7 @@
     
     .learnMoreButton {
         margin: 1rem auto;
+        transform: translateX(-2rem); /* Further adjust for mobile */
     }
 
     .eventImages {
