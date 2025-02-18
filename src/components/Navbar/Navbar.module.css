@@ -3,7 +3,7 @@
     background-color: #2f61b9;
     color: #fff;
     display: flex;
-    width: 100%;
+    width: 1000%;
     justify-content: flex-start;
     position: fixed;
     top: 0;
@@ -80,7 +80,7 @@
     position: fixed;
     top: 2rem; 
     border-bottom: 3px solid #6a8ac3;
-    z-index: 999;  /*ensure it stays below socialBar but above content */
+    z-index: 900;  /*ensure it stays below socialBar but above content */
 }
 
 .navList {
@@ -115,7 +115,7 @@
     align-items: center;
     position: fixed;
     left: 20%;
-    transform: translateX(-50%);
+    transform: translateX(-90%);
     z-index: 1000;
 }
 

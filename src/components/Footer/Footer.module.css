@@ -16,20 +16,21 @@
     width: 100%;
     min-height: 65vh; /* Reduced from 75vh */
     background-color: #eee1a1;
-    padding: 2rem 1rem; /* Reduced padding */
+    padding: 4rem 2rem; /* Increased padding */
     position: relative;
     margin-top: -30; /* Remove the white background of the main footer; or like move it up so that you don't see the white background */
-    gap: 1rem; /* Reduced gap */
+    gap: 2rem; /* Increased gap */
 }
 
 .imageSection {
     flex: 1;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end; /* Align to right */
     align-items: center;
-    max-width: 45%; /* Slightly reduced */
+    max-width: 55%; /* Increased from 45% to accommodate larger carousel */
     position: relative;
-    padding-right: 1rem;
+    padding-right: 2rem; /* Add padding on right */
+    transform: translateX(2rem); /* Move section right */
 }
 
 .textContainer {
@@ -38,11 +39,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 30 55rem;
-    max-width: 800%; 
-    width: 350%;
-    transform: translateX(-30rem); /* Changed from -22rem to move right */
-    margin-left: 5rem; /* Add left margin */
+    padding: 2rem; /* Increased from 1.5rem */
+    max-width: 800px; /* Increased from 600px */
+    width: 100%; /* Reset width */
+    transform: translateX(0); /* Reset transform */
+    margin-left: 3rem; /* Increased from 2rem to add more space */
 }
 
 .textSection {
@@ -52,19 +53,19 @@
     text-align: center;
     margin: 0.5rem 0; 
     max-width: 800px; 
-    width: 100%; /* Changed from 350% */
+    width: 100%; /* Reset width */
     letter-spacing: 1.5px; /* Add slight letter spacing */
-    transform: translateX(8rem); /* Move text right */
+    transform: translateX(0); /* Reset transform */
 }
 
 .textSection1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 100%; /* Reset width */
     max-width: 600px;
     margin: 0.5rem 0; 
-    transform: translateX(8rem); /* Move text right */
+    transform: translateX(0); /* Reset transform */
 }
 
 .textSection h1{
@@ -77,20 +78,20 @@
     color: red;
     margin-bottom: 0.8rem;
     text-align: center;
-    font-size: 3.2rem; /* Increased size */
+    font-size: 2.2rem; /* Reduced from 2.8rem */
     font-weight: 600;
 
 }
 
-.textSection h1:first-child {
+.textSection h1:nth-child(1) {
     color: red;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.2rem; /* Add more space before PIES @ UCLA */
     text-align: center;
-    font-size: 3.2rem;
+    font-size: 1.6rem; /* Reduced from 2rem */
     font-weight: 600;
-    letter-spacing: 4px;
-    width: 150%;
-    transform: translateX(0%) scaleX(1.3);
+    letter-spacing: 1px; /* Reduced from 3px */
+    width: 85%; /* Reduced width */
+    transform: translateX(0) scaleX(0.9); /* Reduced scale */
     font-family: 'Brush Script MT', cursive;
 }
 
@@ -98,13 +99,15 @@
     color: #ff0000;
     margin-bottom: 0.8rem;
     text-align: center;
-    font-size: 3.2rem;
+    font-size: 4.5rem; /* Increased from 4rem */
     font-weight: 800;
-    letter-spacing: 30px; /* Increased from 25px */
-    width: 200%; /* Increased from 150% */
-    transform: translateX(-25%) scaleX(1.4); /* Increased scale */
+    letter-spacing: 18px; /* Increased from 15px */
+    width: 150%; /* Increased from 140% */
+    transform: translateX(-15%) scaleX(1.5); /* Increased scale */
     font-family: 'Impact', 'Arial Black', sans-serif;
+    margin: 1rem 0; /* Add more vertical spacing */
 }
+
 
 /* Reset styles for other h1s */
 .textSection h1:not(:first-child) {
@@ -117,24 +120,23 @@
     color: red;
     margin-bottom: 1rem;
     text-align: center;
-    font-size: 2.4rem; /* Increased size */
+    font-size: 1.6rem; /* Reduced from 2rem */
     font-weight: 600;
     
 }
 
 .textSection1 p {
-    line-height: 1.6;   
+    line-height: 1.8; /* Increased from 1.6 */
     text-align: center;
     color: darkblue;
     padding: 0;
-    margin: 1rem 0;
-    max-width: 800px; 
-    width: 350%; /* Make it wider than container */
-    letter-spacing: 1.5px; 
-    transform: translateX(0rem); /* Shift left to center */
-    font-size: 1.4rem; 
-    line-height: 1.8;
-    max-width: 900px;
+    margin: 1.5rem 0; /* Increased from 1rem */
+    max-width: 800px; /* Increased from 600px */
+    width: 120%; /* Increased from 100% */
+    letter-spacing: 2px; /* Increased from 1.5px */
+    transform: translateX(2%); /* Added to help center the wider text */
+    font-size: 1rem;
+    line-height: 1.6; /* better readability */
 }
 
 .learnMoreButton {
@@ -243,8 +245,12 @@
     flex: 2;
     display: flex;
     flex-direction: row;
-    gap: 1rem; /* Added smaller gap */
+    gap: 1rem; /* Reduced gap to prevent text overlap */
+    justify-content: space-between; /* Space elements evenly */
+    align-items: center; /* Center align content vertically */
 }
+
+/*Leave this area for now*/
 
 .newsSection {
     flex: 1;
@@ -300,6 +306,8 @@
     line-height: 1.4;
 }
 
+/*Leave this area for now*/
+
 .mainTitle {
     color: red;
     margin-bottom: 0.8rem;
@@ -341,20 +349,22 @@
     }
 
     .textSection h1 {
-        font-size: 2.8rem;
-    }
-    
-    .textSection h2 {
         font-size: 2rem;
     }
     
+    .textSection h2 {
+        font-size: 1.4rem;
+    }
+    
     .textSection1 p {
-        font-size: 1.2rem;
+        font-size: 0.95rem;
     }
 
     .textSection h1:first-child {
         letter-spacing: 3px;
         width: 130%;
+        font-size: 1.8rem;
+        width: 85%;
     }
 
     .mainTitle {
@@ -367,6 +377,29 @@
         width: 160%;
         transform: translateX(-20%) scaleX(1.2);
         letter-spacing: 20px;
+        font-size: 2.6rem;
+        width: 130%;
+        letter-spacing: 12px;
+    }
+
+    .imageSection {
+        transform: none;
+        padding-right: 1rem;
+    }
+    
+    .carousel {
+        margin-left: 0;
+    }
+
+    .textSection h1:nth-child(1) {
+        font-size: 1.4rem;
+        width: 80%;
+    }
+
+    .textSection h1:nth-child(2) {
+        font-size: 3.8rem;
+        width: 140%;
+        letter-spacing: 15px;
     }
 }
 
@@ -391,15 +424,15 @@
     }
 
     .textSection h1 {
-        font-size: 2.4rem;
+        font-size: 2rem;
     }
     
     .textSection h2 {
-        font-size: 1.8rem;
+        font-size: 1.4rem;
     }
     
     .textSection1 p {
-        font-size: 1.1rem;
+        font-size: 0.95rem;
     }
 
     .eventImages {
@@ -433,6 +466,8 @@
     .textSection h1:first-child {
         letter-spacing: 2px;
         width: 110%;
+        font-size: 1.6rem;
+        width: 80%;
     }
 
     .mainTitle {
@@ -440,6 +475,23 @@
         width: 120%;
         transform: translateX(-10%) scaleX(1);
         letter-spacing: 2px;
+    }
+
+    .textSection h1:nth-child(2) {
+        font-size: 2.2rem;
+        width: 120%;
+        letter-spacing: 10px;
+    }
+
+    .textSection h1:nth-child(1) {
+        font-size: 1.2rem;
+        width: 75%;
+    }
+
+    .textSection h1:nth-child(2) {
+        font-size: 3rem;
+        width: 130%;
+        letter-spacing: 12px;
     }
 }
 

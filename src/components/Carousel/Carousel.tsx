@@ -1,53 +1,47 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './Carousel.module.css';
 
 interface CarouselProps {
     images: string[];
+    width?: number;  // Add optional width prop
+    height?: number; // Add optional height prop
 }
 
-const Carousel = ({ images }: CarouselProps) => {
+const Carousel = ({ images, width = 800, height = 600 }: CarouselProps) => {
+    const [isClient, setIsClient] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    // const nextSlide = () => {
-    //     setCurrentIndex((prevIndex) => 
-    //         prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    //     );
-    // };
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
-    // const prevSlide = () => {
-    //     setCurrentIndex((prevIndex) => 
-    //         prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    //     );
-    // };
+    const nextSlide = () => {
+        setCurrentIndex((prevIndex) => 
+            prevIndex === images.length - 1 ? 0 : prevIndex + 1
+        );
+    };
 
-    return (
+    const prevSlide = () => {
+        setCurrentIndex((prevIndex) => 
+            prevIndex === 0 ? images.length - 1 : prevIndex - 1
+        );
+    };
+
+    return isClient ? (
         <div className={styles.carousel}>
-            {/* <button 
-                className={styles.carouselButton} 
-                onClick={prevSlide}
-                aria-label="Previous image"
-            >
-                ←
-            </button> */}
             <div className={styles.carouselImageContainer}>
                 <Image
                     src={images[currentIndex]}
                     alt={`Slide ${currentIndex + 1}`}
-                    width={600}  
-                    height={400}  
+                    width={width}  // Use custom width
+                    height={height} // Use custom height
                     className={styles.carouselImage}
+                    style={{ objectFit: 'contain' }} // Ensure image maintains aspect ratio
                 />
             </div>
-            {/* <button 
-                className={styles.carouselButton} 
-                onClick={nextSlide}
-                aria-label="Next image"
-            >
-                →
-            </button> */}
             <div className={styles.indicators}>
                 {images.map((_, index) => (
                     <span
@@ -58,7 +52,7 @@ const Carousel = ({ images }: CarouselProps) => {
                 ))}
             </div>
         </div>
-    );
+    ) : null; // Or a loading placeholder
 };
 
 export default Carousel;

@@ -3,25 +3,26 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 2rem;
     gap: 2rem;
     margin-top: 2rem;
     margin-bottom: 5rem;
-    width: min(150%, 1600px); 
+    width: min(130%, 900px); /* Slightly reduced from 150%, 1000px */
     overflow: visible;
-    margin: 2rem auto 5rem; 
-    margin-left: 3rem; /* Add margin to push carousel right */
-    transform: translateX(5rem); /* Additional right shift */
+    margin: 2rem 0 8rem; 
+    margin-left: 4rem; /* Changed from -2rem to move right */
 }
 
 .carouselImageContainer {
-    width: min(800px, 80vw);    
-    height: min(500px, 50vw);    
+    width: min(700px, 80vw); /* Increased from 500px, 55vw */
+    height: min(600px, 45vw); /* Increased from 350px, 35vw */  
     position: relative;
-    margin: 0 auto; 
-    margin-right: -3rem; /* Adjust right margin */
+    margin: 0 auto; /* Center the container */
+    margin-bottom: 2rem; /* Add space for indicators */
+    margin-right: 0; /* Reset right margin */
+    margin-top: -5rem; /* Added to move container down */
     overflow: hidden; /* Add this to contain the zoomed image */
     cursor: zoom-in; /* Changes cursor to zoom icon */
+    transform: translate(4rem, 4rem); /* Modified to move right and down */
 }
 
 .carouselImage {
@@ -61,8 +62,17 @@
     width: 60px;
     height: 60px;
     margin: 0 1rem;
-    position: relative; 
-    z-index: 10; 
+    position: absolute; /* Change to absolute positioning */
+    z-index: 20; /* Increase z-index */
+}
+
+/* Add new classes for buttons */
+.carouselButton.prev {
+    left: -70px; /* Position left button */
+}
+
+.carouselButton.next {
+    right: -70px; /* Position right button */
 }
 
 .carouselButton:hover {
@@ -76,15 +86,16 @@
 
 .indicators {
     position: absolute;
-    bottom: -20px;
+    bottom: -20px; /* Moved down to ensure it's below the larger image */
     display: flex;
-    gap: 0.5rem;
+    gap: .5rem;
     justify-content: center;
     width: 100%;
+    margin-left: 20%;
 }
 
 .dot {
-    width: 40px;
+    width: 60px;
     height: 12px;
     border-radius: 10%;
     background-color: #ccc;
@@ -97,16 +108,16 @@
 
 @media (max-width: 1440px) {
     .carousel {
-        margin-left: 10rem;
-        transform: translateX(3rem);
+        margin-left: -4rem; /* Less extreme shift for smaller screens */
+        transform: none;
     }
 }
 
 @media (max-width: 1024px) {
     .carousel {
-        margin-right: -5rem; 
-        margin-left: 5rem;
-        transform: translateX(0);
+        margin-right: 0; 
+        margin-left: -2rem;
+        transform: none;
     }
     .carouselImageContainer {
         width: 600px;
@@ -120,8 +131,7 @@
         height: 350px;
     }
     .carousel {
-        margin-right: 0;
-        margin-left: 0;
+        margin: 2rem auto; /* Center on mobile */
         transform: none;
     }
 }
@@ -135,7 +145,7 @@
 
 @media (min-width: 1440px) {
     .carouselImageContainer {
-        width: min(1000px, 70vw);
-        height: min(600px, 45vw);
+        width: min(800px, 70vw); /* Increased size for larger screens */
+        height: min(600px, 50vw);
     }
 }
