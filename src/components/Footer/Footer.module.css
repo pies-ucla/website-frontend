@@ -147,20 +147,32 @@
     border-radius: 15px;
     font-size: 1.1rem;
     width: fit-content;
-    margin: 2rem auto; 
-    /* transform: translateX(0rem); Move button left without affecting other elements */
-    align-self: center; /* Keep button centered horizontally in its container */
+    margin: 1rem auto 2rem; /* Reduced top margin from 2rem to 1rem */
+    position: relative;
+    top: -10px; /* Move button up by 10px */
+    align-self: center;
 }
 
 .learnMoreButton a {
     color: white;
     text-decoration: none;
 }
+  
+.navigationButton {
+    width: 40px;
+    height: 40px;
+    background-color: #000000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
 
 .navySection {
     width: 100%;
     min-height: 50vh;  /* Half the height of infoFooter */
-    background-color: #6a8ac3;  
+    background-color: #eee1a1;;  
     position: relative;
     z-index: 100;
     margin-top: 0; /* Remove negative margin */
@@ -171,14 +183,15 @@
 }
 
 .navyHeader {
-    color: #eee1a1;;
+    color: #f12e2edf;
     font-size: 2.7rem;
     margin-bottom: 1rem;
     text-align: center;
+    font-weight: bolder;
 }
 
 .navySubheader {
-    color: rgb(151, 200, 201);
+    color: rgb(255, 107, 1);
     font-size: 0.96rem;
     margin-bottom: 3rem;
     text-align: center;
@@ -319,6 +332,15 @@
     white-space: nowrap;
     transform: translateX(-20%) scaleX(1.2);
     font-family: 'Brush Script MT', cursive;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 1rem;
+  margin-top: -0.5rem; /* Changed from 1rem to -0.5rem to move up */
+  justify-content: center;
+  position: relative;
+  top: -15px; /* Additional upward adjustment */
 }
 
 /* Media queries for responsive design */
