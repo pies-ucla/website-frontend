@@ -1,0 +1,197 @@
+.threePillarsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: #eee1a1;
+    width: 100%;
+    height: 400px;
+}
+
+.pillarsWrapper {
+    display: flex;
+    justify-content: center;
+    gap: 180px;
+}
+
+.pillar {
+    position: relative;
+    width: 150px; 
+    height: 220px;
+    background-color: #1e5091;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 45px 12px;
+    transition: all 0.3s ease;
+    margin-top: 80px;
+}
+
+.pillarContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 10px 0;
+}
+
+.pillar.active {
+    height: 390px; 
+    width: 195px; 
+    background-color: #2561b3;
+    z-index: 1;
+    margin-top: -90px;
+    padding: 60px 10px 45px 10px;
+    cursor: pointer; 
+    transition: all 0.5s ease; /* Slightly slower transition for smoother effect */
+}
+
+.pillar.active:hover {
+    transform: translateY(-30px) scale(0.99);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.25);
+    background-color: #4b8ce1;
+}
+
+
+/* Click animation for active pillar */
+@keyframes clickEffect {
+    0% { transform: translateY(-90px) scale(1); }
+    50% { transform: translateY(-85px) scale(0.95); }
+    100% { transform: translateY(-90px) scale(0.7); }
+}
+
+.pillar.active.clicked {
+    animation: clickEffect 0.4s ease-in-out;
+}
+
+/* Optional click indicator */
+.clickIndicator {
+    position: absolute;
+    top: 20px;
+    color: #444;
+    font-size: 0.85rem;
+    opacity: 0.8;
+    pointer-events: none;
+    animation: fadeInOut 2s infinite;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.pillar.active::before,
+.pillar.active::after {
+    background-color: #2561b3;
+    left: -51.5px;
+    width: 295px;
+}
+
+.pillar::before,
+.pillar::after {
+    content: "";
+    position: absolute;
+    left: -38px; 
+    width: 225px; 
+    height: 35px;
+    background-color: inherit;
+    clip-path: polygon(0% 0%, 17% 100%, 84% 100%, 100% 0%);
+    box-shadow: -10px -10px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.pillar::before {
+    top: -35px; 
+}
+
+.pillar::after {
+    bottom: -35px; 
+    transform: rotate(180deg);
+}
+
+.pillarChar {
+    color: white;
+    font-weight: bolder;
+    font-size: 21px; 
+    letter-spacing: 0.8px; 
+    line-height: 0.75; 
+    transition: all 0.3s ease;
+    margin: 1px 0; 
+}
+
+.pillar.active .pillarChar {
+    font-size: 33px; 
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.5); /* Add glow effect */
+    letter-spacing: 1.2px; 
+    line-height: 27.3px;
+    margin: 2px 0; 
+}
+
+/* Animation for active pillar text */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pillar.active .pillarChar:hover {
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.pillar.active .pillarContent {
+    padding: 20px 0;
+}
+
+.navigationButton {
+    width: 60px; 
+    height: 50px;
+    background-color: #cbcbcb;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: rgb(46, 123, 182);
+    user-select: none;
+    margin: 0 60px; 
+    font-size: 34px; 
+    transition: transform 0.3s ease; 
+}
+
+.navigationButton:hover {
+    background-color: #333333;
+    transform: scale(1.3); 
+}
+
+.navigationButton:first-child {
+    margin-right: 80px; /* Push to left */
+    transform: translateX(-30px); /* Move to left */
+}
+
+.navigationButton:last-child {
+    margin-left: 80px; /* Push toright */
+    transform: translateX(30px); /* Move to right */
+}
+
+.navigationButton:first-child:hover {
+    transform: translateX(-30px) scale(1.1);
+}
+
+.navigationButton:last-child:hover {
+    transform: translateX(30px) scale(1.1);
+}
+
+/* Animation for subtle floating effect on active pillar */
+@keyframes float {
+    0% { transform: translateY(-90px); }
+    50% { transform: translateY(-95px); }
+    100% { transform: translateY(-90px); }
+}

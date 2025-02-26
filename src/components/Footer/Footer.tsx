@@ -5,6 +5,7 @@ import Image from 'next/image'; // Re-enable Image import
 import Link from 'next/link';
 import Carousel from '../Carousel/Carousel';
 import { useEffect, useState } from 'react';
+import Pillars from '../Pillars/Pillars';
 
 const Footer = () => {
   // Add state for client-side rendering
@@ -20,26 +21,26 @@ const Footer = () => {
     '/pies-kbbq.png',
   ];
 
-  const newsItems = [
-    {
-      image: '/news-1.png',
-      title: 'PIES Fall GM #1',
-      date: 'October 5, 2023',
-      description: 'Join us for our first General Meeting of the year! Come meet the board and learn more about what PIES has planned for Fall Quarter.'
-    },
-    {
-      image: '/news-2.png',
-      title: 'PIES Industry Night',
-      date: 'October 12, 2023',
-      description: 'Network with industry professionals and PIES alumni in engineering and sciences. Great opportunity to learn about different career paths!'
-    },
-    {
-      image: '/news-3.png',
-      title: 'PIES Study Night',
-      date: 'October 19, 2023',
-      description: 'Study with your fellow PIES members! Snacks and drinks will be provided.'
-    }
-  ];
+  // const newsItems = [
+  //   {
+  //     image: '/news-1.png',
+  //     title: 'PIES Fall GM #1',
+  //     date: 'October 5, 2023',
+  //     description: 'Join us for our first General Meeting of the year! Come meet the board and learn more about what PIES has planned for Fall Quarter.'
+  //   },
+  //   {
+  //     image: '/news-2.png',
+  //     title: 'PIES Industry Night',
+  //     date: 'October 12, 2023',
+  //     description: 'Network with industry professionals and PIES alumni in engineering and sciences. Great opportunity to learn about different career paths!'
+  //   },
+  //   {
+  //     image: '/news-3.png',
+  //     title: 'PIES Study Night',
+  //     date: 'October 19, 2023',
+  //     description: 'Study with your fellow PIES members! Snacks and drinks will be provided.'
+  //   }
+  // ];
 
   const fadeInUp = {
     initial: { y: 30, opacity: 0 },
@@ -102,8 +103,22 @@ const Footer = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Link href="/about">Learn More</Link>
+                  <Link href="/about">Learn More!</Link>
                 </motion.div>
+                <div className={styles.socialLinks}>
+                  <a href="https://www.instagram.com/piesatucla/" target="_blank" rel="noopener noreferrer">
+                    <Image src="/instagram.png" alt="Instagram" width={24} height={24} />
+                  </a>
+                  <a href="https://www.linkedin.com/company/pilipinos-in-engineering-and-sciences/" target="_blank" rel="noopener noreferrer">
+                    <Image src="/linkedln.png" alt="LinkedIn" width={24} height={24} />
+                  </a>
+                  <a href="" target="_blank" rel="noopener noreferrer">
+                    <Image src="/email.png" alt="Email" width={24} height={24} />
+                  </a>
+                  <a href="https://www.facebook.com/uclapies/" target="_blank" rel="noopener noreferrer">
+                    <Image src="/facebook.png" alt="Facebook" width={24} height={24} />
+                  </a>
+                </div>
               </motion.div>
             </motion.div>
           </div>
@@ -142,6 +157,17 @@ const Footer = () => {
           </motion.div>
         </motion.div>
 
+       
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <Pillars />
+        </motion.div>
+
+
         <motion.div 
           className={styles.navySection}
           initial={{ opacity: 0, y: 50 }}
@@ -155,6 +181,9 @@ const Footer = () => {
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
+
+          <div ></div>
+
             Our Past Events
           </motion.h1>
           <h2 className={styles.navySubheader}>Follow us on IG to stay updated!</h2>
