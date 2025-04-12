@@ -1,3 +1,4 @@
+"use client";
 import React from 'react'; 
 import { motion } from 'framer-motion';
 import styles from './QuickLinks.module.css';
@@ -16,5 +17,4 @@ const QuickLinks: React.FC = () => {
   );
 };
 
-// Make sure this is properly exported
 export default QuickLinks;
