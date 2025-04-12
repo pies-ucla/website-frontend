@@ -65,7 +65,13 @@ export default function Navbar() {
                         <Link href="/"><u>Home</u></Link>
                     </li>
                     <li className={styles.navItem}>
-                        <Link href="/about">About Us </Link>
+                        <div className={styles.hoverDropdown}>
+                            <span>About Us</span>
+                            <div className={styles.dropdownMenu}>
+                            <Link href="/about" className={styles.dropdownItem}>About Us</Link>
+                            <Link href="/about/board" className={styles.dropdownItem}>Board</Link>
+                            </div>
+                        </div>
                     </li>
                     <li className={styles.navItem}>
                         <Link href="/resources">Resources</Link>
