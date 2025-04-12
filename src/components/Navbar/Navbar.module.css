@@ -64,7 +64,7 @@
     color: #fff;
     font-size: 1rem;
     font-weight: bold;
-    margin-left: 65rem;
+    margin-left: 55rem;
     white-space: nowrap; 
     position: relative; 
     top: -15px;
@@ -142,14 +142,94 @@
 
 .box1 {
     background-color: #6a8ac3;
-    color: #000;
+    color: white;
     padding: 0.4rem 1.2rem;  
     margin-top: -0.5rem;    
     margin-bottom: -4.5rem; 
     border: 1px solid #000;
     border-radius: 15px;  
-    color: white;
     font-size: 1.1rem;
+    position: relative; /* Added for dropdown positioning */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.box1:hover {
+    background-color: #5679b3; /* Slightly darker on hover */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdownArrow {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.box1:hover .dropdownArrow {
+    transform: none; /* No transform on hover */
+}
+
+/* Add active state for box1 */
+.box1.active {
+    background-color: #5679b3; /* Slightly darker when active */
+}
+
+.box1.active .dropdownArrow {
+    transform: rotate(180deg); /* Rotate arrow when open */
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    padding: 0.5rem 0;
+    z-index: 1000;
+    border: 1px solid #e0e0e0;
+    animation: fadeIn 0.3s ease;
+    overflow: hidden;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdownItem {
+    display: block;
+    padding: 0.75rem 1.2rem;
+    color: #1e5091;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+}
+
+.dropdownItem:hover {
+    background-color: #f5f7fa;
+    border-left-color: #6a8ac3;
+    color: #2561b3;
+}
+
+/* Add responsive styles for dropdown */
+@media (max-width: 768px) {
+    .dropdownMenu {
+        position: absolute;
+        width: 180px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .dropdownItem {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
 }
 
 .logoContainer {

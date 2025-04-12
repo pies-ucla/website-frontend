@@ -1,11 +1,12 @@
 "use client";
 import { motion } from 'framer-motion';
 import styles from './Footer.module.css';
-import Image from 'next/image'; // Re-enable Image import
+import Image from 'next/image';
 import Link from 'next/link';
 import Carousel from '../Carousel/Carousel';
 import { useEffect, useState } from 'react';
 import Pillars from '../Pillars/Pillars';
+import QuickLinks from '../QuickLinks/QuickLinks';
 
 const Footer = () => {
   // Add state for client-side rendering
@@ -57,7 +58,6 @@ const Footer = () => {
   };
 
   return (
-    // Only render when on client-side
     isClient ? (
       <div>
         <motion.div 
@@ -202,20 +202,10 @@ const Footer = () => {
           </div>
         </motion.div>
 
-        <motion.div 
-          className={styles.quickLinksSection}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <h1 className={styles.quickLinksHeader}>Quick Links</h1>
-        </motion.div>
-        {/* <footer className={styles.footer}>
-          <p>© {new Date().getFullYear()} by PIES UCLA.</p>
-        </footer> */}
+        {/* Replace with the new QuickLinks component */}
+        <QuickLinks />
       </div>
-    ) : null // Or a loading state if preferred
+    ) : null
   );
 };
 

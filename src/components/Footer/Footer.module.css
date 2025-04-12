@@ -231,7 +231,8 @@
     transform: scale(1.08);
 }
 
-.quickLinksSection {
+/* Remove these styles since they're now in QuickLinks.module.css */
+/* .quickLinksSection {
     width: 100%;
     background-color: #4d78c2;
     position: relative;
@@ -252,7 +253,7 @@
     right: 10%;
     top: 10%;
     transform: translate(50%, 50%);
-}
+} */
 
 .mainContent {
     flex: 2;
@@ -475,11 +476,12 @@
         padding: 4rem 2rem 6rem 2rem; 
     }
 
-    .quickLinksHeader {
+    /* Remove this since it's in QuickLinks.module.css now */
+    /* .quickLinksHeader {
         font-size: 2rem;
         bottom: 20%;
         right: 20%;
-    }
+    } */
 
     .learnMoreButton {
         transform: translateX(-5rem); /* Adjust position for smaller screens */
@@ -544,11 +546,11 @@
         font-size: 1rem;
     }
 
-    .quickLinksHeader {
+    /* Remove this since it's in QuickLinks.module.css now */
+    /* .quickLinksHeader {
         font-size: 1.5rem;
         bottom: 15%;
         right: 15%;
-
-    }
+    } */
 
 }
