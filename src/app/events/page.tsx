@@ -4,7 +4,7 @@ import Footer from '@/components/Footer/Footer';
 import styles from './events.module.css';
 
 export default function Events() {
-  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const daysOfWeek = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
 
   const numWeeks = 10;
   const totalDays = numWeeks * 7;
