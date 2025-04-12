@@ -1,0 +1,313 @@
+/* === General Structure === */
+.footer {
+    padding: 4rem;
+    background-color: #6a8ac3;
+    color: #96e5ff;
+    text-align: center;
+    margin: auto 0;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .infoFooter {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 65vh;
+    background-color: #eee1a1;
+    padding: 4rem 2rem;
+    margin-top: -30px;
+    gap: 2rem;
+  }
+  
+  .mainContent {
+    flex: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .imageSection {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    max-width: 55%;
+    padding-right: 2rem;
+    transform: translateX(2rem);
+  }
+  
+  .textContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    max-width: 800px;
+    width: 100%;
+    margin-left: 3rem;
+  }
+  
+  .textSection,
+  .textSection1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .textSection h1 {
+    color: #b83f3b;
+    text-align: center;
+    font-weight: 600;
+    font-family: 'Darumadrop One';
+    font-size: 6rem;
+  }
+  
+  .textSection .mainTitle {
+    font-family: 'La Belle Aurore';
+    font-size: 1.6rem;
+  }
+
+  .textSection h2 {
+    font-size: 1.6rem;
+    color: #b83f3b;
+    font-family: 'La Belle Aurore';
+  }
+  
+  .textSection1 p {
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    margin: 1.5rem 0;
+    padding-right: 1rem;
+    max-width: 800px;
+    font-weight: 500;
+    width: 120%;
+    text-align: center;
+    transform: translateX(2%);
+    font-family: var(--font-normal);
+  }
+  
+  .learnMoreButton {
+    background-color: #6a8ac3;
+    color: white;
+    padding: 0.7rem 1.2rem;
+    border: 1px solid #000;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    width: fit-content;
+    margin: 1rem auto 2rem;
+    position: relative;
+    top: -10px;
+    align-self: center;
+  }
+  
+  .learnMoreButton a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .socialLinks {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: -0.5rem;
+    position: relative;
+    top: -15px;
+  }
+  
+  .navySection {
+    width: 100%;
+    min-height: 50vh;
+    background-color: #eee1a1;
+    position: relative;
+    z-index: 100;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .navyHeader {
+    color: var(--primary-red);
+    font-size: 2.7rem;
+    font-weight: bolder;
+    text-align: center;
+    font-family: 'Darumadrop One';
+  }
+  
+  .navySubheader {
+    color: var(--primary-red);
+    font-family: var(--font-normal);
+    font-size: 1rem;
+    font-weight: normal;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+  
+  .eventImages {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  .eventImageContainer {
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 1;
+    margin: 0 auto 6rem;
+    position: relative;
+  }
+  
+  .eventImage {
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+  
+  .eventImage:hover {
+    transform: scale(1.08);
+  }
+  
+  .newsSection {
+    flex: 1;
+    padding: 1.5rem;
+    max-width: 600px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+  }
+  
+  .newsSectionTitle {
+    color: #6a8ac3;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .newsItem {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(106, 138, 195, 0.2);
+  }
+  
+  .newsImage {
+    border-radius: 4px;
+    object-fit: cover;
+  }
+  
+  .newsContent {
+    flex: 1;
+  }
+  
+  .newsTitle {
+    color: #6a8ac3;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .newsDate {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .newsDescription {
+    color: #333;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  
+  @media (max-width: 1024px) {
+    .infoFooter,
+    .textContainer,
+    .textSection,
+    .textSection1 {
+      padding: 2rem 1rem;
+      flex-direction: column;
+      transform: none;
+      margin-left: 0;
+    }
+  
+    .textSection h1,
+    .title-main,
+    .title-sub {
+      font-size: 2rem;
+      width: 100%;
+      transform: none;
+    }
+  
+    .mainTitle {
+      font-size: 2.8rem;
+      width: 140%;
+      transform: translateX(-15%) scaleX(1.1);
+    }
+  
+    .eventImages {
+      gap: 1.5rem;
+    }
+  
+    .learnMoreButton {
+      transform: translateX(-5rem);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .eventImages {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      padding: 2rem 1rem;
+    }
+  
+    .navyHeader {
+      font-size: 2rem;
+    }
+  
+    .navySubheader {
+      font-size: 1.2rem;
+    }
+  
+    .textSection h1,
+    .title-main {
+      font-size: 2.2rem;
+      letter-spacing: 10px;
+      width: 120%;
+    }
+  
+    .mainTitle {
+      font-size: 2rem;
+      width: 120%;
+      letter-spacing: 2px;
+      transform: translateX(-10%) scaleX(1);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .eventImages {
+      gap: 4rem;
+    }
+  
+    .learnMoreButton {
+      transform: translateX(-2rem);
+    }
+  
+    .navyHeader {
+      font-size: 1.5rem;
+    }
+  
+    .navySubheader {
+      font-size: 1rem;
+    }
+  
+    .title-main {
+      font-size: 1.8rem;
+    }
+  }  

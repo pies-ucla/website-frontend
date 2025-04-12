@@ -1,6 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=La+Belle+Aurore&display=swap');
+
 :root {
-  --background: #ffffff;
+  --background: #eee1a1;
   --foreground: #171717;
+
+  --primary-red: #b83f3b;
+  --primary-blue: #365888;
+  --font-cursive: 'La Belle Aurore';
+  --font-normal: 'Darker Grotesque';
+  --font-display: 'Darumadrop One';
 }
 
 @media (prefers-color-scheme: dark) {
