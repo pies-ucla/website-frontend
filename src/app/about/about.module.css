@@ -1,0 +1,68 @@
+:root {
+    --off-yellow: #fdf4d5;
+  }
+  
+  body {
+    background-color: #95a7bf;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 2rem;
+  }
+  
+  .header {
+    font-size: 4rem;
+    font-family: var(--font-display);
+    text-align: center;
+    color: var(--off-yellow);
+  }
+  
+  .columns {
+    display: flex;
+    gap: 4rem;
+    justify-content: center;
+    text-align: left;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+  
+  .columns > div {
+    flex: 1;
+    min-width: 250px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .columns h2 {
+    font-family: var(--font-display);
+    color: var(--off-yellow);
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .columns p {
+    font-family: var(--font-normal);
+    color: var(--off-yellow);
+  }
+  
+  .columns .textbox {
+    border: 3px solid var(--off-yellow);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-grow: 1;
+  }
+  
+  .timeline h2 {
+    font-family: var(--font-display);
+    color: var(--off-yellow);
+    font-size: 3rem;
+  }
+  
