@@ -1,0 +1,82 @@
+.main {
+    padding: 3rem 0;
+    text-align: center;
+  }
+  
+  .header {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* Wraps the week column + calendar grid */
+  .calendarWrapper {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+  }  
+  
+  /* Week numbers column */
+  .weekColumn {
+    display: grid;
+    grid-template-rows: auto repeat(10, 1fr);
+    flex-shrink: 0;
+  }  
+  
+  .weekHeader {
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #365888;
+    border-top: 2px solid #365888;
+  }
+  
+  .weekCell {
+    padding: 20px 10px;
+    border: 1px solid #365888;
+  }
+  
+  /* Calendar grid */
+  .calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    flex: 1;
+  }
+  
+  /* Day headers */
+  .dayHeader {
+    background-color: #ddd;
+    font-weight: bold;
+    border: 1px solid #365888;
+  }
+  
+  /* Individual date cells */
+  .dateCell {
+    padding: 20px 10px;
+    border: 1px solid #365888;
+    background-color: #fafafa;
+    font-size: 0.85rem;
+  }
+  
+  .dateNumber {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  
+  .eventText {
+    font-size: 0.75rem;
+    color: #555;
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 768px) {
+    .calendar {
+      grid-template-columns: repeat(7, minmax(40px, 1fr));
+    }
+  
+    .dateCell, .weekCell {
+      padding: 6px;
+    }
+  
+    .header {
+      font-size: 2rem;
+    }
+  }  
