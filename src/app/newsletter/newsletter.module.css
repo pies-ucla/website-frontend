@@ -1,0 +1,172 @@
+.pageContainer {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 7rem; /* Space for the navigation bar */
+  padding-bottom: 4rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ff0000;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.imageContainer {
+  width: 100%;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.newsletterImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.description {
+  width: 100%;
+  margin-bottom: 2rem;
+  text-align: left;
+  color: #ff0000;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.description p {
+  margin-bottom: 1rem;
+}
+
+.subscribeForm {
+  width: 100%;
+  max-width: 500px;
+}
+
+.inputGroup {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #ff0000;
+}
+
+.inputText {
+  width: 100%;
+  margin-left: -120px;
+}
+
+.inputField {
+  width: calc(140% + 30px);
+  margin-left: -125px;
+  padding: 0.55rem;
+  border: 3px solid #ff0000;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #333;
+  position: relative;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: #cc0000;
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+}
+
+.subscribeButton {
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 1.5rem auto 0;
+}
+
+.subscribeButton:hover {
+  background-color: #cc0000;
+}
+
+.subscribeButton:disabled {
+  background-color: #ff6666;
+  cursor: not-allowed;
+}
+
+.subscribeButton:active {
+  transform: translateY(1px);
+}
+
+/* Status message styles */
+.statusMessage {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+  
+  .description {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .subscribeButton {
+    width: 100%;
+  }
+}

@@ -1,52 +1,65 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import styles from './Navbar.module.css';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Navbar() {
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+    };
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setDropdownOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [dropdownRef]);
+
     return (
         <>
             <div className={styles.socialBar}>
                 <div className={styles.socialBox}>
-                <a href="https://www.instagram.com/piesatucla/" target="_blank" rel="noopener noreferrer">
-                    <Image src="/instagram.png" alt="Instagram" width={24} height={24} /> 
-                </a>
-                <a href="https://www.linkedin.com/company/pilipinos-in-engineering-and-sciences/    " target="_blank" rel="noopener noreferrer">
-                    <Image src="/linkedln.png" alt="LinkedIn" width={24} height={24} /> 
-                </a>
-                <a href="" target="_blank" rel="noopener noreferrer">
-                    <Image src="/email.png" alt="Email" width={24} height={24} /> 
-                </a>
-                <a href="https://www.facebook.com/uclapies/" target="_blank" rel="noopener noreferrer">
-                    <Image src="/facebook.png" alt="Facebook" width={24} height={24} /> 
-                </a>
+                    
                 <div className={styles.socialBox1}>
-                    <p>University of California, Los Angeles</p>
-                </div>
-                <div className={styles.socialBox2}>
-                    <p>
-                        Join PIES at UCLA Today!
-                    </p>
-                </div>
-                <div className={styles.socialBox3}>
-                    <p>
-                        GM at ____
-                    </p>
-                </div>
-                </div>
-            </div>
-            <nav className={styles.navbar}>
-                <div className={styles.logoContainer}>
-                <Image 
+                   <div className={styles.logoContainer1}>
+                     <Image 
+                        src="/logo-placeholder.png" 
+                        alt="PIES" 
+                        width={50} 
+                        height={50}
+                        className={styles.logoImage}
+                     />
+                    </div>
+
+                    <div className={styles.logoContainer}>
+                     <Image 
                         src="/logo-placeholder.png" 
                         alt="PIES Logo" 
                         width={50} 
                         height={50}
                         className={styles.logoImage}
-                    />
+                     />
                     </div>
-                    
-                <div className={styles.piesLogo}>PIES</div>
-                    
+                    <div className={styles.clickHereToGetInvolved}>
+                    <Link href="/get-involved">Bi-weekly meetings from 6-8pm on Tuesdays!</Link>
+                    </div>
+                </div>
+              
+                </div>
+            </div>
+            <nav className={styles.navbar}>
                 <ul className={styles.navList}>
                     <li className={styles.navItem}>
                         <Link href="/"><u>Home</u></Link>
@@ -54,21 +67,38 @@ export default function Navbar() {
                     <li className={styles.navItem}>
                         <Link href="/about">About Us </Link>
                     </li>
-                    {/* <li className={styles.navItem}>
-                        <Link href="/events">Events</Link>
-                    </li> */}
-                    {/* <li className={styles.navItem}>
-                        <Link href="/alumni">Alumni</Link>
-                    </li> */}
                     <li className={styles.navItem}>
                         <Link href="/resources">Resources</Link>
                     </li>
-                    {/* <li className={styles.navItem}>
-                        <Link href="/ask-pierre">Ask Pierre</Link>
-                    </li> */}
                     <li className={styles.navItem}>
-                        <div className={styles.box1}>
-                            <Link href="/get-involved">Get Involved</Link>
+                        <div 
+                            className={`${styles.box1} ${dropdownOpen ? styles.active : ''}`}
+                            onClick={toggleDropdown}
+                            ref={dropdownRef}
+                        >
+                            <span>Get Involved</span>
+                            <span className={styles.dropdownArrow}></span>
+                            
+                            {dropdownOpen && (
+                                <div className={styles.dropdownMenu}>
+                                    <Link href="/membership" className={styles.dropdownItem}>
+                                        Membership
+                                    </Link>
+                                    <Link 
+                                        href="/newsletter" 
+                                        className={styles.dropdownItem}
+                                        onClick={() => setDropdownOpen(false)}
+                                    >
+                                        Newsletter
+                                    </Link>
+                                    <Link href="/mentorship" className={styles.dropdownItem}>
+                                        Mentorship
+                                    </Link>
+                                    <Link href="/join" className={styles.dropdownItem}>
+                                        Join PIES
+                                    </Link>
+                                </div>
+                            )}
                         </div>
                     </li>
                 </ul>

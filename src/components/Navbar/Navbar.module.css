@@ -1,5 +1,5 @@
 .socialBar {
-    padding: 1rem;
+    padding: 2em;
     background-color: #2f61b9;
     color: #fff;
     display: flex;
@@ -17,6 +17,7 @@
     width: 100%;
     padding: 0 1rem;
     margin-top: -0.75rem;
+    
 }
 
 .socialBox1 {
@@ -24,17 +25,6 @@
     align-items: center;
 }
 
-.socialBox2 {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    padding-right: 2rem;
-}
-
-.socialBox3 {
-    display: flex;
-    align-items: center;
-}
 
 .socialBox img {
     width: 25px;
@@ -70,6 +60,56 @@
     color:rgb(173, 232, 251)
 }
 
+.clickHereToGetInvolved {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-left: 55rem;
+    white-space: nowrap; 
+    position: relative; 
+    top: -15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1); 
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.clickHereToGetInvolved:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+/* Responsive styles for clickHereToGetInvolved */
+@media (max-width: 1200px) {
+    .clickHereToGetInvolved {
+        margin-left: 40rem; 
+    }
+}
+
+@media (max-width: 1024px) {
+    .clickHereToGetInvolved {
+        margin-left: 20rem; 
+    }
+}
+
+@media (max-width: 768px) {
+    .clickHereToGetInvolved {
+        margin-left: 5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .clickHereToGetInvolved {
+        margin-left: 1rem;
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
 .navbar {
     padding: 1rem;
     background-color: #eee1a1;
@@ -78,7 +118,7 @@
     width: 100%;
     justify-content: flex-end; 
     position: fixed;
-    top: 2rem; 
+    top: 3rem; 
     border-bottom: 3px solid #6a8ac3;
     z-index: 900;  /*ensure it stays below socialBar but above content */
 }
@@ -86,36 +126,127 @@
 .navList {
     display: flex;
     list-style: none;
-    margin: 0;
-    padding: 1rem;
-    justify-content: flex-end;
-    margin-left: auto; /* Add this to push nav items to the right */
+    margin: -8;
+    padding: 0.5rem;
+    justify-content: center;  
+    width: 100%;            
+    margin-left: 0;          
 }
 
 .navItem {
-    margin-right: 2rem;
-    left: 40rem;
+    margin: 0 2rem;          
     color: rgb(55, 144, 180);
+    position: relative;     
+    left: 0;                
 }
 
 .box1 {
     background-color: #6a8ac3;
-    color: #000;
+    color: white;
     padding: 0.4rem 1.2rem;  
     margin-top: -0.5rem;    
     margin-bottom: -4.5rem; 
     border: 1px solid #000;
     border-radius: 15px;  
-    color: white;
     font-size: 1.1rem;
+    position: relative; /* Added for dropdown positioning */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.box1:hover {
+    background-color: #5679b3; /* Slightly darker on hover */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdownArrow {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.box1:hover .dropdownArrow {
+    transform: none; /* No transform on hover */
+}
+
+/* Add active state for box1 */
+.box1.active {
+    background-color: #5679b3; /* Slightly darker when active */
+}
+
+.box1.active .dropdownArrow {
+    transform: rotate(180deg); /* Rotate arrow when open */
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    padding: 0.5rem 0;
+    z-index: 1000;
+    border: 1px solid #e0e0e0;
+    animation: fadeIn 0.3s ease;
+    overflow: hidden;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdownItem {
+    display: block;
+    padding: 0.75rem 1.2rem;
+    color: #1e5091;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+}
+
+.dropdownItem:hover {
+    background-color: #f5f7fa;
+    border-left-color: #6a8ac3;
+    color: #2561b3;
+}
+
+/* Add responsive styles for dropdown */
+@media (max-width: 768px) {
+    .dropdownMenu {
+        position: absolute;
+        width: 180px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .dropdownItem {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
 }
 
 .logoContainer {
     display: flex;
     align-items: center;
-    position: fixed;
-    left: 20%;
-    transform: translateX(-90%);
+    position: relative;
+    left: 5%;
+    transform: translateX(-500%);
+    z-index: 1000;
+}
+
+.logoContainer1 {
+    display: flex;
+    align-items: center;
+    position: relative;
+    left: -5%;
+    transform: translateX(250%);
     z-index: 1000;
 }
 
