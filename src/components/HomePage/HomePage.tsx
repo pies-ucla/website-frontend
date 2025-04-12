@@ -89,7 +89,7 @@ const HomePage = () => {
                 variants={fadeInUp}
               >
                 <h1 className={styles.mainTitle}>Pilipinos in Engineering & Sciences</h1>
-                <h1>P I E S @ U C L A</h1>
+                <h1>PIES @ UCLA</h1>
                 <h2>Est. 1993</h2>
               </motion.div>
               <motion.div 
@@ -183,7 +183,7 @@ const HomePage = () => {
 
           <div ></div>
 
-            Our Past Events
+            Upcoming Events
           </motion.h1>
           <h2 className={styles.navySubheader}>Follow us on IG to stay updated!</h2>
           <div className={styles.eventImages}>

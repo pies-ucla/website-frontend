@@ -1,145 +1,97 @@
+/* === General Structure === */
 .footer {
     padding: 4rem;
     background-color: #6a8ac3;
     color: #96e5ff;
     text-align: center;
-    margin-top: auto;
-    margin-bottom: auto;
+    margin: auto 0;
     position: relative;
     z-index: 2;
-}
-
-.infoFooter {
+  }
+  
+  .infoFooter {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    min-height: 65vh; /* Reduced from 75vh */
+    min-height: 65vh;
     background-color: #eee1a1;
-    padding: 4rem 2rem; /* Increased padding */
-    position: relative;
-    margin-top: -30; /* Remove the white background of the main footer; or like move it up so that you don't see the white background */
-    gap: 2rem; /* Increased gap */
-}
-
-.imageSection {
+    padding: 4rem 2rem;
+    margin-top: -30px;
+    gap: 2rem;
+  }
+  
+  .mainContent {
+    flex: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .imageSection {
     flex: 1;
     display: flex;
-    justify-content: flex-end; /* Align to right */
+    justify-content: flex-end;
     align-items: center;
-    max-width: 55%; /* Increased from 45% to accommodate larger carousel */
-    position: relative;
-    padding-right: 2rem; /* Add padding on right */
-    transform: translateX(2rem); /* Move section right */
-}
-
-.textContainer {
+    max-width: 55%;
+    padding-right: 2rem;
+    transform: translateX(2rem);
+  }
+  
+  .textContainer {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2rem; /* Increased from 1.5rem */
-    max-width: 800px; /* Increased from 600px */
-    width: 100%; /* Reset width */
-    transform: translateX(0); /* Reset transform */
-    margin-left: 3rem; /* Increased from 2rem to add more space */
-}
-
-.textSection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin: 0.5rem 0; 
-    max-width: 800px; 
-    width: 100%; /* Reset width */
-    letter-spacing: 1.5px; /* Add slight letter spacing */
-    transform: translateX(0); /* Reset transform */
-}
-
-.textSection1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%; /* Reset width */
-    max-width: 600px;
-    margin: 0.5rem 0; 
-    transform: translateX(0); /* Reset transform */
-}
-
-.textSection h1{
-    color: red;
-    margin-bottom: 0.5rem;
-    text-align: center;
-}
-
-.textSection h1 {
-    color: red;
-    margin-bottom: 0.8rem;
-    text-align: center;
-    font-size: 2.2rem; /* Reduced from 2.8rem */
-    font-weight: 600;
-
-}
-
-.textSection h1:nth-child(1) {
-    color: red;
-    margin-bottom: 1.2rem; /* Add more space before PIES @ UCLA */
-    text-align: center;
-    font-size: 1.6rem; /* Reduced from 2rem */
-    font-weight: 600;
-    letter-spacing: 1px; /* Reduced from 3px */
-    width: 85%; /* Reduced width */
-    transform: translateX(0) scaleX(0.9); /* Reduced scale */
-    font-family: 'Brush Script MT', cursive;
-}
-
-.textSection h1:nth-child(2) {
-    color: #ff0000;
-    margin-bottom: 0.8rem;
-    text-align: center;
-    font-size: 4.5rem; /* Increased from 4rem */
-    font-weight: 800;
-    letter-spacing: 18px; /* Increased from 15px */
-    width: 150%; /* Increased from 140% */
-    transform: translateX(-15%) scaleX(1.5); /* Increased scale */
-    font-family: 'Impact', 'Arial Black', sans-serif;
-    margin: 1rem 0; /* Add more vertical spacing */
-}
-
-
-/* Reset styles for other h1s */
-.textSection h1:not(:first-child) {
-    letter-spacing: normal;
+    padding: 2rem;
+    max-width: 800px;
     width: 100%;
-    transform: none;
-}
-
-.textSection h2 {
-    color: red;
-    margin-bottom: 1rem;
+    margin-left: 3rem;
+  }
+  
+  .textSection,
+  .textSection1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    font-size: 1.6rem; /* Reduced from 2rem */
+    width: 100%;
+  }
+  
+  .textSection h1 {
+    color: #b83f3b;
+    text-align: center;
     font-weight: 600;
-    
-}
+    font-family: 'Darumadrop One';
+    font-size: 6rem;
+  }
+  
+  .textSection .mainTitle {
+    font-family: 'La Belle Aurore';
+    font-size: 1.6rem;
+  }
 
-.textSection1 p {
-    line-height: 1.8; /* Increased from 1.6 */
+  .textSection h2 {
+    font-size: 1.6rem;
+    color: #b83f3b;
+    font-family: 'La Belle Aurore';
+  }
+  
+  .textSection1 p {
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    margin: 1.5rem 0;
+    padding-right: 1rem;
+    max-width: 800px;
+    font-weight: 500;
+    width: 120%;
     text-align: center;
-    color: darkblue;
-    padding: 0;
-    margin: 1.5rem 0; /* Increased from 1rem */
-    max-width: 800px; /* Increased from 600px */
-    width: 120%; /* Increased from 100% */
-    letter-spacing: 2px; /* Increased from 1.5px */
-    transform: translateX(2%); /* Added to help center the wider text */
-    font-size: 1rem;
-    line-height: 1.6; /* better readability */
-}
-
-.learnMoreButton {
+    transform: translateX(2%);
+    font-family: var(--font-normal);
+  }
+  
+  .learnMoreButton {
     background-color: #6a8ac3;
     color: white;
     padding: 0.7rem 1.2rem;
@@ -147,58 +99,56 @@
     border-radius: 15px;
     font-size: 1.1rem;
     width: fit-content;
-    margin: 1rem auto 2rem; /* Reduced top margin from 2rem to 1rem */
+    margin: 1rem auto 2rem;
     position: relative;
-    top: -10px; /* Move button up by 10px */
+    top: -10px;
     align-self: center;
-}
-
-.learnMoreButton a {
+  }
+  
+  .learnMoreButton a {
     color: white;
     text-decoration: none;
-}
-  
-.navigationButton {
-    width: 40px;
-    height: 40px;
-    background-color: #000000;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
   }
-
-.navySection {
+  
+  .socialLinks {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: -0.5rem;
+    position: relative;
+    top: -15px;
+  }
+  
+  .navySection {
     width: 100%;
-    min-height: 50vh;  /* Half the height of infoFooter */
-    background-color: #eee1a1;;  
+    min-height: 50vh;
+    background-color: #eee1a1;
     position: relative;
     z-index: 100;
-    margin-top: 0; /* Remove negative margin */
     padding: 4rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.navyHeader {
-    color: #f12e2edf;
+  }
+  
+  .navyHeader {
+    color: var(--primary-red);
     font-size: 2.7rem;
-    margin-bottom: 1rem;
-    text-align: center;
     font-weight: bolder;
-}
-
-.navySubheader {
-    color: rgb(255, 107, 1);
-    font-size: 0.96rem;
+    text-align: center;
+    font-family: 'Darumadrop One';
+  }
+  
+  .navySubheader {
+    color: var(--primary-red);
+    font-family: var(--font-normal);
+    font-size: 1rem;
+    font-weight: normal;
     margin-bottom: 3rem;
     text-align: center;
-    font-weight: normal;
-}
-
-.eventImages {
+  }
+  
+  .eventImages {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
@@ -206,351 +156,158 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 1rem;
-}
-
-.eventImageContainer {
-    flex: 0 0 auto; 
-    width: 300px;
-    height: 200px;
-    position: relative;
-    margin: 0 1rem; 
-    aspect-ratio: 1;
+  }
+  
+  .eventImageContainer {
     width: 100%;
     max-width: 300px;
-    margin: 0 auto;
-    margin-bottom: 6rem;
-}
-
-.eventImage {
+    aspect-ratio: 1;
+    margin: 0 auto 6rem;
+    position: relative;
+  }
+  
+  .eventImage {
     object-fit: cover;
     border-radius: 8px;
     transition: transform 0.3s ease;
-}
-
-.eventImage:hover {
+  }
+  
+  .eventImage:hover {
     transform: scale(1.08);
-}
-
-/* Remove these styles since they're now in QuickLinks.module.css */
-/* .quickLinksSection {
-    width: 100%;
-    background-color: #4d78c2;
-    position: relative;
-    z-index: 100;
-    padding: 4rem 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px -10px 15px -5px rgba(0, 0, 0, 0.2);
-}
-
-.quickLinksHeader {
-    color: rgb(197, 223, 247);
-    font-size: 1.7rem;
-    text-align: center;
-    position: absolute;
-    bottom: 25%;
-    right: 10%;
-    top: 10%;
-    transform: translate(50%, 50%);
-} */
-
-.mainContent {
-    flex: 2;
-    display: flex;
-    flex-direction: row;
-    gap: 1rem; /* Reduced gap to prevent text overlap */
-    justify-content: space-between; /* Space elements evenly */
-    align-items: center; /* Center align content vertically */
-}
-
-/*Leave this area for now*/
-
-.newsSection {
+  }
+  
+  .newsSection {
     flex: 1;
     padding: 1.5rem;
-    max-width: 600px; /* Slightly reduced */
+    max-width: 600px;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-}
-
-.newsSectionTitle {
+  }
+  
+  .newsSectionTitle {
     color: #6a8ac3;
     font-size: 1.8rem;
     margin-bottom: 2rem;
     text-align: center;
-}
-
-.newsItem {
+  }
+  
+  .newsItem {
     display: flex;
     gap: 1rem;
-    margin-bottom: 1.5rem; /* Reduced margin */
-    padding-bottom: 0.8rem; /* Reduced padding */
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
     border-bottom: 1px solid rgba(106, 138, 195, 0.2);
-}
-
-.newsImageContainer {
-    flex-shrink: 0;
-}
-
-.newsImage {
+  }
+  
+  .newsImage {
     border-radius: 4px;
     object-fit: cover;
-}
-
-.newsContent {
+  }
+  
+  .newsContent {
     flex: 1;
-}
-
-.newsTitle {
+  }
+  
+  .newsTitle {
     color: #6a8ac3;
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
-}
-
-.newsDate {
+  }
+  
+  .newsDate {
     color: #666;
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
-}
-
-.newsDescription {
+  }
+  
+  .newsDescription {
     color: #333;
     font-size: 0.95rem;
     line-height: 1.4;
-}
-
-/*Leave this area for now*/
-
-.mainTitle {
-    color: red;
-    margin-bottom: 0.8rem;
-    text-align: center;
-    font-size: 3.2rem;
-    font-weight: 600;
-    letter-spacing: 4px;
-    width: 180%; /* Slightly reduced from 200% */
-    white-space: nowrap;
-    transform: translateX(-20%) scaleX(1.2);
-    font-family: 'Brush Script MT', cursive;
-}
-
-.socialLinks {
-  display: flex;
-  gap: 1rem;
-  margin-top: -0.5rem; /* Changed from 1rem to -0.5rem to move up */
-  justify-content: center;
-  position: relative;
-  top: -15px; /* Additional upward adjustment */
-}
-
-/* Media queries for responsive design */
-@media (max-width: 1440px) {
-    .textContainer {
-        transform: translateX(1rem);
-        margin-left: 3rem;
+  }
+  
+  @media (max-width: 1024px) {
+    .infoFooter,
+    .textContainer,
+    .textSection,
+    .textSection1 {
+      padding: 2rem 1rem;
+      flex-direction: column;
+      transform: none;
+      margin-left: 0;
     }
-    
-    .textSection, .textSection1 {
-        transform: translateX(5rem);
+  
+    .textSection h1,
+    .title-main,
+    .title-sub {
+      font-size: 2rem;
+      width: 100%;
+      transform: none;
     }
-}
-
-@media (max-width: 1024px) {
-    .infoFooter {
-        padding: 2rem 1rem;
-        flex-direction: column;
-    }
-
-    .eventImages {
-        gap: 1.5rem;
-    }
-
-    .newsSection {
-        max-width: 100%;
-        padding: 1rem;
-    }
-
-    .textSection h1 {
-        font-size: 2rem;
-    }
-    
-    .textSection h2 {
-        font-size: 1.4rem;
-    }
-    
-    .textSection1 p {
-        font-size: 0.95rem;
-    }
-
-    .textSection h1:first-child {
-        letter-spacing: 3px;
-        width: 130%;
-        font-size: 1.8rem;
-        width: 85%;
-    }
-
+  
     .mainTitle {
-        font-size: 2.8rem;
-        width: 140%;
-        transform: translateX(-15%) scaleX(1.1);
+      font-size: 2.8rem;
+      width: 140%;
+      transform: translateX(-15%) scaleX(1.1);
     }
-
-    .textSection h1:nth-child(2) {
-        width: 160%;
-        transform: translateX(-20%) scaleX(1.2);
-        letter-spacing: 20px;
-        font-size: 2.6rem;
-        width: 130%;
-        letter-spacing: 12px;
-    }
-
-    .imageSection {
-        transform: none;
-        padding-right: 1rem;
-    }
-    
-    .carousel {
-        margin-left: 0;
-    }
-
-    .textSection h1:nth-child(1) {
-        font-size: 1.4rem;
-        width: 80%;
-    }
-
-    .textSection h1:nth-child(2) {
-        font-size: 3.8rem;
-        width: 140%;
-        letter-spacing: 15px;
-    }
-}
-
-@media (max-width: 768px) {
-    .infoFooter {
-        flex-direction: column;
-        padding: 2rem 1rem;
-    }
-    
-    .imageSection, .textContainer {
-        max-width: 100%;
-        padding: 1rem;
-    }
-    
-    .textContainer {
-        transform: none;
-        margin-left: 0;
-    }
-    
-    .textSection, .textSection1 {
-        transform: none;
-    }
-
-    .textSection h1 {
-        font-size: 2rem;
-    }
-    
-    .textSection h2 {
-        font-size: 1.4rem;
-    }
-    
-    .textSection1 p {
-        font-size: 0.95rem;
-    }
-
+  
     .eventImages {
-        grid-template-columns: repeat(1, 1fr);
-        gap: 3rem; 
-        padding: 2rem 1rem;
+      gap: 1.5rem;
     }
-    
-    .navyHeader {
-        font-size: 2rem;
-    }
-    
-    .navySubheader {
-        font-size: 1.2rem;
-    }
-
-    .navySection {
-        padding: 4rem 2rem 6rem 2rem; 
-    }
-
-    /* Remove this since it's in QuickLinks.module.css now */
-    /* .quickLinksHeader {
-        font-size: 2rem;
-        bottom: 20%;
-        right: 20%;
-    } */
-
+  
     .learnMoreButton {
-        transform: translateX(-5rem); /* Adjust position for smaller screens */
+      transform: translateX(-5rem);
     }
-
-    .textSection h1:first-child {
-        letter-spacing: 2px;
-        width: 110%;
-        font-size: 1.6rem;
-        width: 80%;
+  }
+  
+  @media (max-width: 768px) {
+    .eventImages {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      padding: 2rem 1rem;
     }
-
+  
+    .navyHeader {
+      font-size: 2rem;
+    }
+  
+    .navySubheader {
+      font-size: 1.2rem;
+    }
+  
+    .textSection h1,
+    .title-main {
+      font-size: 2.2rem;
+      letter-spacing: 10px;
+      width: 120%;
+    }
+  
     .mainTitle {
-        font-size: 2rem;
-        width: 120%;
-        transform: translateX(-10%) scaleX(1);
-        letter-spacing: 2px;
+      font-size: 2rem;
+      width: 120%;
+      letter-spacing: 2px;
+      transform: translateX(-10%) scaleX(1);
     }
-
-    .textSection h1:nth-child(2) {
-        font-size: 2.2rem;
-        width: 120%;
-        letter-spacing: 10px;
-    }
-
-    .textSection h1:nth-child(1) {
-        font-size: 1.2rem;
-        width: 75%;
-    }
-
-    .textSection h1:nth-child(2) {
-        font-size: 3rem;
-        width: 130%;
-        letter-spacing: 12px;
-    }
-}
-
-@media (max-width: 480px) {
-    .imageSection img {
-        width: 200px;
-    }
-    
-    .learnMoreButton {
-        margin: 1rem auto;
-        transform: translateX(-2rem); /* Further adjust for mobile */
-    }
-
+  }
+  
+  @media (max-width: 480px) {
     .eventImages {
-        grid-template-columns: 1fr;
-        gap: 4rem; 
+      gap: 4rem;
     }
-
-    .textSection h1 {
-        font-size: 1.8rem;
+  
+    .learnMoreButton {
+      transform: translateX(-2rem);
     }
-
+  
     .navyHeader {
-        font-size: 1.5rem;
+      font-size: 1.5rem;
     }
-
+  
     .navySubheader {
-        font-size: 1rem;
+      font-size: 1rem;
     }
-
-    /* Remove this since it's in QuickLinks.module.css now */
-    /* .quickLinksHeader {
-        font-size: 1.5rem;
-        bottom: 15%;
-        right: 15%;
-    } */
-
-}
+  
+    .title-main {
+      font-size: 1.8rem;
+    }
+  }  

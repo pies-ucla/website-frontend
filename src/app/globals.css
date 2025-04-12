@@ -5,6 +5,12 @@
 :root {
   --background: #eee1a1;
   --foreground: #171717;
+
+  --primary-red: #b83f3b;
+  --primary-blue: #365888;
+  --font-cursive: 'La Belle Aurore';
+  --font-normal: 'Darker Grotesque';
+  --font-display: 'Darumadrop One';
 }
 
 @media (prefers-color-scheme: dark) {
