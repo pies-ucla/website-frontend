@@ -1,7 +1,3 @@
-"use client";
-import Navbar from '@/components/Navbar/Navbar';
-import QuickLinks from '@/components/QuickLinks/QuickLinks';
-
 export default function NewsletterLayout({
   children,
 }: {
@@ -9,9 +5,7 @@ export default function NewsletterLayout({
 }) {
   return (
     <>
-      <Navbar />
       {children}
-      <QuickLinks />
     </>
   );
 }
