@@ -74,7 +74,15 @@ export default function Navbar() {
                         </div>
                     </li>
                     <li className={styles.navItem}>
-                        <Link href="/resources">Resources</Link>
+                        <div className={styles.hoverDropdown}>
+                            <span>Resources</span>
+                            <div className={styles.dropdownMenu}>
+                                <Link href="/resources" className={styles.dropdownItem}>Resources</Link>
+                                <Link href="/resources/members" className={styles.dropdownItem}>Members Only</Link>
+                                <Link href="/resources/alumni" className={styles.dropdownItem}>Alumni</Link>
+                                <Link href="/resources/ask-pierre" className={styles.dropdownItem}>Ask Pierre</Link>
+                            </div>
+                        </div>
                     </li>
                     <li className={styles.navItem}>
                         <div 
