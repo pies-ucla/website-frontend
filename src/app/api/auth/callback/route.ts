@@ -2,7 +2,6 @@
 
 export async function POST(request: Request) {
     try {
-        console.log("codeine");
         const { code, redirect_uri } = await request.json();
         const response = await fetch("http://localhost:8000/token/get/", {
         method: "POST",
