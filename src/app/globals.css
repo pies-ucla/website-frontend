@@ -31,6 +31,10 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  font-size: clamp(14px, 1.5vw, 18px);
+}
+
 body {
   color: var(--foreground);
   background: var(--background);

@@ -4,11 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from './Navbar.module.css';
 import { useState, useEffect, useRef } from 'react';
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-
+    const loginURL = "https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:3000/auth/callback/&prompt=consent&response_type=code&client_id=229386821939-n5l1mhe4h7u497v93dksk76f8s46fu69.apps.googleusercontent.com&scope=openid email profile&access_type=offline";
+    const { user, logout, loading } = useAuth();
+    console.log("user", user);
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
@@ -26,7 +29,8 @@ export default function Navbar() {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [dropdownRef]);
-
+    
+    if (loading) return <p>Loading...</p>
     return (
         <>
             <div className={styles.socialBar}>
@@ -114,6 +118,24 @@ export default function Navbar() {
                                 </div>
                             )}
                         </div>
+                    </li>
+                    <li className={styles.navItem}>
+                        <div>
+                            {
+                                user ? (
+                                    <>
+                                        <h1>Welcome, {user.first_name}</h1>
+                                        <button onClick={logout}>Logout</button>
+                                    </>
+                                ) : (
+                                    <a href={loginURL} className={styles.loginButton}>
+                                        Login with Google
+                                    </a>
+                                )
+                            }
+                        </div> 
+                        {
+                        }
                     </li>
                 </ul>
             </nav>
