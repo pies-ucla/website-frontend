@@ -24,7 +24,6 @@ export default function CallbackPage() {
         });
 
         const data = await res.json();
-        console.log("rezz", res);
         if (res.ok && data.access && data.user) {
           login(data.access, data.user);
           router.push("/");
