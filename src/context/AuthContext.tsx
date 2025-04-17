@@ -9,6 +9,9 @@ type User = {
   email: string;
   first_name: string;
   last_name: string;
+  major: string;
+  minor: string;
+  position: string;
 };
 
 type AuthContextType = {

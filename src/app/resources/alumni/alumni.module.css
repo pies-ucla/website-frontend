@@ -107,6 +107,7 @@ body {
     border: none;
     color: white;
     font-size: 2rem;
+    flex: 1;
 }
   
 .searchInput::placeholder {
@@ -134,7 +135,73 @@ body {
 .button:active {
     transform: scale(0.98);
 }
+ 
+.alumniGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+    align-items: start;
+}
   
+.alumniCard {
+    background: url('/alumni/AlumniSlide.png');
+    background-size: cover;
+    aspect-ratio: 6/4;
+    border: 2px solid var(--off-yellow);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    min-height: 300px;
+}
+  
+.alumniText {
+    margin: 0;
+    padding-left: 7rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1e1e1e;
+    text-align: left;
+}
+
+.alumniText h1 {
+    color: var(--primary-red);
+    margin-bottom: 1rem;
+}
+
+.alumniText h2 {
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+}
+
+.activeFilters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+  
+.filterChip {
+    background-color: var(--off-yellow);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+  
+.removeBtn {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+
 @media (max-width: 600px) {
     .filterBar {
       flex-direction: column;
@@ -147,4 +214,3 @@ body {
       width: 100%;
     }
 }
-  
