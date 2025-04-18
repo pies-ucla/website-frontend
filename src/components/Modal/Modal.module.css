@@ -48,7 +48,7 @@
     border: none;
     color: brown;
     cursor: pointer;
-    z-index: 3;
+    z-index: 5;
   }
   
   @keyframes fadeIn {
