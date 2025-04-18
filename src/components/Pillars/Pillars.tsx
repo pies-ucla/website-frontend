@@ -38,10 +38,13 @@ const Pillars: React.FC = () => {
   const pillars = ['PILIPINOS', 'INNOVATION', 'EDUCATION', 'SOCIALS'];
   // FIX LATER
   const pillarContent = [
-    'We are Filipino. We are one.',
+    'We would like to foster a sense of community pride within the membership, sponsoring events which give students a better understanding of the Pilipino culture and history, while at the same time promoting universal respect for all cultures of the world.',
+
     'We envision a general membership that flourishes from the ability to create ideas and turn them into reality. PIES intends on giving each student the opportunity to further their talents as much as possible, STEM-related or otherwise.',
-    'We are education. We are one.',
-    'We are social. We are one.',
+
+    'Navigating through the STEM academic system is a very difficult process. PIES offers an environment wherein the student has the support, resources, and confidence to further their education and careers, in and out of the classroom.',
+
+    'In one of the toughest schools in the nation, students often find themselves with little or no time to relax from their studies or meet other people. PIES was created in orderto give students the support they need to face the competitive curriculum ahead of them, and form a close, welcoming community dedicated to being a support system for its general members and to resonate familial values found within Pilipino families and other organizations on campus.',
   ]
   const [activeIndex, setActiveIndex] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
