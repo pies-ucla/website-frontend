@@ -1,0 +1,58 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modalContent {
+    position: relative;
+    width: 90vw;
+    max-width: 500px;
+    aspect-ratio: 827 / 812;
+    background-image: url('/generic/PierreModal.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 12px;
+    animation: fadeIn 0.3s ease-out;
+    overflow: hidden;
+    padding: 0;
+  }
+  
+  .modalInnerFrame {
+    position: absolute;
+    top: 15%;     /* Adjust based on your image’s inner frame */
+    left: 22%;    /* Adjust based on the visual padding */
+    width: 75%;   /* Inner width of the frame */
+    height: 70%;  /* Inner height of the frame */
+    overflow-y: auto;
+    padding: 2.5rem;
+    color: var(--primary-red);
+    z-index: 1;
+  }
+  
+  .modalClose {
+    position: absolute;
+    top: 3.5rem;
+    right: 3rem;
+    font-size: 1.5rem;
+    font-family: var(--font-display);
+    background: none;
+    border: none;
+    color: brown;
+    cursor: pointer;
+    z-index: 3;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
