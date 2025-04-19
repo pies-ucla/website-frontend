@@ -14,6 +14,12 @@ const messages = [
 
 export default function AskPierre(){
     const [visibleBubbles, setVisibleBubbles] = useState([]);
+    const [message, setMessage] = useState('');
+    const handleSubmit = () => {
+      setTimeout(() => {
+        setMessage(''); // clear after submission
+      }, 100); // small delay to let the form submit first
+    };
     useEffect(() => {
         let current = 0;
         let timeout;
@@ -77,14 +83,26 @@ export default function AskPierre(){
                 )}
             </div>
             <div className={styles.button}>Select a category!</div>
-            <div className={styles.letterWrapper}>
-              <img src="/resources/letter.png" alt="Letter to Pierre" className={styles.letterImage} />
-              <textarea
-                className={styles.letterTextbox}
-                placeholder="Type your message to Pierre here..."
-              />
-            </div>
-            <div className={styles.button}>Send to Pierre!</div>
+            <form
+              action="https://docs.google.com/forms/d/e/1FAIpQLSfUcD6Oi84Wez26ujaUpFX2nMUJe1AsnO0o9_cnED2iSKcxqA/formResponse"
+              method="POST"
+              target="_blank"
+              onSubmit={handleSubmit}
+              className={styles.letterWrapper}
+            >
+                <img src="/resources/letter.png" alt="Letter to Pierre" className={styles.letterImage} />
+                <textarea
+                  name="entry.1452242183"  // 🔁 Replace with your actual entry ID
+                  className={styles.letterTextbox}
+                  placeholder="Type your message to Pierre here..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  required
+                />
+              <button type="submit" className={styles.button}>
+                Send to Pierre!
+              </button>
+          </form>
         </div>
     )
 }
