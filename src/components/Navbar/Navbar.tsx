@@ -99,8 +99,11 @@ export default function Navbar() {
                             
                             {dropdownOpen && (
                                 <div className={styles.dropdownMenu}>
-                                    <Link href="/membership" className={styles.dropdownItem}>
-                                        Membership
+                                    <Link href="/opportunities" className={styles.dropdownItem}>
+                                        Opportunities
+                                    </Link>
+                                    <Link href="/interest-form" className={styles.dropdownItem}>
+                                        Interest Form
                                     </Link>
                                     <Link 
                                         href="/newsletter" 
@@ -109,11 +112,8 @@ export default function Navbar() {
                                     >
                                         Newsletter
                                     </Link>
-                                    <Link href="/mentorship" className={styles.dropdownItem}>
-                                        Mentorship
-                                    </Link>
-                                    <Link href="/join" className={styles.dropdownItem}>
-                                        Join PIES
+                                    <Link href="/events" className={styles.dropdownItem}>
+                                        Events
                                     </Link>
                                 </div>
                             )}
