@@ -1,5 +1,6 @@
 :root {
   --off-yellow: #fdf4d5;
+  --primary-blue: #003366;
 }
 
 html, body {
@@ -24,22 +25,23 @@ html, body {
 }
 
 .columns {
-  display: flex;
-  gap: 4rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* responsive layout */
+  max-width: 1200px;
+  gap: 2rem;
   justify-content: center;
   text-align: left;
-  /* ✅ No wrap: force full width, make page scroll instead */
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  overflow-x: auto;
+  align-items: start;
 }
 
+
 .columns > div {
-  width: 400px; /* ✅ fixed size */
   display: flex;
   flex-direction: column;
+  align-items: center;
   background-color: var(--off-yellow);
-  flex-shrink: 0; /* ✅ prevent squishing */
+  border-radius: 2rem;
+  flex-shrink: 0;
 }
 
 .columns h2 {
@@ -60,7 +62,7 @@ html, body {
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   flex-grow: 1;
 }
 
@@ -70,17 +72,19 @@ html, body {
   text-align: left;
 }
 
-/* 🎯 FIX: Make board fixed size, not responsive */
-.boardFrame {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  border: 5.1em solid transparent;
-  border-image: url('/pie-tin.png') 300 stretch;
+/* Flex-based board container */
+.boardContainer {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 300px;
+  flex-shrink: 1;
 }
 
+/* Masked photo */
 .boardMask {
   width: 100%;
   height: 100%;
@@ -93,19 +97,31 @@ html, body {
   -webkit-mask-position: center;
   mask-position: center;
   overflow: hidden;
-  transform: scale(1.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 1;
+  transform: scale(0.9);
 }
 
-.boardInner {
-  width: 100%;
-  height: 100%;
-}
-
-.boardBorder {
+.boardPhoto {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 0.25rem;
   display: block;
+}
+
+/* Overlay frame image */
+.boardFrameImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .name {
@@ -128,6 +144,7 @@ html, body {
   font-weight: 400;
   font-size: 1.5em !important;
   text-align: left !important;
+  cursor: pointer;
 }
 
 .content {
