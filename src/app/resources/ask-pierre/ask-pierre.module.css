@@ -112,6 +112,8 @@ body {
   
 .button {
     /* padding: 0.75rem 1.5rem; */
+    display: block;
+    margin: 1rem auto 0;
     padding: 0.4em 2rem;
     background-color: white;
     color: black;
@@ -120,4 +122,34 @@ body {
     border-radius: 1rem;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.letterWrapper {
+  position: relative;
+  width: 50%;
+  margin: 2rem auto;
+}
+
+.letterImage {
+  display: block;
+  margin: 0 auto;
+  width: 70%;
+  height: auto;
+  max-width: 100%;
+}
+
+
+.letterTextbox {
+  position: absolute;
+  top: 13%;         /* Adjust based on your letter layout */
+  left: 25%;
+  width: 49%;
+  height: 34%;       /* Tweak as needed */
+  resize: none;
+  padding: 1.2rem 1.3rem;
+  font-family: var(--font-normal, sans-serif);
+  font-size: 0.9rem;
+  line-height: 1.4rem;
+  background-color: rgba(255, 255, 255, 0.0); /* translucent paper look */
+  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
 }
