@@ -77,6 +77,13 @@ export default function AskPierre(){
                 )}
             </div>
             <div className={styles.button}>Select a category!</div>
+            <div className={styles.letterWrapper}>
+              <img src="/resources/letter.png" alt="Letter to Pierre" className={styles.letterImage} />
+              <textarea
+                className={styles.letterTextbox}
+                placeholder="Type your message to Pierre here..."
+              />
+            </div>
             <div className={styles.button}>Send to Pierre!</div>
         </div>
     )
