@@ -123,7 +123,6 @@
     color: white;
     padding: 0.4rem 1.2rem;  
     margin-top: -0.5rem;    
-    margin-bottom: -4.5rem; 
     border: 1px solid #000;
     border-radius: 15px;  
     font-size: 1.1rem;
@@ -194,21 +193,6 @@
     background-color: #f5f7fa;
     border-left-color: #6a8ac3;
     color: #2561b3;
-}
-
-/* Add responsive styles for dropdown */
-@media (max-width: 768px) {
-    .dropdownMenu {
-        position: absolute;
-        width: 180px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-    .dropdownItem {
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
-    }
 }
 
 .logoContainer {
@@ -354,6 +338,21 @@
 }
 
 @media (max-width: 768px) {
+    /* Add responsive styles for dropdown */
+    .dropdownMenu {
+        position: absolute;
+        width: 180px;
+    }
+    
+    .dropdownItem {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .box1 {
+        width: 10rem;
+    }
+
     .clickHereToGetInvolved {
         margin-left: 5rem;
         font-size: 0.9rem;
@@ -427,6 +426,7 @@
 }
 
 @media (max-width: 480px) {
+    
     .clickHereToGetInvolved {
         margin-left: 1rem;
         font-size: 0.8rem;
@@ -434,7 +434,7 @@
     }
 
     .navbar {
-        padding: 0.5rem 0;
+        padding: 0.5rem;
     }
 
     .navList {
@@ -446,9 +446,7 @@
         margin: 0.25rem;
     }
 
-    .box1 {
-        margin: 0;
-    }
+
 
     .logoContainer {
         left: 10%;
