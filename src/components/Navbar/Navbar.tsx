@@ -5,9 +5,11 @@ import Image from "next/image";
 import styles from './Navbar.module.css';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from "@/context/AuthContext";
+import { FiMenu, FiX } from 'react-icons/fi';
 
 export default function Navbar() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const loginURL = "https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:3000/auth/callback/&prompt=consent&response_type=code&client_id=229386821939-n5l1mhe4h7u497v93dksk76f8s46fu69.apps.googleusercontent.com&scope=openid email profile&access_type=offline";
     const { user, logout, loading } = useAuth();
@@ -64,7 +66,15 @@ export default function Navbar() {
                 </div>
             </div>
             <nav className={styles.navbar}>
-                <ul className={styles.navList}>
+                <div className={styles.navHeader}>
+                    <button
+                    className={styles.hamburger}
+                    onClick={() => setMobileMenuOpen(prev => !prev)}
+                    >
+                    {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+                    </button>
+                </div>
+                <ul className={`${styles.navList} ${mobileMenuOpen ? styles.mobileOpen : ''}`}>
                     <li className={styles.navItem}>
                         <Link href="/"><u>Home</u></Link>
                     </li>
