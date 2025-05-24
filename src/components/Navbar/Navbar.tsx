@@ -123,10 +123,10 @@ export default function Navbar() {
                         <div>
                             {
                                 user ? (
-                                    <>
-                                        <h1>Welcome, {user.first_name}</h1>
-                                        <button onClick={logout}>Logout</button>
-                                    </>
+                                    <div className={styles.userInfo}>
+                                        <span>Welcome, {user.first_name}</span>
+                                        <button onClick={logout} className={styles.logoutButton}>Logout</button>
+                                    </div>
                                 ) : (
                                     <a href={loginURL} className={styles.loginButton}>
                                         Login with Google

@@ -121,6 +121,7 @@
     top: 3rem; 
     border-bottom: 3px solid #6a8ac3;
     z-index: 900;  /*ensure it stays below socialBar but above content */
+    font-family: var(--font-display);
 }
 
 .navList {
@@ -181,6 +182,7 @@
 }
 
 .dropdownMenu {
+    font-family: var(--font-normal);
     position: absolute;
     top: calc(100% + 10px);
     left: 0;
@@ -412,4 +414,28 @@
 .navbarSpacer {
     height: 4rem; /*Adjust this value to match the combined height of socialBar and navbar */
     width: 100%;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--primary-blue);
+}
+
+.logoutButton {
+  padding: 0.2rem 0.75rem;
+  background-color: var(--primary-red);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background 0.2s ease;
+  font-family: var(--font-display)
+}
+
+.logoutButton:hover {
+  background-color: darkred;
 }
