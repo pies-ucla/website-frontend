@@ -65,7 +65,9 @@ export default function Resources() {
             const res = await fetch('/api/resources');
             const data = await res.json();
             if (Array.isArray(data)) {
-              setResources(data);
+              const now = new Date();
+            const upcomingResources = data.filter((r: Resource) => new Date(r.deadline) > now);
+              setResources(upcomingResources);
             } else {
               console.error("Expected array but got:", data);
             }
