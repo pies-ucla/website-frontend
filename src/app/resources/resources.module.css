@@ -1,70 +1,104 @@
 :root {
-    --off-yellow: #fdf4d5;
+  --off-yellow: #fdf4d5;
 }
-  
+
 body {
-    background-color: var(--primary-red);
+  background-color: var(--primary-red);
 }
-  
+
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  gap: 2rem;
 }
-  
+
 .header {
-    font-size: 4rem;
-    font-family: var(--font-display);
-    text-align: center;
-    color: var(--off-yellow);
+  font-size: 4rem;
+  font-family: var(--font-display);
+  text-align: center;
+  color: var(--off-yellow);
 }
-  
+
 .subsection {
-    width: 100%;
- }
-  
+  width: 100%;
+}
+
 .subHeader {
-    font-size: 3rem;
-    font-family: var(--font-display);
-    color: var(--off-yellow);
-    text-align: left;
-    margin-left: 0;
-    margin-top: 1rem;
+  font-size: 3rem;
+  font-family: var(--font-display);
+  color: var(--off-yellow);
+  text-align: left;
+  margin-top: 1rem;
 }
 
 .separator {
-    color: var(--off-yellow);
-    background-color: var(--off-yellow);
-    height: 3px;
-    /* margin: 2rem; */
+  color: var(--off-yellow);
+  background-color: var(--off-yellow);
+  height: 3px;
 }
 
-.columns {
-    display: flex;
-    gap: 4rem;
-    justify-content: center;
-    text-align: left;
-    flex-wrap: wrap;
-    align-items: stretch;
-    margin: 2rem;
-}
-  
-.columns > div {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+.cardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 2rem;
 }
 
-.columns h1 {
-    font-family: var(--font-display);
-    color: var(--off-yellow);
+.card {
+  border: 2px solid var(--off-yellow);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 300px;
+  background-color: var(--off-yellow);
+  transition: transform 0.2s ease-in-out;
 }
 
-.columns p {
-    font-family: var(--font-normal);
-    color: white;
-    font-size: 1.5rem;
-    font-weight: 350;
+.card:hover {
+  transform: scale(1.02);
+}
+
+.card h2 {
+  font-family: var(--font-display);
+  color: var(--primary-red);
+  margin-bottom: 1rem;
+}
+
+.card p {
+  font-family: var(--font-normal);
+  color: var(--primary-red);
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.card a {
+  color: var(--off-yellow);
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.pagination {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  /* margin-top: 1.5rem; */
+  margin: 0.5rem;
+}
+
+.pageBtn,
+.activePage {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background-color: transparent;
+  border: 2px solid var(--off-yellow);
+  color: var(--off-yellow);
+  cursor: pointer;
+  font-family: var(--font-display);
+}
+
+.activePage {
+  background-color: var(--off-yellow);
+  color: var(--primary-red);
 }

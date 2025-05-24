@@ -1,46 +1,154 @@
+"use client";
+
 import styles from "./resources.module.css";
+import { useState } from "react";
+
+type Resource = {
+  resource_type: string;
+  title: string;
+  description: string;
+  deadline: string;
+  link: string;
+};
+
+const dummyResources: Resource[] = [
+  {
+    resource_type: "career",
+    title: "Tech Resume Review",
+    description: "Submit your resume for personalized feedback from industry professionals.",
+    deadline: "2025-07-05T23:59:00Z",
+    link: "https://example.com/resume-review"
+  },
+  {
+    resource_type: "career",
+    title: "Summer Internship at PIES Inc.",
+    description: "Applications are open for our 2025 summer internship cohort.",
+    deadline: "2025-07-15T12:00:00Z",
+    link: "https://example.com/internship"
+  },
+  {
+    resource_type: "career",
+    title: "PIES Leadership Summit",
+    description: "A two-day conference focused on leadership in STEM fields.",
+    deadline: "2025-08-20T09:00:00Z",
+    link: "https://example.com/summit"
+  },
+  {
+    resource_type: "career",
+    title: "LinkedIn Optimization Workshop",
+    description: "Learn how to optimize your LinkedIn profile for recruiters.",
+    deadline: "2025-09-10T20:00:00Z",
+    link: "https://example.com/linkedin-workshop"
+  },
+  {
+    resource_type: "career",
+    title: "AI Job Interview Simulator",
+    description: "Practice tech interviews with AI-powered simulations.",
+    deadline: "2025-10-01T12:00:00Z",
+    link: "https://example.com/ai-interview"
+  },
+  {
+    resource_type: "career",
+    title: "Tech Career Fair Fall 2025",
+    description: "Meet recruiters from top tech companies and startups.",
+    deadline: "2025-10-10T09:00:00Z",
+    link: "https://example.com/career-fair"
+  },
+  {
+    resource_type: "career",
+    title: "Networking for Engineers Workshop",
+    description: "Learn how to build your professional network effectively.",
+    deadline: "2025-10-15T14:00:00Z",
+    link: "https://example.com/networking-workshop"
+  },
+  {
+    resource_type: "scholarship",
+    title: "Future Engineers Scholarship",
+    description: "A scholarship for students pursuing engineering degrees.",
+    deadline: "2025-08-01T17:00:00Z",
+    link: "https://example.com/scholarship"
+  },
+  {
+    resource_type: "scholarship",
+    title: "Diversity in Tech Scholarship",
+    description: "Supports underrepresented students in tech fields.",
+    deadline: "2025-09-01T11:00:00Z",
+    link: "https://example.com/diversity-scholarship"
+  },
+  {
+    resource_type: "scholarship",
+    title: "Women in STEM Grant",
+    description: "Funding for women pursuing STEM degrees.",
+    deadline: "2025-09-20T18:00:00Z",
+    link: "https://example.com/women-stem-grant"
+  },
+  {
+    resource_type: "scholarship",
+    title: "First-Gen Scholars Program",
+    description: "Resources and scholarships for first-generation students.",
+    deadline: "2025-10-01T13:00:00Z",
+    link: "https://example.com/first-gen"
+  }
+];
+
+function ResourceCard({ title, description, deadline, link }: Resource) {
+  return (
+    <div className={styles.card}>
+      <h2>{title}</h2>
+      <p>{description}</p>
+      <p><strong>Deadline:</strong> {new Date(deadline).toLocaleString()}</p>
+      <a href={link} target="_blank" rel="noopener noreferrer">Apply</a>
+    </div>
+  );
+}
+
+function PaginatedCards({ resources, itemsPerPage }: { resources: Resource[]; itemsPerPage: number }) {
+  const [page, setPage] = useState(1);
+  const totalPages = Math.ceil(resources.length / itemsPerPage);
+  const start = (page - 1) * itemsPerPage;
+  const current = resources.slice(start, start + itemsPerPage);
+
+  return (
+    <>
+      <div className={styles.cardsContainer}>
+        {current.map((res, index) => (
+          <ResourceCard key={index} {...res} />
+        ))}
+      </div>
+      <div className={styles.pagination}>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i}
+            className={page === i + 1 ? styles.activePage : styles.pageBtn}
+            onClick={() => setPage(i + 1)}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
+    </>
+  );
+}
 
 export default function Resources() {
+  const careerResources = dummyResources.filter(r => r.resource_type === "career");
+  const scholarshipResources = dummyResources.filter(r => r.resource_type === "scholarship");
+
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>Resources</h1>
+
       <div className={styles.subsection}>
-        <h1 className={styles.subHeader}>ACADEMIC RESOURCES</h1>
+        <h1 className={styles.subHeader}>CAREER</h1>
         <hr className={styles.separator} />
-        <div className={styles.columns}>
-            <div></div>
-            <div>
-                <h1>Undergraduate Research Portal</h1>
-                <p>Want to get into research? A great place to start is the Undergraduate Research Portal! You can find numerous projects in both the STEM and humanities fields, and see if they have paid positions, give out academic credit, or are volunteer work. Click the following link for more information UCLA Undergraduate Research Portal.<br/>
-                If you want need more advice on finding research, try out the Undergraduate Research Center! They have a page on Finding a Project and Mentor and offer Workshops year round.</p>
-            </div>
-        </div>
+        <PaginatedCards resources={careerResources} itemsPerPage={3} />
         <hr className={styles.separator} />
       </div>
-      <div className={styles.subsection}>
-        <h1 className={styles.subHeader}>LIFE AND HEALTH RESOURCES</h1>
-        <hr className={styles.separator} />
-        <div className={styles.columns}>
-            <div></div>
-            <div>
-                <h1>UCLA CAPS</h1>
-                <p>If you are ever in need of any help or are struggling with your mental health, CAPS resources are available to all UCLA students.
-Crisis counseling is available 24/7 and can be reached at (310)825-0768. More emergency resources can be found through this link CAPS | Emergency Services.<br/>
-Additionally, CAPS Services include individual and/or group therapy and drop-in hours, among others. Click here for more information on their services.</p>
-            </div>
-        </div>
-        <hr className={styles.separator} />
-      </div>
+
       <div className={styles.subsection}>
         <h1 className={styles.subHeader}>SCHOLARSHIPS</h1>
         <hr className={styles.separator} />
-        <div className={styles.columns}>
-            <div></div>
-            <div>
-                <h1>UCLA Scholarship Center (CSSE)</h1>
-                <p>If you want to search for more scholarships funded by UCLA, visit the UCLA Scholarship Research Center! They link the different departments across campus that have scholarships available. The Center provides workshops Weeks 2-10 throughout the school year on how to apply for scholarships, draft personal statements, etc. Schedule and RSVP for a workshop here. Additionally, they offer individual counseling to help with searching for scholarships and 1:1 writing appointments to assist with personal statements and essays.</p>
-            </div>
-        </div>
+        <PaginatedCards resources={scholarshipResources} itemsPerPage={3} />
         <hr className={styles.separator} />
       </div>
     </div>
