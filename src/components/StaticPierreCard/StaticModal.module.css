@@ -1,0 +1,35 @@
+.staticModalCard {
+  width: 350px;
+  aspect-ratio: 827 / 812;
+  background-image: url('/generic/PierreModal.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  margin: 1rem;
+  margin-top: 0;
+  transition: transform 0.2s ease;
+  font-family: var(--font-normal); /* Match your global font */
+}
+
+.staticModalCard:hover {
+  transform: scale(1.02);
+}
+
+.staticModalInner {
+  position: absolute;
+  top: 15%;
+  left: 22%;
+  width: 75%;
+  height: 70%;
+  padding: 1rem;
+  font-size: 0.8rem;
+  overflow-y: auto;
+  color: var(--primary-red);
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

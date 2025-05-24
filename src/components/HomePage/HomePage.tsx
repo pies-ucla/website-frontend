@@ -6,14 +6,42 @@ import Link from 'next/link';
 import Carousel from '../Carousel/Carousel';
 import { useEffect, useState } from 'react';
 import Pillars from '../Pillars/Pillars';
+import StaticModalCard from '../StaticPierreCard/StaticModal';
+
+type Event = {
+  event_name: string;
+  date_time: string;
+  location: string;
+  description: string;
+  image_url?: string | null;
+};
 
 const HomePage = () => {
   // Add state for client-side rendering
+  const [events, setEvents] = useState<Event[]>([]);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const res = await fetch('/api/events');
+        const data = await res.json();
+        setEvents(data);
+      } catch (err) {
+        console.error("Failed to fetch events:", err);
+      }
+    };
+    fetchEvents();
+  }, []);
+  const now = new Date();
+  const upcomingEvents = events
+    .filter((e) => new Date(e.date_time) > now)
+    .sort((a, b) => new Date(a.date_time).getTime() - new Date(b.date_time).getTime())
+    .slice(0, 3);
 
   const carouselImages = [
     '/pies-img-example.png',
@@ -187,17 +215,39 @@ const HomePage = () => {
           </motion.h1>
           <h2 className={styles.navySubheader}>Follow us on IG to stay updated!</h2>
           <div className={styles.eventImages}>
-            {['/pies-gm-4.png', '/pies-gm-5.png', '/pies-gm-6.png'].map((src, index) => (
-              <div key={index} className={styles.eventImageContainer}>
-                <Image
-                  src={src}
-                  alt={`Event ${index + 1}`}
-                  width={300}
-                  height={300}
-                  className={styles.eventImage}
-                />
-              </div>
-            ))}
+            {upcomingEvents.length === 0 ? (
+              <div className={styles.noEvents}>No upcoming events!</div>
+            ) : (
+              upcomingEvents.map((event, index) => (
+                <div key={index} className={styles.eventImageContainer}>
+                  {event.image_url ? (
+                    <Image
+                      src={event.image_url}
+                      alt={event.event_name}
+                      width={300}
+                      height={300}
+                      className={styles.eventImage}
+                    />
+                  ) : (
+                  <StaticModalCard>
+                    <h3>{event.event_name}</h3>
+                    <p>
+                      {new Date(event.date_time).toLocaleString(undefined, {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true
+                      })}
+                    </p>
+                    <p>{event.location}</p>
+                    <p>{event.description}</p>
+                  </StaticModalCard>
+                  )}
+                </div>
+              ))
+            )}
           </div>
         </motion.div>
         </div>
