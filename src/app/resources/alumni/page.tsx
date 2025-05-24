@@ -1,76 +1,53 @@
 "use client";
 
 import styles from "./alumni.module.css";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from "next/image";
 
 type Alumni = {
   first_name: string,
   last_name: string,
   year: number,
-  major: [[string]],
-  minor: [[string]],
+  major: string,
+  minor: string,
   occupation: string,
   pie: string,
   created_time: Date,
   updated_time: Date,
 }
 
-const alumniDummyData = [
-  {
-    first_name: "Eric",
-    last_name: "Payson",
-    year: 2024,
-    major: [["Bioengineering"]],
-    minor: [[]],
-    occupation: "PhD Student in Bioengineering at University of Washington",
-    pie: 'Pumpkin',
-    created_time: new Date(),
-    updated_time: new Date()
-  },
-  {
-    first_name: "Ian",
-    last_name: "Galvez",
-    year: 2024,
-    major: [["Computer Science"]],
-    minor: [[]],
-    occupation: "Drifter",
-    pie: 'Pumpkin',
-    created_time: new Date(),
-    updated_time: new Date()
-  },
-  {
-    first_name: "Jared",
-    last_name: "Velasquez",
-    year: 2025,
-    major: [["Computer Science and Engineering"]],
-    minor: [[]],
-    occupation: "Multimillionaire",
-    pie: 'Pumpkin',
-    created_time: new Date(),
-    updated_time: new Date()
-  },
-  {
-    first_name: "Ethan",
-    last_name: "Dao",
-    year: 2025,
-    major: [["Computer Science"]],
-    minor: [[]],
-    occupation: "N/A",
-    pie: 'Pumpkin',
-    created_time: new Date(),
-    updated_time: new Date()
-  },
-]
+function formatMajor(enumStr: string): string {
+  const namePart = enumStr.replace(/^(ba|bs|undeclared)_/, '');
+  return namePart
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
 export default function Alumni() {
+  const [alumni, setAlumni] = useState<Alumni[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [filters, setFilters] = useState<string[]>([]);
-  const filteredAlumni = alumniDummyData.filter((alum) => {
-    const majors = alum.major.flat().map((m) => m.toLowerCase());
-    return filters.every((filter) =>
-      majors.some((major) => major.includes(filter.toLowerCase()))
-    );
-  });
+
+  useEffect(() => {
+    const fetchAlumni = async () => {
+      try {
+        const res = await fetch('/api/alumni');
+        const data = await res.json();
+        setAlumni(data);
+      } catch (err) {
+        console.error("Failed to fetch alumni:", err);
+      }
+    };
+
+    fetchAlumni();
+  }, []);
+
+  const filteredAlumni = alumni.filter((alum) =>
+    filters.every((filter) =>
+      alum.major.toLowerCase().includes(filter.toLowerCase())
+    )
+  );
 
   const applyFilter = () => {
     const trimmed = inputValue.trim();
@@ -171,7 +148,7 @@ export default function Alumni() {
               {alum.first_name} {alum.last_name}
             </h1>
             <h2>UCLA Class of {alum.year}</h2>
-            <h2>Major: {alum.major}</h2>
+            <h2>Major: {formatMajor(alum.major)}</h2>
             <h2>Current occupation: {alum.occupation}</h2>
           </div>
         ))}
