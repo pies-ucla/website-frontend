@@ -225,7 +225,26 @@
     font-size: 0.95rem;
     line-height: 1.4;
   }
-  
+
+  /* event information at the bottom */
+  .eventImageContainer {
+  margin: 1rem;
+  border-radius: 10px;
+  padding: 1rem;
+  }
+
+.eventImage {
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.noEvents {
+  text-align: center;
+  font-style: italic;
+  color: #999;
+}
+
+
   @media (max-width: 1024px) {
     .infoFooter,
     .textContainer,

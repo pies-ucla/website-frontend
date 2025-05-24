@@ -101,7 +101,7 @@ export default function BoardPage() {
                 setExpandedIdx((prev) => (prev === idx ? null : idx))
               }
             >
-              {getYearLevel(member.graduation_year)}
+              {getYearLevel(member.graduation_year)} {formatMajor(member.user.major)}
               <span className={styles.arrow}>
                 {expandedIdx === idx ? ' ▲' : ' ▼'}
               </span>

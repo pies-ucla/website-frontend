@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import Modal from '@/components/Modal/Modal';
@@ -17,74 +17,33 @@ type Event = {
   updated_time: string;
 };
 
+// edit these to match the proper date!
+// align term start dates with Monday, Week 1
 const TERMS = ["Fall 2024", "Winter 2025", "Spring 2025"];
-
 const termStartDates: { [term: string]: string } = {
-  "Fall 2024": "2024-09-26T18:00:00Z",
+  "Fall 2024": "2024-09-23T18:00:00Z",
   "Winter 2025": "2025-01-06T18:00:00Z",
   "Spring 2025": "2025-03-31T18:00:00Z"
 };
 
-const eventDummyData: Event[] = [
-  {
-    event_name: "Fall Kickoff",
-    date_time: "2024-09-30T18:00:00Z",
-    location: "Kerckhoff Patio",
-    link: "N/A",
-    description: "Welcome Back Bash",
-    created_time: "2024-09-01T18:00:00Z",
-    updated_time: "2024-09-01T18:00:00Z"
-  },
-  {
-    event_name: "Winter Social",
-    date_time: "2025-01-10T18:00:00Z",
-    location: "Ackerman Grand Ballroom",
-    link: "N/A",
-    description: "Chill Night",
-    created_time: "2025-01-01T18:00:00Z",
-    updated_time: "2025-01-01T18:00:00Z"
-  },
-  {
-    event_name: "GM #1",
-    date_time: "2025-04-07T18:00:00Z",
-    location: "Kaplan 135",
-    link: "N/A",
-    description: "Balikbayan Box Macgyver",
-    created_time: "2025-04-01T18:00:00Z",
-    updated_time: "2025-04-01T18:00:00Z"
-  },
-  {
-    event_name: "GM #1",
-    date_time: "2025-04-07T18:00:00Z",
-    location: "Kaplan 135",
-    link: "N/A",
-    description: "Balikbayan Box Macgyver",
-    created_time: "2025-04-01T18:00:00Z",
-    updated_time: "2025-04-01T18:00:00Z"
-  },
-  {
-    event_name: "GM #1",
-    date_time: "2025-04-07T18:00:00Z",
-    location: "Kaplan 135",
-    link: "N/A",
-    description: "Balikbayan Box Macgyver",
-    created_time: "2025-04-01T18:00:00Z",
-    updated_time: "2025-04-01T18:00:00Z"
-  },
-  {
-    event_name: "GM #1",
-    date_time: "2025-04-07T18:00:00Z",
-    location: "Kaplan 135",
-    link: "N/A",
-    description: "Balikbayan Box Macgyver",
-    created_time: "2025-04-01T18:00:00Z",
-    updated_time: "2025-04-01T18:00:00Z"
-  }
-];
-
 export default function Events() {
+  const [events, setEvents] = useState<Event[]>([]);
   const [termIndex, setTermIndex] = useState(2); // Default: Spring 2025
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+
+  useEffect(() => {
+      const fetchEvents = async () => {
+        try {
+          const res = await fetch('/api/events');
+          const data = await res.json();
+          setEvents(data);
+        } catch (err) {
+          console.error("Failed to fetch board:", err);
+        }
+      };
+  
+      fetchEvents();
+  }, []);
 
   const handleLeft = () => {
     setTermIndex((prev) => (prev > 0 ? prev - 1 : TERMS.length - 1));
@@ -99,10 +58,10 @@ export default function Events() {
   const numWeeks = 10;
   const totalDays = numWeeks * 7;
 
-  const rawTermStart = new Date(termStartDates[selectedTerm]);
-  const startDate = new Date(rawTermStart);
-  const day = startDate.getDay() + 1;
-  const offset = (day + 6) % 7;
+  const startDate = new Date(termStartDates[selectedTerm]);
+  const dayOfWeek = startDate.getDay(); // 0 (Sun) - 6 (Sat)
+
+  const offset = (dayOfWeek + 7) % 7; // Days since Monday
   startDate.setDate(startDate.getDate() - offset);
 
   const dates = Array.from({ length: totalDays }, (_, i) => {
@@ -114,7 +73,7 @@ export default function Events() {
   const endDate = new Date(startDate);
   endDate.setDate(startDate.getDate() + totalDays);
 
-  const visibleEvents = eventDummyData.filter((event) => {
+  const visibleEvents = events.filter((event) => {
     const eventDate = new Date(event.date_time);
     return eventDate >= startDate && eventDate < endDate;
   });
