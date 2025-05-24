@@ -1,7 +1,25 @@
-// app/api/resources/route.ts
+// app/api/alumni/route.ts
+import { cookies } from 'next/headers';
+
 export async function GET() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('access_token')?.value;
+  console.log("token", token);
+  
+  if (!token) {
+    return new Response(JSON.stringify({ error: 'Not authenticated' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
   try {
-    const response = await fetch('http://localhost:8000/resources/');
+    const response = await fetch('http://localhost:8000/resources/', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
     if (!response.ok) {
       return new Response(JSON.stringify({ error: 'Failed to fetch resources' }), {

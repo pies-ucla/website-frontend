@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./resources.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Resource = {
   resource_type: string;
@@ -11,92 +11,19 @@ type Resource = {
   link: string;
 };
 
-const dummyResources: Resource[] = [
-  {
-    resource_type: "career",
-    title: "Tech Resume Review",
-    description: "Submit your resume for personalized feedback from industry professionals.",
-    deadline: "2025-07-05T23:59:00Z",
-    link: "https://example.com/resume-review"
-  },
-  {
-    resource_type: "career",
-    title: "Summer Internship at PIES Inc.",
-    description: "Applications are open for our 2025 summer internship cohort.",
-    deadline: "2025-07-15T12:00:00Z",
-    link: "https://example.com/internship"
-  },
-  {
-    resource_type: "career",
-    title: "PIES Leadership Summit",
-    description: "A two-day conference focused on leadership in STEM fields.",
-    deadline: "2025-08-20T09:00:00Z",
-    link: "https://example.com/summit"
-  },
-  {
-    resource_type: "career",
-    title: "LinkedIn Optimization Workshop",
-    description: "Learn how to optimize your LinkedIn profile for recruiters.",
-    deadline: "2025-09-10T20:00:00Z",
-    link: "https://example.com/linkedin-workshop"
-  },
-  {
-    resource_type: "career",
-    title: "AI Job Interview Simulator",
-    description: "Practice tech interviews with AI-powered simulations.",
-    deadline: "2025-10-01T12:00:00Z",
-    link: "https://example.com/ai-interview"
-  },
-  {
-    resource_type: "career",
-    title: "Tech Career Fair Fall 2025",
-    description: "Meet recruiters from top tech companies and startups.",
-    deadline: "2025-10-10T09:00:00Z",
-    link: "https://example.com/career-fair"
-  },
-  {
-    resource_type: "career",
-    title: "Networking for Engineers Workshop",
-    description: "Learn how to build your professional network effectively.",
-    deadline: "2025-10-15T14:00:00Z",
-    link: "https://example.com/networking-workshop"
-  },
-  {
-    resource_type: "scholarship",
-    title: "Future Engineers Scholarship",
-    description: "A scholarship for students pursuing engineering degrees.",
-    deadline: "2025-08-01T17:00:00Z",
-    link: "https://example.com/scholarship"
-  },
-  {
-    resource_type: "scholarship",
-    title: "Diversity in Tech Scholarship",
-    description: "Supports underrepresented students in tech fields.",
-    deadline: "2025-09-01T11:00:00Z",
-    link: "https://example.com/diversity-scholarship"
-  },
-  {
-    resource_type: "scholarship",
-    title: "Women in STEM Grant",
-    description: "Funding for women pursuing STEM degrees.",
-    deadline: "2025-09-20T18:00:00Z",
-    link: "https://example.com/women-stem-grant"
-  },
-  {
-    resource_type: "scholarship",
-    title: "First-Gen Scholars Program",
-    description: "Resources and scholarships for first-generation students.",
-    deadline: "2025-10-01T13:00:00Z",
-    link: "https://example.com/first-gen"
-  }
-];
-
 function ResourceCard({ title, description, deadline, link }: Resource) {
   return (
     <div className={styles.card}>
       <h2>{title}</h2>
       <p>{description}</p>
-      <p><strong>Deadline:</strong> {new Date(deadline).toLocaleString()}</p>
+      <p><strong>Deadline:</strong> {new Date(deadline).toLocaleString(undefined, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      })}</p>
       <a href={link} target="_blank" rel="noopener noreferrer">Apply</a>
     </div>
   );
@@ -131,8 +58,27 @@ function PaginatedCards({ resources, itemsPerPage }: { resources: Resource[]; it
 }
 
 export default function Resources() {
-  const careerResources = dummyResources.filter(r => r.resource_type === "career");
-  const scholarshipResources = dummyResources.filter(r => r.resource_type === "scholarship");
+  const [resources, setResources] = useState<Resource[]>([]);
+  useEffect(() => {
+        const fetchResources = async () => {
+          try {
+            const res = await fetch('/api/resources');
+            const data = await res.json();
+            if (Array.isArray(data)) {
+              setResources(data);
+            } else {
+              console.error("Expected array but got:", data);
+            }
+          } catch (err) {
+            console.error("Failed to fetch resources:", err);
+          }
+        };
+    
+        fetchResources();
+  }, []);
+
+  const careerResources = resources.filter(r => r.resource_type === "career");
+  const scholarshipResources = resources.filter(r => r.resource_type === "scholarship");
 
   return (
     <div className={styles.container}>
