@@ -1,21 +1,34 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import styles from './AuthGuard.module.css';
+import { useRouter } from 'next/navigation';
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
+  const [showModal, setShowModal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     if (!loading && !user) {
-      router.replace('/'); // Redirect if unauthenticated
+      setShowModal(true);
     }
   }, [loading, user, router]);
 
-  if (loading || !user) {
+  if (loading) {
     return <p className="p-4 text-center">Loading…</p>;
+  }
+
+  if (showModal) {
+    return (
+      <div className={styles.modalBackdrop}>
+        <div className={styles.modal}>
+          <h2>You must be logged in to access this page.</h2>
+          <a href="/" className={styles.button}>Go to Home</a>
+        </div>
+      </div>
+    );
   }
 
   return <>{children}</>;
