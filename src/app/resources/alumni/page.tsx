@@ -3,6 +3,7 @@
 import styles from "./alumni.module.css";
 import { useEffect, useState } from 'react';
 import Image from "next/image";
+import { useAuth } from "@/context/AuthContext";
 
 type Alumni = {
   first_name: string,
@@ -25,22 +26,24 @@ function formatMajor(enumStr: string): string {
 }
 
 export default function Alumni() {
+  const { user, loading } = useAuth(); 
   const [alumni, setAlumni] = useState<Alumni[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [filters, setFilters] = useState<string[]>([]);
 
   useEffect(() => {
-    const fetchAlumni = async () => {
-      try {
-        const res = await fetch('/api/alumni');
-        const data = await res.json();
-        setAlumni(data);
-      } catch (err) {
-        console.error("Failed to fetch alumni:", err);
-      }
-    };
-
-    fetchAlumni();
+    if (!loading && user){
+      const fetchAlumni = async () => {
+        try {
+          const res = await fetch('/api/alumni');
+          const data = await res.json();
+          setAlumni(data);
+        } catch (err) {
+          console.error("Failed to fetch alumni:", err);
+        }
+      };
+      fetchAlumni();
+    }
   }, []);
 
   const filteredAlumni = alumni.filter((alum) =>
@@ -86,7 +89,21 @@ export default function Alumni() {
               </div>
             </div>
           </div>
-          <div className={styles.right}>[Insert photo here]</div>
+          <div className={styles.right} style={{display: 'flex', justifyContent: 'center'}}>
+            <Image 
+              src="/alumni/uncs.png"
+              alt="Alumni DB" 
+              width={1920} 
+              height={1080}
+              style={{
+                width: '70%',
+                height: 'auto',
+                objectFit: 'contain',
+                borderRadius: '10px',
+                border: '4px solid var(--off-yellow)'
+              }}
+            />
+          </div>
         </div>
       </div>
 

@@ -2,6 +2,7 @@
 
 import styles from "./resources.module.css";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 type Resource = {
   resource_type: string;
@@ -58,25 +59,28 @@ function PaginatedCards({ resources, itemsPerPage }: { resources: Resource[]; it
 }
 
 export default function Resources() {
+  const { user, loading } = useAuth();
   const [resources, setResources] = useState<Resource[]>([]);
   useEffect(() => {
+    if (!loading && user) {
         const fetchResources = async () => {
-          try {
+            try {
             const res = await fetch('/api/resources');
             const data = await res.json();
             if (Array.isArray(data)) {
-              const now = new Date();
+                const now = new Date();
             const upcomingResources = data.filter((r: Resource) => new Date(r.deadline) > now);
-              setResources(upcomingResources);
+                setResources(upcomingResources);
             } else {
-              console.error("Expected array but got:", data);
+                console.error("Expected array but got:", data);
             }
-          } catch (err) {
+            } catch (err) {
             console.error("Failed to fetch resources:", err);
-          }
+            }
         };
-    
+  
         fetchResources();
+    }
   }, []);
 
   const careerResources = resources.filter(r => r.resource_type === "career");

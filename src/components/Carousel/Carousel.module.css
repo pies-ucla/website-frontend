@@ -1,15 +1,11 @@
 .carousel {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    gap: 2rem;
-    margin-top: 2rem;
-    margin-bottom: 5rem;
-    width: min(130%, 900px); 
-    overflow: visible;
-    margin: 2rem 0 8rem; 
-    margin-left: 4rem; 
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .carouselContainer {
@@ -19,45 +15,26 @@
     overflow: hidden;
 }
 
-.carouselImageContainer {
-    width: min(700px, 80vw); 
-    height: min(600px, 45vw);  
-    position: relative;
-    margin: 0 auto; 
-    margin-bottom: 2rem;
-    margin-right: 0;
-    margin-top: -5rem; 
-    overflow: hidden; 
-    cursor: zoom-in;
-    transform: translate(4rem, 4rem); /* Modified to move right and down */
-}
-
 .carouselImage {
-    object-fit: cover;
-    border-radius: 70px;  
+    /* object-fit: cover;
+    border-radius: 1rem;  
     width: 100%;
     height: 100%;
-    transition: transform 0.3s ease;
+    transition: filter 0.3s ease;
     transform-origin: center; 
     object-position: center;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
-    transform: translateZ(0); 
+    transform: translateZ(0);
     backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden; */
 }
 
+.carouselImage {
+  transition: filter 0.3s ease;
+}
 .carouselImageContainer:hover .carouselImage {
-    transform: scale(1.05); /* Zoom level on hover */
-}
-
-@keyframes zoomIn {
-    from {
-        transform: scale(1);
-    }
-    to {
-        transform: scale(1.2);
-    }
+  filter: brightness(1.05) contrast(1.1);
 }
 
 .carouselButton {
@@ -98,13 +75,13 @@
 }
 
 .indicators {
-    position: absolute;
-    bottom: -20px; /* Moved down to ensure it's below the larger image */
-    display: flex;
-    gap: .5rem;
-    justify-content: center;
-    width: 100%;
-    margin-left: 20%;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .dot {

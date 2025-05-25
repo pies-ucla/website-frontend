@@ -134,8 +134,8 @@ export default function BoardPage() {
             />
           </div>
 
-          <h1 className={styles.role}>Mascot</h1>
-          <h1 className={styles.name}>Pierre D&apos;Pioneer</h1>
+          <h1 className={styles.role}>MASCOT</h1>
+          <h1 className={styles.name}>Pierre D'Pioneer</h1>
 
           <h2 className={styles.major}>
             <u>Year:</u> Hmm...a bear never tells his secrets!

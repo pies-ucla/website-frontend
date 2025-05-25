@@ -44,31 +44,10 @@ const HomePage = () => {
     .slice(0, 3);
 
   const carouselImages = [
-    '/pies-img-example.png',
-    '/pies-retreat.png',
-    '/pies-kbbq.png',
+    '/carousel/home/pi_day.png',
+    '/carousel/home/kbbq.JPG',
+    '/carousel/home/gm.png',
   ];
-
-  // const newsItems = [
-  //   {
-  //     image: '/news-1.png',
-  //     title: 'PIES Fall GM #1',
-  //     date: 'October 5, 2023',
-  //     description: 'Join us for our first General Meeting of the year! Come meet the board and learn more about what PIES has planned for Fall Quarter.'
-  //   },
-  //   {
-  //     image: '/news-2.png',
-  //     title: 'PIES Industry Night',
-  //     date: 'October 12, 2023',
-  //     description: 'Network with industry professionals and PIES alumni in engineering and sciences. Great opportunity to learn about different career paths!'
-  //   },
-  //   {
-  //     image: '/news-3.png',
-  //     title: 'PIES Study Night',
-  //     date: 'October 19, 2023',
-  //     description: 'Study with your fellow PIES members! Snacks and drinks will be provided.'
-  //   }
-  // ];
 
   const fadeInUp = {
     initial: { y: 30, opacity: 0 },

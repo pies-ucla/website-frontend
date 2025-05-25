@@ -5,54 +5,60 @@ import Image from 'next/image';
 import styles from './Carousel.module.css';
 
 interface CarouselProps {
-    images: string[];
-    width?: number;  // Add optional width prop
-    height?: number; // Add optional height prop
+  images: string[];
+  width?: number;
+  height?: number;
+  autoScrollInterval?: number; // in milliseconds
 }
 
-const Carousel = ({ images, width = 800, height = 600 }: CarouselProps) => {
-    const [isClient, setIsClient] = useState(false);
-    const [currentIndex, setCurrentIndex] = useState(0);
+const Carousel = ({
+  images,
+  width = 800,
+  height = 600,
+  autoScrollInterval = 3000, // default to 3 seconds
+}: CarouselProps) => {
+  const [isClient, setIsClient] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
-    const nextSlide = () => {
-        setCurrentIndex((prevIndex) => 
-            prevIndex === images.length - 1 ? 0 : prevIndex + 1
-        );
-    };
+  useEffect(() => {
+    if (!isClient) return;
 
-    const prevSlide = () => {
-        setCurrentIndex((prevIndex) => 
-            prevIndex === 0 ? images.length - 1 : prevIndex - 1
-        );
-    };
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    }, autoScrollInterval);
 
-    return isClient ? (
-        <div className={styles.carousel}>
-            <div className={styles.carouselImageContainer}>
-                <Image
-                    src={images[currentIndex]}
-                    alt={`Slide ${currentIndex + 1}`}
-                    width={width}  // Use custom width
-                    height={height} // Use custom height
-                    className={styles.carouselImage}
-                    style={{ objectFit: 'contain' }} // Ensure image maintains aspect ratio
-                />
-            </div>
-            <div className={styles.indicators}>
-                {images.map((_, index) => (
-                    <span
-                        key={index}
-                        className={`${styles.dot} ${index === currentIndex ? styles.activeDot : ''}`}
-                        onClick={() => setCurrentIndex(index)}
-                    />
-                ))}
-            </div>
-        </div>
-    ) : null; // Or a loading placeholder
+    return () => clearInterval(interval); // cleanup on unmount
+  }, [isClient, images.length, autoScrollInterval]);
+
+  return isClient ? (
+    <div className={styles.carousel}>
+      <div className={styles.carouselImageContainer}>
+        <Image
+          key={currentIndex}
+          src={images[currentIndex]}
+          alt={`Slide ${currentIndex + 1}`}
+          fill
+          className={styles.carouselImage} // use enter animation class
+          style={{ objectFit: 'contain' }}
+        />
+      </div>
+      <div className={styles.indicators}>
+        {images.map((_, index) => (
+          <span
+            key={index}
+            className={`${styles.dot} ${index === currentIndex ? styles.activeDot : ''}`}
+            onClick={() => setCurrentIndex(index)}
+          />
+        ))}
+      </div>
+    </div>
+  ) : null;
 };
 
 export default Carousel;
