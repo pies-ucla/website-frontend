@@ -89,7 +89,21 @@ export default function Alumni() {
               </div>
             </div>
           </div>
-          <div className={styles.right}>[Insert photo here]</div>
+          <div className={styles.right} style={{display: 'flex', justifyContent: 'center'}}>
+            <Image 
+              src="/alumni/uncs.png"
+              alt="Alumni DB" 
+              width={1920} 
+              height={1080}
+              style={{
+                width: '70%',
+                height: 'auto',
+                objectFit: 'contain',
+                borderRadius: '10px',
+                border: '4px solid var(--off-yellow)'
+              }}
+            />
+          </div>
         </div>
       </div>
 
