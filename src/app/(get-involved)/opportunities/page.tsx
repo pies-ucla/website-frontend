@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./opportunities.module.css";
 
 export default function Resources() {
@@ -8,7 +9,21 @@ export default function Resources() {
         <h1 className={styles.subHeader}>PIEYANIHAN AND MENTORSHIP</h1>
         <hr className={styles.separator} />
         <div className={styles.columns}>
-            <div></div>
+            <div>
+              <Image
+                src="/opportunities/pieyanihan.png"
+                alt="Childish Goombinoes!" 
+                width={1920} 
+                height={1080}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'contain',
+                  borderRadius: '5px',
+                  marginTop: '1rem'
+                }}
+              />
+            </div>
             <div>
                 <h1>Pieyanihan Families</h1>
                 <p>PIEyanihans are inspired by the Filipino custom of Bayanihan, where villagers would help one another relocate their bahay-kubos, which demonstrates the spirit of providing support, assistance, and community for one another.<br/>
@@ -22,7 +37,21 @@ export default function Resources() {
         <h1 className={styles.subHeader}>INTERNSHIP PROGRAM</h1>
         <hr className={styles.separator} />
         <div className={styles.columns}>
-            <div></div>
+            <div>
+              <Image
+                src="/opportunities/board.jpg"
+                alt="PIES Board and interns" 
+                width={1920} 
+                height={1080}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'contain',
+                  borderRadius: '5px',
+                  marginTop: '1rem'
+                }}
+              />
+            </div>
             <div>
                 <h1>Board Internships</h1>
                 <p>Interested in joining PIES Board? Apply for the Internship Program! For you guys to gain leadership experience through shadowing board members and later on being able to do your own tasks, which could include facilitating events or helping plan those events! Overall, you will also be learning the core values of PIES and how we apply them in our leadership to succeed!<br/>
