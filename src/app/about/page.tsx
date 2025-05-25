@@ -1,8 +1,15 @@
 import React from 'react';
 import styles from './about.module.css';
 import Image from 'next/image';
+import Carousel from '@/components/Carousel/Carousel';
 
 export default function About() {
+  const carouselImages = [
+    '/pies-img-example.png',
+    '/pies-retreat.png',
+    '/pies-kbbq.png',
+  ];
+
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>About PIES</h1>
@@ -49,13 +56,11 @@ export default function About() {
       </div>
       <div className={styles.timeline}>
         <h2>PIES Timeline</h2>
-      </div>
-      {/* filler text below */}
-      <div className={styles.columns}>
-        <div></div>
-        <div>
-          <p>Boy oh boy where do I even begin. Lebron.. honey, my pookie bear. I have loved you ever since I first laid eyes on you. The way you drive into the paint and strike fear into your enemies eyes. Your silky smooth touch around the rim, and that gorgeous jumpshot. I would do anything for you. I wish it were possible to freeze time so I would never have to watch you retire. You had a rough childhood, but you never gave up hope. You are even amazing off the court, you're a great husband and father, sometimes I even call you dad. I forvever dread and weep, thinking of the day you will one day retire. I would sacrifice my ownlife it were the only thing that could put a smile on your beautiful face.</p>
-        </div>
+        <Carousel 
+          images={carouselImages} 
+          width={800}   // Specify desired width
+          height={600}  // Specify desired height
+        />
       </div>
     </div>
   );

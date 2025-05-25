@@ -52,7 +52,13 @@
     align-items: stretch;
     flex-grow: 1;
 }
-  
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .timeline h2 {
     font-family: var(--font-display);
     color: var(--off-yellow);
