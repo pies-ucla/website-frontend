@@ -5,9 +5,11 @@ import Carousel from '@/components/Carousel/Carousel';
 
 export default function About() {
   const carouselImages = [
-    '/pies-img-example.png',
-    '/pies-retreat.png',
-    '/pies-kbbq.png',
+    '/carousel/about/kbbq.png',
+    '/carousel/about/dtla.JPG',
+    '/carousel/about/bonfire.JPG',
+    '/carousel/about/retreat.png',
+    '/carousel/about/spcn.JPG',
   ];
 
   return (
