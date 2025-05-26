@@ -1,0 +1,74 @@
+.filterBar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0.5rem;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .select,
+  .searchInput {
+    padding: 0.5rem;
+    min-width: 150px;
+  }
+
+.searchInput {
+    font-family: var(--font-normal);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    flex: 1;
+}
+  
+.searchInput::placeholder {
+    opacity: 1;
+}  
+
+.button {
+    /* padding: 0.75rem 1.5rem; */
+    padding: 0.1em 0.8rem;
+    background-color: #e4b8a5;
+    color: #b83f3b;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    border: 3px solid var(--off-yellow);
+    border-radius: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+  
+.button:hover {
+    background-color: #f7e7b5;
+    transform: translateY(-2px);
+}
+  
+.button:active {
+    transform: scale(0.98);
+}
+
+.activeFilters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filterChip {
+    background-color: var(--off-yellow);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.removeBtn {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
