@@ -168,3 +168,23 @@
   font-family: var(--font-normal);
 }
 
+.createButton {
+  margin: 1rem auto;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.form input,
+.form textarea {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  font-family: var(--font-normal);
+}

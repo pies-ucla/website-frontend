@@ -18,6 +18,7 @@ type AuthContextType = {
   user: User | null;
   accessToken: string | null;
   loading: boolean;
+  isBoardMember: boolean;
   login: (token: string, user: User) => void;
   logout: () => void;
 };
@@ -27,6 +28,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // ====== Provider ======
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isBoardMember, setIsBoardMember] = useState(false);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -37,6 +39,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (refreshed) {
         setAccessToken(refreshed.access_token);
         setUser(refreshed.user);
+
+        const res = await fetch("/api/is-board-member", {
+          method: "GET",
+          credentials: "include",
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setIsBoardMember(data.isBoardMember);
+        }
+
       }
       setLoading(false);
     };
@@ -44,21 +56,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     tryRefresh();
   }, []);
 
-  const login = (token: string, user: User) => {
+  const login = async (token: string, user: User) => {
     setAccessToken(token);
     setUser(user);
+
+    const res = await fetch("/api/is-board-member", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      setIsBoardMember(data.isBoardMember);
+    }
   };
 
-  const logout = () => {
+  const logout = async () => {
     setAccessToken(null);
     setUser(null);
-    // Note: this won't clear HttpOnly refresh_token cookie.
-    // Add a backend route to delete cookie later if needed.
+    setIsBoardMember(false);
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+    });
+    setLoading(false);
     router.push("/");
   };
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, accessToken, loading, isBoardMember, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

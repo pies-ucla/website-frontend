@@ -2,20 +2,11 @@
 
 import styles from "./alumni.module.css";
 import { useEffect, useState } from 'react';
-import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
-
-type Alumni = {
-  first_name: string,
-  last_name: string,
-  year: number,
-  major: string,
-  minor: string,
-  occupation: string,
-  pie: string,
-  created_time: Date,
-  updated_time: Date,
-}
+import AddAlumniModal from "@/components/Alumni/AddAlumniModal/AddAlumniModal";
+import AlumniBanner from "@/components/Alumni/AlumniBanner/AlumniBanner";
+import AlumniFilter from "@/components/Alumni/AlumniFilter/AlumniFilter";
+import EditAlumniModal from "@/components/Alumni/EditAlumniModal/EditAlumniModal";
 
 function formatMajor(enumStr: string): string {
   const namePart = enumStr.replace(/^(ba|bs|undeclared)_/, '');
@@ -25,11 +16,75 @@ function formatMajor(enumStr: string): string {
     .join(' ');
 }
 
+type Alumni = {
+  pk?: number;
+  first_name: string;
+  last_name: string;
+  year: number;
+  major: string;
+  minor?: string;
+  occupation: string;
+  pie?: string;
+  created_time?: Date;
+  updated_time?: Date;
+};
+
 export default function Alumni() {
-  const { user, loading } = useAuth(); 
+  const { user, loading, isBoardMember } = useAuth(); 
   const [alumni, setAlumni] = useState<Alumni[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [filters, setFilters] = useState<string[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const [editingAlum, setEditingAlum] = useState<Alumni | null>(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [newAlum, setNewAlum] = useState<Alumni>({
+    first_name: '',
+    last_name: '',
+    year: new Date().getFullYear(),
+    major: '',
+    minor: '',
+    occupation: '',
+    pie: ''
+  });
+
+  const handleEditAlum = async () => {
+    if (!editingAlum?.pk) return;
+    const payload = { ...editingAlum };
+    if (!payload.minor?.trim()) delete payload.minor;
+    if (!payload.pie?.trim()) delete payload.pie;
+
+    const res = await fetch(`/api/alumni/${payload.pk}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      const updated = await res.json();
+      setAlumni((prev) => prev.map(a => a.pk === updated.pk ? updated : a));
+      setEditModalOpen(false);
+      setEditingAlum(null);
+    }
+  };
+  const handleDeleteAlum = async (id?: number) => {
+  if (!id) return;
+  if (!confirm("Are you sure you want to delete this alumni?")) return;
+
+  try {
+    const res = await fetch(`/api/alumni/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (res.ok) {
+      setAlumni((prev) => prev.filter(a => a.pk !== id));
+    } else {
+      console.error("Failed to delete alumni");
+    }
+  } catch (err) {
+    console.error("Error deleting alumni:", err);
+  }
+  };
+
 
   useEffect(() => {
     if (!loading && user){
@@ -46,6 +101,36 @@ export default function Alumni() {
     }
   }, []);
 
+  const handleCreateAlum = async () => {
+    try {
+      const payload = { ...newAlum };
+      if (!payload.minor?.trim()) delete payload.minor;
+      if (!payload.pie?.trim()) delete payload.pie;
+
+      const res = await fetch('/api/alumni', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        const created = await res.json();
+        setAlumni((prev) => [...prev, created]);
+        setNewAlum({
+          first_name: '',
+          last_name: '',
+          year: new Date().getFullYear(),
+          major: '',
+          minor: '',
+          occupation: '',
+          pie: ''
+        });
+      }
+    } catch (err) {
+      console.error("Failed to create alumni:", err);
+    }
+  };
+
   const filteredAlumni = alumni.filter((alum) =>
     filters.every((filter) =>
       alum.major.toLowerCase().includes(filter.toLowerCase())
@@ -59,11 +144,11 @@ export default function Alumni() {
       setInputValue('');
     }
   };
-  
+
   const removeFilter = (filterToRemove: string) => {
     setFilters((prev) => prev.filter((f) => f !== filterToRemove));
   };
-  
+
   const clearAllFilters = () => {
     setFilters([]);
     setInputValue('');
@@ -71,93 +156,39 @@ export default function Alumni() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.header}>Alumni</h1>
-
-      <div className={styles.subsection}>
-        <div className={styles.grid}>
-          <div className={styles.left}>
-            <div className={styles.leftTop}>
-              <h1 className={styles.subHeader}>
-                These successful PIES alumni are open to career-related outreach!
-              </h1>
-            </div>
-            <div className={styles.leftBottom}>
-              <div className={styles.box}>
-                <b className={styles.contactText}>
-                  contact <u>reaguz@g.ucla.edu</u> for alumni contact info!
-                </b>
-              </div>
-            </div>
-          </div>
-          <div className={styles.right} style={{display: 'flex', justifyContent: 'center'}}>
-            <Image 
-              src="/alumni/uncs.png"
-              alt="Alumni DB" 
-              width={1920} 
-              height={1080}
-              style={{
-                width: '70%',
-                height: 'auto',
-                objectFit: 'contain',
-                borderRadius: '10px',
-                border: '4px solid var(--off-yellow)'
-              }}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div style={{ width: "100%" }}>
-        <h1 className={styles.dbHeader}>PIES Alumni Database:</h1>
-        <hr className={styles.separator} />
-        <div className={styles.grid} style={{ margin: "1.5rem", gap: '5rem' }}>
-          <div className={styles.left}>
-            <Image 
-              src="/alumni/AlumniDBSlide.png"
-              alt="Alumni DB" 
-              width={1920} 
-              height={1080}
-              style={{
-                width: '100%',
-                height: 'auto',
-                objectFit: 'contain'
-              }}
-            />
-          </div>
-          <div className={[styles.right, styles.box].join(" ")}>
-            <p className={styles.contactText}>
-              Hi!<br />
-              Welcome to the PIES Alumni Database!
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Filter Bar */}
-      <div className={styles.filterBar}>
-        <h1 style={{color: 'white'}}>filter by major</h1>
-        <div>
-          <input
-            type="text"
-            placeholder="search major here"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            className={styles.searchInput}
+      {editingAlum && (
+        <EditAlumniModal
+          isOpen={editModalOpen}
+          onClose={() => setEditModalOpen(false)}
+          alumni={editingAlum}
+          onChange={setEditingAlum}
+          onSubmit={handleEditAlum}
+        />
+      )}
+      <AlumniBanner />
+      <AlumniFilter
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        filters={filters}
+        applyFilter={applyFilter}
+        removeFilter={removeFilter}
+        clearAllFilters={clearAllFilters}
+      />
+      {isBoardMember && (
+        <div style={{ textAlign: "right",}}>
+          <AddAlumniModal
+            isOpen={showModal}
+            onClose={() => setShowModal(false)}
+            newAlum={newAlum}
+            setNewAlum={setNewAlum}
+            onSubmit={handleCreateAlum}
           />
-          <hr className={styles.separator} style={{ marginTop: '-0.5rem' }} />
-          </div>
-          <button className={styles.button} onClick={applyFilter}>APPLY FILTERS</button>
-          <button className={styles.button} onClick={clearAllFilters}>REMOVE ALL FILTERS</button>
-      </div>
-      <div className={styles.activeFilters}>
-        {filters.map((filter, index) => (
-          <span key={index} className={styles.filterChip}>
-            {filter}
-            <button onClick={() => removeFilter(filter)} className={styles.removeBtn}>×</button>
-          </span>
-        ))}
-      </div>
-      {/* Display cards w/ alumni data */}
+          <button className={styles.button} onClick={() => setShowModal(true)}>
+            + Add New Alumni
+          </button>
+        </div>
+      )}
+
       <div className={styles.alumniGrid}>
         {filteredAlumni.map((alum, index) => (
           <div key={index} className={[styles.alumniCard, styles.alumniText].join(" ")}>
@@ -167,10 +198,29 @@ export default function Alumni() {
             <h2>UCLA Class of {alum.year}</h2>
             <h2>Major: {formatMajor(alum.major)}</h2>
             <h2>Current occupation: {alum.occupation}</h2>
+            {isBoardMember && (
+              <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+              <button
+                className={styles.button}
+                onClick={() => {
+                  setEditingAlum(alum);
+                  setEditModalOpen(true);
+                }}
+              >
+                ✎ Edit
+              </button>
+              <button
+                className={styles.button}
+                style={{ backgroundColor: "#b83f3b", color: "white" }}
+                onClick={() => handleDeleteAlum(alum.pk)}
+              >
+                🗑️ Delete
+              </button>
+              </div>
+            )}
           </div>
         ))}
       </div>
-
     </div>
   );
 }

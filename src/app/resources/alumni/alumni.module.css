@@ -133,7 +133,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     align-items: start;
 }
   
@@ -206,4 +206,72 @@
     .button {
       width: 100%;
     }
+}
+
+.replaceableImage {
+  position: relative;
+  border-radius: 10px;
+  border: 4px solid var(--off-yellow);
+  max-height: 40rem;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 15, 15, 0.85);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: var(--primary-red);
+  border: 3px solid var(--off-yellow);
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  font-family: var(--font-normal);
+  color: var(--off-yellow);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal input {
+  background: white;
+  border: 2px solid var(--off-yellow);
+  padding: 0.6rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: var(--primary-red);
+  font-family: var(--font-normal);
+  width: 100%;
+}
+
+.modal input::placeholder {
+  color: #999;
+  opacity: 0.8;
+}
+
+.modalClose {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.7rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--off-yellow);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.modalClose:hover {
+  transform: scale(1.2);
 }

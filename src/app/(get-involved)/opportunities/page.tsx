@@ -1,7 +1,18 @@
+"use client";
+
 import Image from "next/image";
 import styles from "./opportunities.module.css";
+import { useAuth } from "@/context/AuthContext";
+import ImageSlot from "@/components/ImageSlot/ImageSlot";
+import { useState } from "react";
 
 export default function Resources() {
+  const { isBoardMember } = useAuth();
+  const [images, setImages] = useState({
+      pieyanihan: `/opportunities/pieyanihan.webp?t=${Date.now()}`,
+      board: `/opportunities/board.webp?t=${Date.now()}`
+  });
+
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>Opportunities</h1>
@@ -10,18 +21,18 @@ export default function Resources() {
         <hr className={styles.separator} />
         <div className={styles.columns}>
             <div>
-              <Image
-                src="/opportunities/pieyanihan.png"
-                alt="Childish Goombinoes!" 
-                width={1920} 
-                height={1080}
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  objectFit: 'contain',
-                  borderRadius: '5px',
-                  marginTop: '1rem'
-                }}
+              <ImageSlot
+                slot="pieyanihan"
+                src={images.pieyanihan}
+                editable={isBoardMember}
+                targetDir="opportunities"
+                onImageReplaced={(newUrl) =>
+                  setImages((prev) => ({
+                    ...prev,
+                    pieyanihan: `${newUrl}?t=${Date.now()}` // 👈 force refresh
+                  }))
+                }
+                className={styles.replaceableImage}
               />
             </div>
             <div>
@@ -38,18 +49,17 @@ export default function Resources() {
         <hr className={styles.separator} />
         <div className={styles.columns}>
             <div>
-              <Image
-                src="/opportunities/board.jpg"
-                alt="PIES Board and interns" 
-                width={1920} 
-                height={1080}
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  objectFit: 'contain',
-                  borderRadius: '5px',
-                  marginTop: '1rem'
-                }}
+              <ImageSlot
+                slot="board"
+                src={images.board}
+                editable={isBoardMember}
+                targetDir="opportunities"
+                onImageReplaced={(newUrl) =>
+                  setImages((prev) => ({
+                    ...prev,
+                    board: `${newUrl}?t=${Date.now()}` // 👈 force refresh
+                  }))
+                }
               />
             </div>
             <div>
@@ -58,20 +68,6 @@ export default function Resources() {
                 {/* remember to add link for Internship Application */}
                 Applications for Winter/Spring 2025: 24/25 Internship Application
                 </p>
-            </div>
-        </div>
-        <hr className={styles.separator} />
-      </div>
-      <div className={styles.subsection}>
-        <h1 className={styles.subHeader}>PIES PROJECTS</h1>
-        <hr className={styles.separator} />
-        <div className={styles.columns}>
-            <div></div>
-            <div>
-                <h1>Liwanag (Tagalog App Project)</h1>
-                <p>The Liwanag App Project team is currently working on building a language learning app for anyone who wants to learn Tagalog!<br/>
-                Open Positions: Testers<br />
-                Apply Here!</p>
             </div>
         </div>
         <hr className={styles.separator} />

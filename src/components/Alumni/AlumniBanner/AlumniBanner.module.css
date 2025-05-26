@@ -1,0 +1,78 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 2rem;
+    background-color: var(--primary-red);
+}
+  
+.box {
+    border: 3px solid var(--off-yellow);
+    padding: 1rem;
+}
+
+.header {
+    font-size: 4rem;
+    font-family: var(--font-display);
+    text-align: center;
+    color: var(--off-yellow);
+}
+  
+.subsection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+ }
+  
+.subHeader {
+    font-size: 2rem;
+    font-family: var(--font-display);
+    color: var(--off-yellow);
+    text-align: left;
+    margin-left: 0;
+    margin-top: 1rem;
+    line-height: 2rem;
+}
+
+.separator {
+    color: var(--off-yellow);
+    background-color: var(--off-yellow);
+    height: 3px;
+    /* margin: 2rem; */
+}
+
+.grid {
+    display: flex;
+}
+  
+.left {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+  
+.leftTop,
+.leftBottom {
+    flex: 1;
+    padding: 1rem;
+}
+  
+.right {
+    flex: 1;
+    padding: 1rem;
+}
+  
+.contactText {
+    font-family: var(--font-normal);
+    color: var(--off-yellow);
+    font-size: 1.4rem;
+}
+
+.dbHeader {
+    font-size: 3rem;
+    text-align: left;
+    font-family: var(--font-display);
+    color: var(--off-yellow);
+}
