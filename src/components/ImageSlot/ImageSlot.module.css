@@ -1,0 +1,35 @@
+.wrapper {
+  position: relative;
+  width: 100%; /* parent can override */
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9; /* or let it be dynamic if not fixed */
+}
+
+.image {
+  border-radius: 8px;
+  object-fit: contain;
+  transition: 0.3s ease;
+}
+
+.editButton {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  cursor: pointer;
+  display: none;
+}
+
+.wrapper:hover .editButton {
+  display: block;
+}

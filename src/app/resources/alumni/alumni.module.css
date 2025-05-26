@@ -207,3 +207,11 @@
       width: 100%;
     }
 }
+
+.replacableImage {
+  width: 70%;
+  position: relative;
+  border-radius: 10px;
+  border: 4px solid var(--off-yellow);
+  aspect-ratio: 16 / 9; /* if desired */
+}
