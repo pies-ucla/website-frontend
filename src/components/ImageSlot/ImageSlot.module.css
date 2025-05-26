@@ -1,19 +1,23 @@
 .wrapper {
   position: relative;
-  width: 100%; /* parent can override */
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .imageContainer {
   position: relative;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9; /* or let it be dynamic if not fixed */
 }
 
 .image {
-  border-radius: 8px;
+  max-height: 100%;
+  max-width: 100%;
+  height: auto;
+  width: auto;
   object-fit: contain;
-  transition: 0.3s ease;
+  display: block;
 }
 
 .editButton {

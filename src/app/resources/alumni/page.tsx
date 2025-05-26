@@ -106,7 +106,7 @@ export default function Alumni() {
                   uncs: `${newUrl}?t=${Date.now()}` // 👈 force refresh
                 }))
               }
-              className={styles.replacableImage}
+              className={styles.replaceableImage}
             />
           </div>
         </div>
