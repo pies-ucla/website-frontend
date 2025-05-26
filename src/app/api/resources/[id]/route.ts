@@ -1,11 +1,18 @@
-// app/api/alumni/route.ts
 import { cookies } from 'next/headers';
+import { NextRequest } from 'next/server';
 
-export async function GET() {
+const API_BASE_URL = 'http://localhost:8000/resources/';
+
+async function getToken() {
   const cookieStore = await cookies();
-  const token = cookieStore.get('access_token')?.value;
-  console.log("token", token);
-  
+  return cookieStore.get('access_token')?.value;
+}
+
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+  const token = await getToken();
+  const param = await params;
+  const id = await param.id;
+
   if (!token) {
     return new Response(JSON.stringify({ error: 'Not authenticated' }), {
       status: 401,
@@ -14,23 +21,19 @@ export async function GET() {
   }
 
   try {
-    const response = await fetch('http://localhost:8000/resources/', {
+    const body = await req.json();
+    const response = await fetch(`${API_BASE_URL}${id}/`, {
+      method: 'PATCH',
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify(body),
     });
-
-    if (!response.ok) {
-      return new Response(JSON.stringify({ error: 'Failed to fetch resources' }), {
-        status: response.status,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
 
     const data = await response.json();
     return new Response(JSON.stringify(data), {
-      status: 200,
+      status: response.status,
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
@@ -41,10 +44,10 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('access_token')?.value;
-
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+  const token = await getToken();
+  const param = await params;
+  const id = await param.id;
   if (!token) {
     return new Response(JSON.stringify({ error: 'Not authenticated' }), {
       status: 401,
@@ -53,22 +56,15 @@ export async function POST(request: Request) {
   }
 
   try {
-    const body = await request.json();
-
-    const response = await fetch('http://localhost:8000/resources/', {
-      method: 'POST',
+    const response = await fetch(`${API_BASE_URL}${id}/`, {
+      method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(body),
     });
 
-    const data = await response.json();
-
-    return new Response(JSON.stringify(data), {
+    return new Response(null, {
       status: response.status,
-      headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
     return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
