@@ -4,17 +4,21 @@ import { useEffect, useState } from 'react';
 import styles from './board.module.css';
 import { useAuth } from '@/context/AuthContext';
 
+// Types
+
+type User = {
+  pk: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  major: string;
+  minor?: string | null;
+  position: string;
+};
+
 type BoardMember = {
   id: number;
-  user: {
-    pk: number;
-    email: string;
-    first_name: string;
-    last_name: string;
-    major: string;
-    minor?: string | null;
-    position: string;
-  };
+  user: User;
   role: string;
   description?: string | null;
   graduation_year: number;
@@ -36,10 +40,8 @@ function getYearLevel(graduationYear: number): string {
   const now = new Date();
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth();
-
   const academicYear = currentMonth < 6 ? currentYear - 1 : currentYear;
   const diff = graduationYear - academicYear;
-
   const yearMap: { [key: number]: string } = {
     0: "Just graduated! :,)",
     1: "4th year",
@@ -47,7 +49,6 @@ function getYearLevel(graduationYear: number): string {
     3: "2nd year",
     4: "1st year"
   };
-
   return yearMap[diff] || `${Math.max(5 - diff, 1)}th+ year`;
 }
 
@@ -58,91 +59,39 @@ export default function BoardPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formState, setFormState] = useState<Partial<BoardMember>>({
-    user: {
-      pk: 0,
-      email: "",
-      first_name: "",
-      last_name: "",
-      major: "",
-      minor: "",
-      position: "",
-    },
-    role: "",
+    user: undefined,
+    role: '',
     graduation_year: new Date().getFullYear(),
-    description: "",
-    pie: "",
+    description: '',
+    pie: '',
   });
 
   useEffect(() => {
-    const fetchBoard = async () => {
-      try {
-        const res = await fetch('/api/board');
-        const data = await res.json();
-        setBoard(data);
-      } catch (err) {
-        console.error("Failed to fetch board:", err);
-      }
-    };
-    fetchBoard();
+    fetch('/api/board')
+      .then(res => res.json())
+      .then(setBoard)
+      .catch(err => console.error('Failed to fetch board:', err));
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const method = isEditing ? 'PATCH' : 'POST';
-    const url = isEditing ? `/api/board/${formState.id}` : '/api/board';
-    const res = await fetch(url, {
-      method,
+    const res = await fetch(`/api/board/${formState.id}`, {
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formState),
     });
     const updated = await res.json();
-    console.log("updaters", updated);
-    setBoard(prev => {
-      if (isEditing) {
-        return prev.map(m => m.id === updated.id ? updated : m);
-      } else {
-        return [...prev, updated];
-      }
-    });
+    setBoard(prev => prev.map(m => m.id === updated.id ? updated : m));
     setModalOpen(false);
-  };
-
-  const handleDelete = async (pk: number) => {
-    await fetch(`/api/board/${pk}`, { method: 'DELETE' });
-    setBoard(prev => prev.filter(m => m.user.pk !== pk));
   };
 
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>Our Board</h1>
 
-      {isBoardMember && (
-        <button className={styles.createButton} onClick={() => {
-          setIsEditing(false);
-          setFormState({
-            user: {
-              pk: 0,
-              email: "",
-              first_name: "",
-              last_name: "",
-              major: "",
-              minor: "",
-              position: "",
-            },
-            role: "",
-            graduation_year: new Date().getFullYear(),
-            description: "",
-            pie: "",
-          });
-          setModalOpen(true);
-        }}>
-          + Add Board Member
-        </button>
-      )}
-
       <div className={styles.columns}>
         {board.map((member, idx) => (
-          <div className={styles.textbox} key={member.user.pk}>
+          <div className={styles.textbox} key={member.id}>
             <div className={styles.boardContainer}>
               <div className={styles.boardMask}>
                 <img
@@ -156,9 +105,8 @@ export default function BoardPage() {
 
             <h1 className={styles.role}>{member.role.replaceAll('_', ' ').toUpperCase()}</h1>
             <h1 className={styles.name}>{member.user.first_name} {member.user.last_name}</h1>
-
             <h2 className={styles.major} onClick={() => setExpandedIdx(prev => prev === idx ? null : idx)}>
-              {getYearLevel(member.graduation_year)} {formatMajor(member.user.major)}
+              {getYearLevel(member.graduation_year)} <br /> {formatMajor(member.user.major)}
               <span className={styles.arrow}>{expandedIdx === idx ? ' ▲' : ' ▼'}</span>
             </h2>
 
@@ -177,7 +125,6 @@ export default function BoardPage() {
                   setIsEditing(true);
                   setModalOpen(true);
                 }}>Edit</button>
-                <button onClick={() => handleDelete(member.user.pk)}>Delete</button>
               </div>
             )}
           </div>
@@ -202,21 +149,18 @@ export default function BoardPage() {
         </div>
       </div>
 
-      {/* Custom Modal */}
+      {/* Modal */}
       {modalOpen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <form className={styles.form} onSubmit={handleSubmit}>
-              <h2>{isEditing ? "Edit" : "Add"} Board Member</h2>
-              <input placeholder="First Name" value={formState.user?.first_name || ''} onChange={e => setFormState({ ...formState, user: { ...formState.user!, first_name: e.target.value } })} />
-              <input placeholder="Last Name" value={formState.user?.last_name || ''} onChange={e => setFormState({ ...formState, user: { ...formState.user!, last_name: e.target.value } })} />
-              <input placeholder="Major" value={formState.user?.major || ''} onChange={e => setFormState({ ...formState, user: { ...formState.user!, major: e.target.value } })} />
+              <h2>Edit Board Member</h2>
               <input placeholder="Role" value={formState.role || ''} onChange={e => setFormState({ ...formState, role: e.target.value })} />
               <input type="number" placeholder="Graduation Year" value={formState.graduation_year || ''} onChange={e => setFormState({ ...formState, graduation_year: parseInt(e.target.value) })} />
               <textarea placeholder="Why did you join PIES?" value={formState.description || ''} onChange={e => setFormState({ ...formState, description: e.target.value })} />
               <input placeholder="Favorite Pie" value={formState.pie || ''} onChange={e => setFormState({ ...formState, pie: e.target.value })} />
               <div className={styles.modalButtons}>
-                <button type="submit">{isEditing ? "Save Changes" : "Create"}</button>
+                <button type="submit">Save Changes</button>
                 <button type="button" onClick={() => setModalOpen(false)}>Cancel</button>
               </div>
             </form>

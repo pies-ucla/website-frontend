@@ -468,3 +468,19 @@
         padding-right: 0;
     }
 }
+
+.adminButton {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.adminButton:hover {
+  background-color: #003f8a;
+}
