@@ -74,10 +74,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     setAccessToken(null);
     setUser(null);
+    setIsBoardMember(false);
     await fetch('/api/auth/logout', {
       method: 'POST',
     });
-
+    setLoading(false);
     router.push("/");
   };
 
