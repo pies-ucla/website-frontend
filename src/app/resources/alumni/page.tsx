@@ -117,8 +117,16 @@ export default function Alumni() {
   return (
     <div className={styles.container}>
       <AlumniBanner />
+      <AlumniFilter
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        filters={filters}
+        applyFilter={applyFilter}
+        removeFilter={removeFilter}
+        clearAllFilters={clearAllFilters}
+      />
       {isBoardMember && (
-        <div style={{ textAlign: "right", margin: "1rem" }}>
+        <div style={{ textAlign: "right",}}>
           <AddAlumniModal
             isOpen={showModal}
             onClose={() => setShowModal(false)}
@@ -131,15 +139,6 @@ export default function Alumni() {
           </button>
         </div>
       )}
-
-      <AlumniFilter
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        filters={filters}
-        applyFilter={applyFilter}
-        removeFilter={removeFilter}
-        clearAllFilters={clearAllFilters}
-      />
 
       <div className={styles.alumniGrid}>
         {filteredAlumni.map((alum, index) => (

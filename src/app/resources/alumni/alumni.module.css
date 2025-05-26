@@ -133,7 +133,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     align-items: start;
 }
   
