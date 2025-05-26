@@ -5,11 +5,11 @@ import Carousel from '@/components/Carousel/Carousel';
 
 export default function About() {
   const carouselImages = [
-    '/carousel/about/kbbq.png',
-    '/carousel/about/dtla.JPG',
-    '/carousel/about/bonfire.JPG',
-    '/carousel/about/retreat.png',
-    '/carousel/about/spcn.JPG',
+    '/carousel/about/about_0.webp',
+    '/carousel/about/about_1.webp',
+    '/carousel/about/about_2.webp',
+    '/carousel/about/about_3.webp',
+    '/carousel/about/about_4.webp',
   ];
 
   return (
@@ -62,6 +62,8 @@ export default function About() {
           images={carouselImages} 
           width={800}   // Specify desired width
           height={600}  // Specify desired height
+          slotPrefix="about"
+          targetDir="carousel/about"
         />
       </div>
     </div>
