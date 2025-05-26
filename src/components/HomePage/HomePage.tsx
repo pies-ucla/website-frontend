@@ -44,9 +44,9 @@ const HomePage = () => {
     .slice(0, 3);
 
   const carouselImages = [
-    '/carousel/home/pi_day.png',
-    '/carousel/home/kbbq.JPG',
-    '/carousel/home/gm.png',
+    '/carousel/home/home_0.webp',
+    '/carousel/home/home_1.webp',
+    '/carousel/home/home_2.webp',
   ];
 
   const fadeInUp = {
@@ -83,6 +83,8 @@ const HomePage = () => {
                 images={carouselImages} 
                 width={800}   // Specify desired width
                 height={600}  // Specify desired height
+                slotPrefix="home"
+                targetDir="carousel/home"
               />
             </motion.div>
             <motion.div 

@@ -3,12 +3,17 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './Carousel.module.css';
+import ImageSlot from '../ImageSlot/ImageSlot';
+import { useAuth } from '@/context/AuthContext';
 
 interface CarouselProps {
   images: string[];
   width?: number;
   height?: number;
   autoScrollInterval?: number; // in milliseconds
+  editable?: boolean;
+  slotPrefix?: string;
+  targetDir?: string; 
 }
 
 const Carousel = ({
@@ -16,36 +21,49 @@ const Carousel = ({
   width = 800,
   height = 600,
   autoScrollInterval = 3000, // default to 3 seconds
+  editable = false,
+  slotPrefix = 'carousel',
+  targetDir = 'carousel',
 }: CarouselProps) => {
   const [isClient, setIsClient] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { isBoardMember } = useAuth();
+  const [imagesState, setImagesState] = useState(
+    images.map((img) => `${img}?t=${Date.now()}`)
+  );
+
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   useEffect(() => {
-    if (!isClient) return;
+    // makes it easier for board members to replace photos if it doesn't autoscroll
+    if (!isClient || isBoardMember) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) =>
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+        prevIndex === imagesState.length - 1 ? 0 : prevIndex + 1
       );
     }, autoScrollInterval);
 
     return () => clearInterval(interval); // cleanup on unmount
-  }, [isClient, images.length, autoScrollInterval]);
+  }, [isClient, isBoardMember, imagesState.length, autoScrollInterval]);
 
   return isClient ? (
     <div className={styles.carousel}>
       <div className={styles.carouselImageContainer}>
-        <Image
-          key={currentIndex}
-          src={images[currentIndex]}
-          alt={`Slide ${currentIndex + 1}`}
-          fill
-          className={styles.carouselImage} // use enter animation class
-          style={{ objectFit: 'contain' }}
+        <ImageSlot
+          slot={`${slotPrefix || 'carousel'}_${currentIndex}`}
+          src={imagesState[currentIndex]}
+          editable={isBoardMember}
+          targetDir={targetDir || 'carousel'}
+          onImageReplaced={(newUrl) => {
+            const updatedImages = [...imagesState];
+            updatedImages[currentIndex] = `${newUrl}?t=${Date.now()}`;
+            setImagesState(updatedImages); // Force re-render
+          }}
+          className={styles.carouselImage}
         />
       </div>
       <div className={styles.indicators}>
