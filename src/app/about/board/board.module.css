@@ -150,3 +150,113 @@
   cursor: pointer;
   user-select: none;
 }
+
+/* Modal overlay and container */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background-color: var(--off-yellow);
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  font-family: var(--font-normal);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Form inputs */
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-family: var(--font-normal);
+  border: 2px solid var(--primary-blue);
+  border-radius: 0.5rem;
+  background-color: white;
+}
+
+.form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Form buttons */
+.modalButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.modalButtons button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-family: var(--font-display);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  background-color: var(--primary-blue);
+  color: var(--off-yellow);
+  transition: background 0.2s ease;
+}
+
+.modalButtons button:hover {
+  background-color: #365888;
+}
+
+/* Create button on main page */
+.createButton {
+  background-color: var(--off-yellow);
+  color: var(--primary-blue);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--primary-blue);
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+.createButton:hover {
+  background-color: var(--primary-blue);
+  color: var(--off-yellow);
+}
+
+/* Edit/Delete buttons inside card */
+.buttonGroup {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.buttonGroup button {
+  background-color: var(--primary-blue);
+  color: var(--off-yellow);
+  font-family: var(--font-normal);
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.buttonGroup button:hover {
+  background-color: #365888;
+}
