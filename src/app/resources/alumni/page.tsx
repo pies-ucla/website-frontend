@@ -5,17 +5,36 @@ import { useEffect, useState } from 'react';
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import ImageSlot from "@/components/ImageSlot/ImageSlot";
+import React from 'react';
+
+function Modal({ isOpen, onClose, children }: {
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}) {
+  if (!isOpen) return null;
+
+  return (
+    <div className={styles.modalOverlay}>
+      <div className={styles.modal}>
+        <button onClick={onClose} className={styles.modalClose}>×</button>
+        {children}
+      </div>
+    </div>
+  );
+}
 
 type Alumni = {
+  pk?: number,
   first_name: string,
   last_name: string,
   year: number,
   major: string,
-  minor: string,
+  minor?: string,
   occupation: string,
-  pie: string,
-  created_time: Date,
-  updated_time: Date,
+  pie?: string,
+  created_time?: Date,
+  updated_time?: Date,
 }
 
 function formatMajor(enumStr: string): string {
@@ -34,7 +53,17 @@ export default function Alumni() {
   const [images, setImages] = useState({
     uncs: `/alumni/uncs.webp?t=${Date.now()}`
   });
+  const [showModal, setShowModal] = useState(false);
 
+  const [newAlum, setNewAlum] = useState<Alumni>({
+    first_name: '',
+    last_name: '',
+    year: new Date().getFullYear(),
+    major: '',
+    minor: '',
+    occupation: '',
+    pie: ''
+  });
 
   useEffect(() => {
     if (!loading && user){
@@ -50,6 +79,38 @@ export default function Alumni() {
       fetchAlumni();
     }
   }, []);
+
+  const handleCreateAlum = async () => {
+    try {
+      // Remove empty optional fields
+      const payload = { ...newAlum };
+      if (!payload.minor?.trim()) delete payload.minor;
+      if (!payload.pie?.trim()) delete payload.pie;
+
+      const res = await fetch('/api/alumni', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        const created = await res.json();
+        setAlumni((prev) => [...prev, created]);
+        setNewAlum({
+          first_name: '',
+          last_name: '',
+          year: new Date().getFullYear(),
+          major: '',
+          minor: '',
+          occupation: '',
+          pie: ''
+        });
+      }
+    } catch (err) {
+      console.error("Failed to create alumni:", err);
+    }
+  };
+
 
   const filteredAlumni = alumni.filter((alum) =>
     filters.every((filter) =>
@@ -103,7 +164,7 @@ export default function Alumni() {
               onImageReplaced={(newUrl) =>
                 setImages((prev) => ({
                   ...prev,
-                  uncs: `${newUrl}?t=${Date.now()}` // 👈 force refresh
+                  uncs: `${newUrl}?t=${Date.now()}`
                 }))
               }
               className={styles.replaceableImage}
@@ -138,7 +199,31 @@ export default function Alumni() {
         </div>
       </div>
 
-      {/* Filter Bar */}
+      {isBoardMember && (
+        <div style={{ textAlign: "right", margin: "1rem" }}>
+          <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+            <h2>Add New Alumni</h2>
+            <input placeholder="First name" value={newAlum.first_name} onChange={(e) => setNewAlum({ ...newAlum, first_name: e.target.value })} />
+            <input placeholder="Last name" value={newAlum.last_name} onChange={(e) => setNewAlum({ ...newAlum, last_name: e.target.value })} />
+            <input placeholder="Year" type="number" value={newAlum.year} onChange={(e) => setNewAlum({ ...newAlum, year: parseInt(e.target.value) })} />
+            <input placeholder="Major" value={newAlum.major} onChange={(e) => setNewAlum({ ...newAlum, major: e.target.value })} />
+            <input placeholder="Minor" value={newAlum.minor} onChange={(e) => setNewAlum({ ...newAlum, minor: e.target.value })} />
+            <input placeholder="Occupation" value={newAlum.occupation} onChange={(e) => setNewAlum({ ...newAlum, occupation: e.target.value })} />
+            <input placeholder="Favorite Pie" value={newAlum.pie} onChange={(e) => setNewAlum({ ...newAlum, pie: e.target.value })} />
+            <button className={styles.button} onClick={async () => {
+                await handleCreateAlum();
+                setShowModal(false);
+              }}>
+              Submit
+            </button>
+</Modal>
+
+          <button className={styles.button} onClick={() => setShowModal(true)}>
+            + Add New Alumni
+          </button>
+        </div>
+      )}
+
       <div className={styles.filterBar}>
         <h1 style={{color: 'white'}}>filter by major</h1>
         <div>
@@ -150,9 +235,9 @@ export default function Alumni() {
             className={styles.searchInput}
           />
           <hr className={styles.separator} style={{ marginTop: '-0.5rem' }} />
-          </div>
-          <button className={styles.button} onClick={applyFilter}>APPLY FILTERS</button>
-          <button className={styles.button} onClick={clearAllFilters}>REMOVE ALL FILTERS</button>
+        </div>
+        <button className={styles.button} onClick={applyFilter}>APPLY FILTERS</button>
+        <button className={styles.button} onClick={clearAllFilters}>REMOVE ALL FILTERS</button>
       </div>
       <div className={styles.activeFilters}>
         {filters.map((filter, index) => (
@@ -162,7 +247,6 @@ export default function Alumni() {
           </span>
         ))}
       </div>
-      {/* Display cards w/ alumni data */}
       <div className={styles.alumniGrid}>
         {filteredAlumni.map((alum, index) => (
           <div key={index} className={[styles.alumniCard, styles.alumniText].join(" ")}>
@@ -175,7 +259,6 @@ export default function Alumni() {
           </div>
         ))}
       </div>
-
     </div>
   );
 }
