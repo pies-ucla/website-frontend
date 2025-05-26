@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import Navbar from '@/components/Navbar/Navbar';
-import Footer from '@/components/Footer/Footer';
 import Modal from '@/components/Modal/Modal';
 import styles from './events.module.css';
+import { useAuth } from '@/context/AuthContext';
 
 type Event = {
   event_name: string;
@@ -26,10 +25,28 @@ const termStartDates: { [term: string]: string } = {
   "Spring 2025": "2025-03-31T18:00:00Z"
 };
 
+function toDatetimeLocal(dateStr: string) {
+  const date = new Date(dateStr);
+  const offset = date.getTimezoneOffset();
+  const local = new Date(date.getTime() - offset * 60000);
+  return local.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:MM"
+}
+
 export default function Events() {
   const [events, setEvents] = useState<Event[]>([]);
   const [termIndex, setTermIndex] = useState(2); // Default: Spring 2025
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const { isBoardMember } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [formState, setFormState] = useState<Omit<Event, "created_time" | "updated_time">>({
+    event_name: "",
+    date_time: "",
+    location: "",
+    link: "",
+    description: "",
+    image_url: null,
+  });
 
   useEffect(() => {
       const fetchEvents = async () => {
@@ -51,6 +68,54 @@ export default function Events() {
 
   const handleRight = () => {
     setTermIndex((prev) => (prev < TERMS.length - 1 ? prev + 1 : 0));
+  };
+
+  const handleCreate = async () => {
+    try {
+      const res = await fetch('/api/events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formState),
+      });
+      const newEvent = await res.json();
+      setEvents((prev) => [...prev, newEvent]);
+      closeModal();
+    } catch (err) {
+      console.error("Error creating event:", err);
+    }
+  };
+
+  const handleEdit = async () => {
+    try {
+      const res = await fetch(`/api/events/${formState.pk}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formState),
+      });
+      const updatedEvent = await res.json();
+      setEvents((prev) => prev.map(ev => (ev.pk === updatedEvent.pk ? updatedEvent : ev)));
+      closeModal();
+    } catch (err) {
+      console.error("Error updating event:", err);
+    }
+  };
+
+  const handleDelete = async (eventToDelete: Event) => {
+    try {
+      console.log('event to delete', eventToDelete)
+      await fetch(`/api/events/${eventToDelete.pk}`, { method: 'DELETE' });
+      setEvents((prev) => prev.filter(ev => ev.event_name !== eventToDelete.event_name));
+      setSelectedEvent(null);
+    } catch (err) {
+      console.error("Error deleting event:", err);
+    }
+  };
+
+  const closeModal = () => {
+    setSelectedEvent(null);
+    setIsEditing(false);
+    setModalOpen(false);
+    setFormState({ event_name: "", date_time: "", location: "", link: "", description: "", image_url: null });
   };
 
   const selectedTerm = TERMS[termIndex];
@@ -82,7 +147,26 @@ export default function Events() {
     <>
       <main className={styles.main}>
         <h1 className={styles.header}>Events</h1>
-
+        {isBoardMember && (
+          <button
+            className={styles.createButton}
+            onClick={() => {
+              setFormState({
+                event_name: "",
+                date_time: "",
+                location: "",
+                link: "",
+                description: "",
+                image_url: null
+              });
+              setIsEditing(false);
+              setSelectedEvent(null);
+              setModalOpen(true); // ✅ explicitly open the modal
+            }}
+          >
+            + Create Event
+          </button>
+        )}
         <div className={styles.termSelector}>
           <div className={styles.triangle} onClick={handleLeft} data-dir="left" />
           <span className={styles.termText}>{selectedTerm}</span>
@@ -129,21 +213,48 @@ export default function Events() {
       </main>
 
       {/* Modal */}
-      <Modal isOpen={!!selectedEvent} onClose={() => setSelectedEvent(null)}>
-        {selectedEvent && (
+        <Modal isOpen={modalOpen || selectedEvent !== null} onClose={() => {
+          closeModal();
+          setModalOpen(false); // ✅ close modal explicitly
+        }}>
+        {selectedEvent && !isEditing ? (
           <div className={styles.modalContent}>
             <h1>{selectedEvent.event_name}</h1>
             <h2>{selectedEvent.description}</h2>
-            <p>{new Date(selectedEvent.date_time).toLocaleString(undefined, {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              hour: 'numeric',
-              minute: '2-digit',
-              hour12: true
-            })}</p>
+            <p>{new Date(selectedEvent.date_time).toLocaleString()}</p>
             <p>{selectedEvent.location}</p>
+
+            {isBoardMember && (
+              <div className={styles.modalButtons}>
+                <button onClick={() => {
+                  setFormState({
+                    ...selectedEvent,
+                    date_time: toDatetimeLocal(selectedEvent.date_time),
+                  });
+                  setIsEditing(true);
+                  setModalOpen(true);
+                }}>Edit ✎</button>
+                <button onClick={() => handleDelete(selectedEvent)}>Delete 🗑</button>
+              </div>
+            )}
           </div>
+        ) : (
+          <form
+            className={styles.form}
+            onSubmit={(e) => {
+              e.preventDefault();
+              isEditing ? handleEdit() : handleCreate();
+            }}
+          >
+            <h2>{isEditing ? "Edit Event" : "Create Event"}</h2>
+            <input required placeholder="Event Name" value={formState.event_name} onChange={(e) => setFormState({ ...formState, event_name: e.target.value })} />
+            <input required type="datetime-local" value={formState.date_time} onChange={(e) => setFormState({ ...formState, date_time: e.target.value })} />
+            <input required placeholder="Location" value={formState.location} onChange={(e) => setFormState({ ...formState, location: e.target.value })} />
+            <input required placeholder="Link" value={formState.link} onChange={(e) => setFormState({ ...formState, link: e.target.value })} />
+            <textarea required placeholder="Description" value={formState.description} onChange={(e) => setFormState({ ...formState, description: e.target.value })} />
+            <input placeholder="Image URL (optional)" value={formState.image_url || ""} onChange={(e) => setFormState({ ...formState, image_url: e.target.value })} />
+            <button type="submit">{isEditing ? "Save Changes" : "Create Event"}</button>
+          </form>
         )}
       </Modal>
     </>
