@@ -2,12 +2,11 @@
 
 import styles from "./alumni.module.css";
 import { useEffect, useState } from 'react';
-import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
-import ImageSlot from "@/components/ImageSlot/ImageSlot";
-import AddAlumniModal from "@/components/Alumni/AddAlumniModal";
+import AddAlumniModal from "@/components/Alumni/AddAlumniModal/AddAlumniModal";
 import AlumniBanner from "@/components/Alumni/AlumniBanner/AlumniBanner";
 import AlumniFilter from "@/components/Alumni/AlumniFilter/AlumniFilter";
+import EditAlumniModal from "@/components/Alumni/EditAlumniModal/EditAlumniModal";
 
 function formatMajor(enumStr: string): string {
   const namePart = enumStr.replace(/^(ba|bs|undeclared)_/, '');
@@ -36,6 +35,8 @@ export default function Alumni() {
   const [inputValue, setInputValue] = useState('');
   const [filters, setFilters] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const [editingAlum, setEditingAlum] = useState<Alumni | null>(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [newAlum, setNewAlum] = useState<Alumni>({
     first_name: '',
     last_name: '',
@@ -45,6 +46,26 @@ export default function Alumni() {
     occupation: '',
     pie: ''
   });
+
+  const handleEditAlum = async () => {
+    if (!editingAlum?.pk) return;
+    const payload = { ...editingAlum };
+    if (!payload.minor?.trim()) delete payload.minor;
+    if (!payload.pie?.trim()) delete payload.pie;
+
+    const res = await fetch(`/api/alumni/${payload.pk}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      const updated = await res.json();
+      setAlumni((prev) => prev.map(a => a.pk === updated.pk ? updated : a));
+      setEditModalOpen(false);
+      setEditingAlum(null);
+    }
+  };
 
   useEffect(() => {
     if (!loading && user){
@@ -116,6 +137,15 @@ export default function Alumni() {
 
   return (
     <div className={styles.container}>
+      {editingAlum && (
+        <EditAlumniModal
+          isOpen={editModalOpen}
+          onClose={() => setEditModalOpen(false)}
+          alumni={editingAlum}
+          onChange={setEditingAlum}
+          onSubmit={handleEditAlum}
+        />
+      )}
       <AlumniBanner />
       <AlumniFilter
         inputValue={inputValue}
@@ -149,6 +179,18 @@ export default function Alumni() {
             <h2>UCLA Class of {alum.year}</h2>
             <h2>Major: {formatMajor(alum.major)}</h2>
             <h2>Current occupation: {alum.occupation}</h2>
+            {isBoardMember && (
+              <button
+                className={styles.button}
+                style={{ marginTop: "0.5rem" }}
+                onClick={() => {
+                  setEditingAlum(alum);
+                  setEditModalOpen(true);
+                }}
+              >
+                ✎ Edit
+              </button>
+            )}
           </div>
         ))}
       </div>
