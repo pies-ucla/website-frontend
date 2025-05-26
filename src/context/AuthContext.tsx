@@ -49,11 +49,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(user);
   };
 
-  const logout = () => {
+  const logout = async () => {
     setAccessToken(null);
     setUser(null);
-    // Note: this won't clear HttpOnly refresh_token cookie.
-    // Add a backend route to delete cookie later if needed.
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+    });
+    
     router.push("/");
   };
 
