@@ -260,3 +260,10 @@
 .buttonGroup button:hover {
   background-color: #365888;
 }
+
+.replaceableImage {
+  margin: 1rem auto;
+  max-width: 200px;
+  min-height: 50px;
+  z-index: 100;
+}

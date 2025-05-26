@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Image from "next/image";
 import styles from "./ImageSlot.module.css";
 
 interface ImageSlotProps {
@@ -48,7 +47,6 @@ const ImageSlot = ({
 
       if (res.ok) {
         const data = await res.json();
-        // ✅ Bust cache by appending ?t=timestamp
         const newUrl = `${data.newImageUrl}?t=${Date.now()}`;
         onImageReplaced?.(newUrl);
       } else {
@@ -62,35 +60,31 @@ const ImageSlot = ({
   };
 
   return (
-    <div className={`${styles.wrapper} ${className}`}>
+    <div
+      className={`${styles.wrapper} ${editable ? styles.editable : ""} ${className}`}
+      onClick={handleClick}
+    >
       <div className={styles.imageContainer}>
-       <img
-        src={src}
-        alt={slot}
-        className={styles.image}
-        style={{
-          width: "100%",
-          height: "auto",
-          objectFit: "contain",
-          borderRadius: "8px"
-        }}
-      />
+        <img
+          src={src}
+          alt={slot}
+          className={styles.image}
+        />
+        {editable && (
+          <>
+            <div className={styles.overlay}>
+              <span className={styles.replaceText}>{loading ? "Uploading…" : "Replace"}</span>
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              ref={inputRef}
+              onChange={handleChange}
+              hidden
+            />
+          </>
+        )}
       </div>
-
-      {editable && (
-        <>
-          <button className={styles.editButton} onClick={handleClick} disabled={loading}>
-            {loading ? "Uploading…" : "Replace"}
-          </button>
-          <input
-            type="file"
-            accept="image/*"
-            ref={inputRef}
-            onChange={handleChange}
-            hidden
-          />
-        </>
-      )}
     </div>
   );
 };

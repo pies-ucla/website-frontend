@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import styles from './board.module.css';
 import { useAuth } from '@/context/AuthContext';
+import ImageSlot from '@/components/ImageSlot/ImageSlot';
 
 // Types
 
@@ -94,10 +95,21 @@ export default function BoardPage() {
           <div className={styles.textbox} key={member.id}>
             <div className={styles.boardContainer}>
               <div className={styles.boardMask}>
-                <img
+                <ImageSlot
+                  slot={`profile_${member.user.pk}`}
                   src={member.profile_picture_url || '/default-profile.png'}
-                  alt={`${member.user.first_name} ${member.user.last_name}`}
-                  className={styles.boardPhoto}
+                  editable={isBoardMember}
+                  targetDir="board"
+                  className={styles.replaceableImage}
+                  onImageReplaced={(newUrl) =>
+                    setBoard((prev) =>
+                      prev.map((m) =>
+                        m.id === member.id
+                          ? { ...m, profile_picture_url: `${newUrl}?t=${Date.now()}` }
+                          : m
+                      )
+                    )
+                  }
                 />
               </div>
               <img src="/pie-tin.png" alt="Frame" className={styles.boardFrameImage} />
