@@ -72,20 +72,6 @@ export default function Resources() {
         </div>
         <hr className={styles.separator} />
       </div>
-      <div className={styles.subsection}>
-        <h1 className={styles.subHeader}>PIES PROJECTS</h1>
-        <hr className={styles.separator} />
-        <div className={styles.columns}>
-            <div></div>
-            <div>
-                <h1>Liwanag (Tagalog App Project)</h1>
-                <p>The Liwanag App Project team is currently working on building a language learning app for anyone who wants to learn Tagalog!<br/>
-                Open Positions: Testers<br />
-                Apply Here!</p>
-            </div>
-        </div>
-        <hr className={styles.separator} />
-      </div>
     </div>
   );
 }
