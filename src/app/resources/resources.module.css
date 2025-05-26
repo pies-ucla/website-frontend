@@ -30,6 +30,8 @@
   color: var(--off-yellow);
   background-color: var(--off-yellow);
   height: 3px;
+  border: none;
+  margin: 1rem 0;
 }
 
 .cardsContainer {
@@ -47,6 +49,9 @@
   width: 300px;
   background-color: var(--off-yellow);
   transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .card:hover {
@@ -56,28 +61,59 @@
 .card h2 {
   font-family: var(--font-display);
   color: var(--primary-red);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .card p {
   font-family: var(--font-normal);
   color: var(--primary-red);
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
+  font-size: 1.1rem;
 }
 
 .card a {
-  color: var(--off-yellow);
+  color: var(--primary-blue);
   text-decoration: underline;
   font-weight: bold;
+  font-size: 1rem;
+}
+
+.card button {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-left: 0.5rem;
+  color: var(--primary-red);
+}
+
+.button {
+    /* padding: 0.75rem 1.5rem; */
+    padding: 0.1em 0.8rem;
+    background-color: #e4b8a5;
+    color: #b83f3b;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    border: 3px solid var(--off-yellow);
+    border-radius: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+  
+.button:hover {
+    background-color: #f7e7b5;
+    transform: translateY(-2px);
+}
+  
+.button:active {
+    transform: scale(0.98);
 }
 
 .pagination {
   display: flex;
   gap: 1rem;
   justify-content: center;
-  /* margin-top: 1.5rem; */
-  margin: 0.5rem;
+  margin: 1rem 0;
 }
 
 .pageBtn,
