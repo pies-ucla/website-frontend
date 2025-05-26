@@ -66,6 +66,25 @@ export default function Alumni() {
       setEditingAlum(null);
     }
   };
+  const handleDeleteAlum = async (id?: number) => {
+  if (!id) return;
+  if (!confirm("Are you sure you want to delete this alumni?")) return;
+
+  try {
+    const res = await fetch(`/api/alumni/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (res.ok) {
+      setAlumni((prev) => prev.filter(a => a.pk !== id));
+    } else {
+      console.error("Failed to delete alumni");
+    }
+  } catch (err) {
+    console.error("Error deleting alumni:", err);
+  }
+  };
+
 
   useEffect(() => {
     if (!loading && user){
@@ -180,9 +199,9 @@ export default function Alumni() {
             <h2>Major: {formatMajor(alum.major)}</h2>
             <h2>Current occupation: {alum.occupation}</h2>
             {isBoardMember && (
+              <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
               <button
                 className={styles.button}
-                style={{ marginTop: "0.5rem" }}
                 onClick={() => {
                   setEditingAlum(alum);
                   setEditModalOpen(true);
@@ -190,6 +209,14 @@ export default function Alumni() {
               >
                 ✎ Edit
               </button>
+              <button
+                className={styles.button}
+                style={{ backgroundColor: "#b83f3b", color: "white" }}
+                onClick={() => handleDeleteAlum(alum.pk)}
+              >
+                🗑️ Delete
+              </button>
+              </div>
             )}
           </div>
         ))}

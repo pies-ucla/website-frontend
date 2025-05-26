@@ -46,6 +46,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   const token = await getToken();
+  const param = await params;
+  const id = await param.id;
   if (!token) {
     return new Response(JSON.stringify({ error: 'Not authenticated' }), {
       status: 401,
@@ -54,7 +56,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}${params.id}/`, {
+    const response = await fetch(`${API_BASE_URL}${id}/`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
