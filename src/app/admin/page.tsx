@@ -82,7 +82,7 @@ const customSelectStyles: StylesConfig<OptionType, false> = {
 };
 
 export default function Admin() {
-  const { accessToken, isBoardMember } = useAuth();
+  const { accessToken, isAdmin } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [draftUsers, setDraftUsers] = useState<Record<number, DraftUser>>({});
@@ -98,8 +98,8 @@ export default function Admin() {
   }, [accessToken]);
 
   useEffect(() => {
-    if (isBoardMember) fetchUsers();
-  }, [isBoardMember, fetchUsers]);
+    if (isAdmin) fetchUsers();
+  }, [isAdmin, fetchUsers]);
 
   useEffect(() => {
     setFilteredUsers(
@@ -129,7 +129,7 @@ export default function Admin() {
       if (positionChanged) {
         const endpoint = position === "board_member" ? "promote" : "demote";
 
-        if (endpoint === "promote" && !isBoardMember) {
+        if (endpoint === "promote" && !isAdmin) {
           alert("Only admins can promote users to board members.");
           return;
         }
@@ -185,7 +185,7 @@ export default function Admin() {
     await fetchUsers();
   };
 
-  if (!isBoardMember) {
+  if (!isAdmin) {
     return (
       <div className={styles.modalBackdrop}>
         <div className={styles.modal}>
