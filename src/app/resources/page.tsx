@@ -4,8 +4,8 @@ import styles from "./resources.module.css";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import ResourceModal from "@/components/Resources/ResourceModal";
-import { style } from "framer-motion/client";
-
+import { ResourceType, ResourceTypeLabels, enumToArray } from "@/utils/enums";
+import Select from "react-select";
 type Resource = {
   pk?: number;
   resource_type: string;
