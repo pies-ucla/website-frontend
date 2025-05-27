@@ -1,12 +1,19 @@
 // app/api/users/[userId]/demote/route.ts
 import { cookies } from 'next/headers';
 
-export async function POST(_: Request, { params }: { params: { userId: string } }) {
+async function getToken() {
   const cookieStore = await cookies();
-  const token = cookieStore.get('access_token')?.value;
+  return cookieStore.get('access_token')?.value;
+}
+
+export async function POST(_: Request, { params }: { params: { id: string } }) {
+  const token = await getToken();
+  const param = await params;
+  const id = await param.id;
+
   if (!token) return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
 
-  const res = await fetch(`http://localhost:8000/users/${params.userId}/demote/`, {
+  const res = await fetch(`http://localhost:8000/users/${id}/demote/`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}` },
   });

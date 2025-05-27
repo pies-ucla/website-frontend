@@ -18,7 +18,7 @@ export default function Admin() {
   const { user, accessToken, isBoardMember } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
-  const [newUser, setNewUser] = useState<Partial<User>>({});
+  const [draftUsers, setDraftUsers] = useState<Record<number, Partial<User>>>({});
   const [search, setSearch] = useState("");
   const [expandedPk, setExpandedPk] = useState<number | null>(null);
 
@@ -38,20 +38,20 @@ export default function Admin() {
     const res = await fetch("/api/users/", {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    const data = await res.json();
+    const data: User[] = await res.json();
     setUsers(data);
   };
 
   const updateUser = async (u: User) => {
+    const draft = draftUsers[u.pk] || {};
+    const editedUser = { ...u, ...draft };
     const original = users.find((usr) => usr.pk === u.pk);
-    const positionChanged = original?.position !== u.position;
+    const positionChanged = original?.position !== editedUser.position;
 
     try {
-      // Step 1: Promote or demote if position changed
-      if (positionChanged && u.position) {
-        const endpoint = u.position === "board_member" ? "promote" : "demote";
+      if (positionChanged && editedUser.position) {
+        const endpoint = editedUser.position === "board_member" ? "promote" : "demote";
 
-        // Only admins can promote
         if (endpoint === "promote" && user?.position !== "admin") {
           alert("Only admins can promote users to board members.");
           return;
@@ -60,11 +60,11 @@ export default function Admin() {
         const payload =
           endpoint === "promote"
             ? {
-                role: "member", // You can make this editable in the UI later
-                graduation_year: new Date().getFullYear() + 1, // Default or editable
+                role: "member",
+                graduation_year: new Date().getFullYear() + 1,
               }
             : undefined;
-
+        console.log("pk", u.pk)
         const res = await fetch(`/api/users/${u.pk}/${endpoint}/`, {
           method: "POST",
           headers: {
@@ -83,10 +83,9 @@ export default function Admin() {
         }
       }
 
-      // Step 2: Patch the rest of the user data (excluding position)
-      const { first_name, last_name, major, minor } = u;
+      const { first_name, last_name, major, minor } = editedUser;
 
-      const res = await fetch(`/api/users/${u.pk}/`, {
+      const patchRes = await fetch(`/api/users/${u.pk}/`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -95,10 +94,17 @@ export default function Admin() {
         body: JSON.stringify({ first_name, last_name, major, minor }),
       });
 
-      if (!res.ok) {
-        const text = await res.text();
+      if (!patchRes.ok) {
+        const text = await patchRes.text();
         console.error("PATCH failed:", text);
       }
+
+      // Clear draft after successful update
+      setDraftUsers((prev) => {
+        const copy = { ...prev };
+        delete copy[u.pk];
+        return copy;
+      });
 
       fetchUsers();
     } catch (err) {
@@ -144,6 +150,9 @@ export default function Admin() {
 
           {filteredUsers.map((u) => {
             const isExpanded = expandedPk === u.pk;
+            const draft = draftUsers[u.pk] || {};
+            const editedUser = { ...u, ...draft };
+
             return (
               <div key={u.pk} className={styles.textbox}>
                 <div
@@ -156,48 +165,50 @@ export default function Admin() {
 
                 {isExpanded && (
                   <div className={styles.userDetails}>
-                  {(["first_name", "last_name", "major", "minor", "position"] as const).map((field) => {
-                    const isDropdown = field === "position";
-                    const label = field.replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
+                    {(["first_name", "last_name", "major", "minor", "position"] as const).map((field) => {
+                      const isDropdown = field === "position";
+                      const label = field.replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
 
-                    return isDropdown ? (
-                      <select
-                        key={field}
-                        className={styles.input}
-                        value={u.position}
-                        onChange={(e) => {
-                          const updated = users.map((usr) =>
-                            usr.pk === u.pk ? { ...usr, position: e.target.value } : usr
-                          );
-                          setUsers(updated);
-                        }}
-                      >
-                        <option value="user">General Member</option>
-                        <option value="board_member">Board Member</option>
-                        <option value="admin">Admin</option>
-                      </select>
-                    ) : (
-                      <input
-                        key={field}
-                        className={styles.input}
-                        value={u[field] || ""}
-                        placeholder={label}
-                        onChange={(e) => {
-                          const updated = users.map((usr) =>
-                            usr.pk === u.pk ? { ...usr, [field]: e.target.value } : usr
-                          );
-                          setUsers(updated);
-                        }}
-                      />
-                    );
-                  })}
+                      return isDropdown ? (
+                        <select
+                          key={field}
+                          className={styles.input}
+                          value={editedUser.position}
+                          onChange={(e) => {
+                            setDraftUsers((prev) => ({
+                              ...prev,
+                              [u.pk]: {
+                                ...prev[u.pk],
+                                position: e.target.value,
+                              },
+                            }));
+                          }}
+                        >
+                          <option value="user">General Member</option>
+                          <option value="board_member">Board Member</option>
+                          <option value="admin">Admin</option>
+                        </select>
+                      ) : (
+                        <input
+                          key={field}
+                          className={styles.input}
+                          value={(editedUser as any)[field] || ""}
+                          placeholder={label}
+                          onChange={(e) => {
+                            setDraftUsers((prev) => ({
+                              ...prev,
+                              [u.pk]: {
+                                ...prev[u.pk],
+                                [field]: e.target.value,
+                              },
+                            }));
+                          }}
+                        />
+                      );
+                    })}
                     <div className={styles.buttonRow}>
-                      <button className={styles.button} onClick={() => updateUser(u)}>
-                        Save
-                      </button>
-                      <button className={styles.deleteButton} onClick={() => deleteUser(u.pk)}>
-                        Delete
-                      </button>
+                      <button className={styles.button} onClick={() => updateUser(u)}>Save</button>
+                      <button className={styles.deleteButton} onClick={() => deleteUser(u.pk)}>Delete</button>
                     </div>
                   </div>
                 )}
