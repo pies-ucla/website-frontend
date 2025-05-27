@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import styles from './Carousel.module.css';
 import ImageSlot from '../ImageSlot/ImageSlot';
 import { useAuth } from '@/context/AuthContext';
@@ -18,10 +17,7 @@ interface CarouselProps {
 
 const Carousel = ({
   images,
-  width = 800,
-  height = 600,
   autoScrollInterval = 3000, // default to 3 seconds
-  editable = false,
   slotPrefix = 'carousel',
   targetDir = 'carousel',
 }: CarouselProps) => {

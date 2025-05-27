@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 
 export default function AlumniBanner() {
-    const { user, loading, isBoardMember } = useAuth(); 
+    const { isBoardMember } = useAuth(); 
     const [images, setImages] = useState({
         uncs: `/alumni/uncs.png?t=${Date.now()}`
     });

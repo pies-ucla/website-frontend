@@ -4,8 +4,9 @@ import styles from "./resources.module.css";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import ResourceModal from "@/components/Resources/ResourceModal";
-import { ResourceType, ResourceTypeLabels, enumToArray } from "@/utils/enums";
-import Select from "react-select";
+// import { ResourceType, ResourceTypeLabels, enumToArray } from "@/utils/enums";
+// import Select from "react-select";
+
 type Resource = {
   pk?: number;
   resource_type: string;
@@ -20,7 +21,6 @@ function ResourceCard({
   description,
   deadline,
   link,
-  pk,
   onEdit,
   onDelete,
 }: Resource & { onEdit?: () => void; onDelete?: () => void }) {

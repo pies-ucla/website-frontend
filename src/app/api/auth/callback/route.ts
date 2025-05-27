@@ -31,11 +31,12 @@ export async function POST(request: Request) {
             "Content-Type": "application/json",
         },
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : "Unknown error";
         return new Response(
         JSON.stringify({
             error: "Token exchange failed",
-            details: error?.message || "Unknown error",
+            details: message || "Unknown error",
         }),
         { status: 500 }
         );

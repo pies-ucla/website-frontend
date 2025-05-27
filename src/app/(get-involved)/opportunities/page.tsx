@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import styles from "./opportunities.module.css";
 import { useAuth } from "@/context/AuthContext";
 import ImageSlot from "@/components/ImageSlot/ImageSlot";

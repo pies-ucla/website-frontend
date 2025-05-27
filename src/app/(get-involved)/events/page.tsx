@@ -6,6 +6,7 @@ import styles from './events.module.css';
 import { useAuth } from '@/context/AuthContext';
 
 type Event = {
+  id: number;
   event_name: string;
   date_time: string;
   location: string;
@@ -39,7 +40,10 @@ export default function Events() {
   const { isBoardMember } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [formState, setFormState] = useState<Omit<Event, "created_time" | "updated_time">>({
+  const [formState, setFormState] = useState<
+    Omit<Event, "created_time" | "updated_time"> & { id?: number }
+  >({
+    id: 0,
     event_name: "",
     date_time: "",
     location: "",
@@ -87,13 +91,13 @@ export default function Events() {
 
   const handleEdit = async () => {
     try {
-      const res = await fetch(`/api/events/${formState.pk}`, {
+      const res = await fetch(`/api/events/${formState.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formState),
       });
       const updatedEvent = await res.json();
-      setEvents((prev) => prev.map(ev => (ev.pk === updatedEvent.pk ? updatedEvent : ev)));
+      setEvents((prev) => prev.map(ev => (ev.id === updatedEvent.id ? updatedEvent : ev)));
       closeModal();
     } catch (err) {
       console.error("Error updating event:", err);
@@ -102,8 +106,7 @@ export default function Events() {
 
   const handleDelete = async (eventToDelete: Event) => {
     try {
-      console.log('event to delete', eventToDelete)
-      await fetch(`/api/events/${eventToDelete.pk}`, { method: 'DELETE' });
+      await fetch(`/api/events/${eventToDelete.id}`, { method: 'DELETE' });
       setEvents((prev) => prev.filter(ev => ev.event_name !== eventToDelete.event_name));
       setSelectedEvent(null);
     } catch (err) {
@@ -115,7 +118,7 @@ export default function Events() {
     setSelectedEvent(null);
     setIsEditing(false);
     setModalOpen(false);
-    setFormState({ event_name: "", date_time: "", location: "", link: "", description: "", image_url: null });
+    setFormState({ id: 0, event_name: "", date_time: "", location: "", link: "", description: "", image_url: null });
   };
 
   const selectedTerm = TERMS[termIndex];
@@ -152,6 +155,7 @@ export default function Events() {
             className={styles.button}
             onClick={() => {
               setFormState({
+                id: 0,
                 event_name: "",
                 date_time: "",
                 location: "",
@@ -249,7 +253,11 @@ export default function Events() {
             className={styles.form}
             onSubmit={(e) => {
               e.preventDefault();
-              isEditing ? handleEdit() : handleCreate();
+              if (isEditing) {
+                handleEdit();
+              } else {
+                handleCreate();
+              }
             }}
           >
             <h2>{isEditing ? "Edit Event" : "Create Event"}</h2>

@@ -37,7 +37,7 @@ export default function Resources() {
         >
           <button className={styles.button}>GOOGLE DRIVE FOR PHOTOS</button>
         </Link>
-        <p className={styles.caption}>Access to the shared drive for photos! Where'd all the time go...?</p>
+        <p className={styles.caption}>Access to the shared drive for photos! Where&apos;sd all the time go...?</p>
       </div>
       <div className={styles.subsection}>
         <Link

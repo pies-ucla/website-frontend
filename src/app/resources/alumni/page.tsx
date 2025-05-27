@@ -99,7 +99,7 @@ export default function Alumni() {
       };
       fetchAlumni();
     }
-  }, []);
+  }, [loading, user]);
 
   const handleCreateAlum = async () => {
     try {

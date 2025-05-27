@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "./admin.module.css";
 import { useAuth } from "@/context/AuthContext";
-import Select from "react-select";
+import Select, { StylesConfig } from "react-select";
 import { Major, MajorLabels, BoardPositions, BoardPositionLabels, enumToArray } from "@/utils/enums";
 
 type User = {
@@ -21,18 +21,23 @@ type DraftUser = Partial<User> & {
   promotion_year?: number;
 };
 
-const majorOptions = enumToArray(Major).map((value) => ({
+type OptionType = {
+  value: string;
+  label: string;
+};
+
+const majorOptions: OptionType[] = enumToArray(Major).map((value) => ({
   value,
   label: MajorLabels[value] || value,
 }));
 
-const roleOptions = enumToArray(BoardPositions).map((value) => ({
+const roleOptions: OptionType[] = enumToArray(BoardPositions).map((value) => ({
   value,
   label: BoardPositionLabels[value] || value,
 }));
 
-const customSelectStyles = {
-  control: (base: any, state: any) => ({
+const customSelectStyles: StylesConfig<OptionType, false> = {
+  control: (base, state) => ({
     ...base,
     backgroundColor: "white",
     border: "2px solid var(--off-yellow)",
@@ -46,23 +51,23 @@ const customSelectStyles = {
       borderColor: "var(--off-yellow)",
     },
   }),
-  placeholder: (base: any) => ({
+  placeholder: (base) => ({
     ...base,
     color: "#999",
     opacity: 0.8,
   }),
-  singleValue: (base: any) => ({
+  singleValue: (base) => ({
     ...base,
     color: "var(--primary-red)",
   }),
-  menu: (base: any) => ({
+  menu: (base) => ({
     ...base,
     backgroundColor: "white",
     border: "1px solid var(--off-yellow)",
     borderRadius: "10px",
     zIndex: 1000,
   }),
-  option: (base: any, state: any) => ({
+  option: (base, state) => ({
     ...base,
     backgroundColor: state.isSelected
       ? "#e4b8a5"
@@ -77,16 +82,24 @@ const customSelectStyles = {
 };
 
 export default function Admin() {
-  const { user, accessToken, isBoardMember } = useAuth();
+  const { accessToken, isBoardMember } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [draftUsers, setDraftUsers] = useState<Record<number, DraftUser>>({});
   const [search, setSearch] = useState("");
   const [expandedPk, setExpandedPk] = useState<number | null>(null);
 
+  const fetchUsers = useCallback(async () => {
+    const res = await fetch("/api/users/", {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    const data: User[] = await res.json();
+    setUsers(data);
+  }, [accessToken]);
+
   useEffect(() => {
     if (isBoardMember) fetchUsers();
-  }, [isBoardMember]);
+  }, [isBoardMember, fetchUsers]);
 
   useEffect(() => {
     setFilteredUsers(
@@ -95,14 +108,6 @@ export default function Admin() {
       )
     );
   }, [search, users]);
-
-  const fetchUsers = async () => {
-    const res = await fetch("/api/users/", {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    const data: User[] = await res.json();
-    setUsers(data);
-  };
 
   const updateUser = async (u: User) => {
     const draft = draftUsers[u.pk] || {};
@@ -167,7 +172,7 @@ export default function Admin() {
       });
 
       await fetchUsers();
-    } catch (err) {
+    } catch {
       setDraftUsers((prev) => ({ ...prev, [u.pk]: draft }));
     }
   };
@@ -211,7 +216,7 @@ export default function Admin() {
             const isExpanded = expandedPk === u.pk;
             const draft = draftUsers[u.pk] || {};
             const editedUser = { ...u, ...draft };
-
+            type EditableField = "first_name" | "last_name" | "minor" | "position";
             return (
               <div key={u.pk} className={styles.textbox}>
                 <div
@@ -224,7 +229,7 @@ export default function Admin() {
 
                 {isExpanded && (
                   <div className={styles.userDetails}>
-                    {(["first_name", "last_name", "minor", "position"] as const).map((field) => {
+                    {(["first_name", "last_name", "minor", "position"] as EditableField[]).map((field) => {
                       const label = field.replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
 
                       if (field === "position") {
@@ -251,7 +256,7 @@ export default function Admin() {
                         <input
                           key={field}
                           className={styles.input}
-                          value={(editedUser as any)[field] || ""}
+                          value={editedUser[field] || ""}
                           placeholder={label}
                           onChange={(e) =>
                             setDraftUsers((prev) => ({
@@ -263,8 +268,7 @@ export default function Admin() {
                       );
                     })}
 
-                    {/* Custom dropdown for major */}
-                    <Select
+                    <Select<OptionType, false>
                       styles={customSelectStyles}
                       options={majorOptions}
                       value={majorOptions.find((opt) => opt.value === editedUser.major)}
@@ -282,7 +286,7 @@ export default function Admin() {
 
                     {(draft.position === "board_member" || editedUser.position === "board_member") && (
                       <>
-                        <Select
+                        <Select<OptionType, false>
                           styles={customSelectStyles}
                           options={roleOptions}
                           value={roleOptions.find((opt) => opt.value === draft.promotion_role)}

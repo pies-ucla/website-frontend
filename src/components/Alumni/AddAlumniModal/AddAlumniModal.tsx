@@ -2,7 +2,7 @@
 
 import styles from "./AddAlumniModal.module.css";
 import React from "react";
-import Select from "react-select";
+import Select, { StylesConfig } from "react-select";
 import { Major, MajorLabels, enumToArray } from "@/utils/enums";
 
 type Alumni = {
@@ -15,13 +15,26 @@ type Alumni = {
   pie?: string;
 };
 
-const majorOptions = enumToArray(Major).map((value) => ({
+type OptionType = {
+  value: string;
+  label: string;
+};
+
+type AddAlumniModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  newAlum: Alumni;
+  setNewAlum: (a: Alumni) => void;
+  onSubmit: () => Promise<void>;
+};
+
+const majorOptions: OptionType[] = enumToArray(Major).map((value) => ({
   value,
   label: MajorLabels[value] || value,
 }));
 
-const customSelectStyles = {
-  control: (base: any, state: any) => ({
+const customSelectStyles: StylesConfig<OptionType, false> = {
+  control: (base, state) => ({
     ...base,
     backgroundColor: "white",
     border: "2px solid var(--off-yellow)",
@@ -35,23 +48,23 @@ const customSelectStyles = {
       borderColor: "var(--off-yellow)",
     },
   }),
-  placeholder: (base: any) => ({
+  placeholder: (base) => ({
     ...base,
     color: "#999",
     opacity: 0.8,
   }),
-  singleValue: (base: any) => ({
+  singleValue: (base) => ({
     ...base,
     color: "var(--primary-red)",
   }),
-  menu: (base: any) => ({
+  menu: (base) => ({
     ...base,
     backgroundColor: "white",
     border: "1px solid var(--off-yellow)",
     borderRadius: "10px",
     zIndex: 1000,
   }),
-  option: (base: any, state: any) => ({
+  option: (base, state) => ({
     ...base,
     backgroundColor: state.isSelected
       ? "#e4b8a5"
@@ -71,13 +84,7 @@ export default function AddAlumniModal({
   newAlum,
   setNewAlum,
   onSubmit,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-  newAlum: Alumni;
-  setNewAlum: (a: Alumni) => void;
-  onSubmit: () => Promise<void>;
-}) {
+}: AddAlumniModalProps) {
   if (!isOpen) return null;
 
   return (
@@ -100,10 +107,10 @@ export default function AddAlumniModal({
           placeholder="Year"
           type="number"
           value={newAlum.year}
-          onChange={(e) => setNewAlum({ ...newAlum, year: parseInt(e.target.value) })}
+          onChange={(e) => setNewAlum({ ...newAlum, year: parseInt(e.target.value) || 0 })}
         />
 
-        <Select
+        <Select<OptionType, false>
           styles={customSelectStyles}
           options={majorOptions}
           value={majorOptions.find((opt) => opt.value === newAlum.major)}
@@ -118,7 +125,7 @@ export default function AddAlumniModal({
 
         <input
           placeholder="Minor"
-          value={newAlum.minor}
+          value={newAlum.minor || ""}
           onChange={(e) => setNewAlum({ ...newAlum, minor: e.target.value })}
         />
         <input
@@ -128,7 +135,7 @@ export default function AddAlumniModal({
         />
         <input
           placeholder="Favorite Pie"
-          value={newAlum.pie}
+          value={newAlum.pie || ""}
           onChange={(e) => setNewAlum({ ...newAlum, pie: e.target.value })}
         />
 

@@ -58,7 +58,8 @@ export default function BoardPage() {
   const [board, setBoard] = useState<BoardMember[]>([]);
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+  // const [isEditing, setIsEditing] = useState(false);
+  const [, setIsEditing] = useState(false);
   const [formState, setFormState] = useState<Partial<BoardMember>>({
     user: undefined,
     role: '',
@@ -151,7 +152,7 @@ export default function BoardPage() {
             <img src="/pie-tin.png" alt="Frame" className={styles.boardFrameImage} />
           </div>
           <h1 className={styles.role}>MASCOT</h1>
-          <h1 className={styles.name}>Pierre D'Pioneer</h1>
+          <h1 className={styles.name}>Pierre D&apos;Pioneer</h1>
           <h2 className={styles.major}><u>Year:</u> Hmm...a bear never tells his secrets!</h2>
           <p className={styles.content}>
             <u>Favorite Pie:</u> 3.1415926535... <br /><br />
