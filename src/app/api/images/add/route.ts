@@ -18,10 +18,10 @@ export async function POST(req: Request) {
 
     const processedImage = await sharp(buffer)
       .resize({ width: 1920 })
-      .toFormat("webp")
+      .toFormat("png")
       .toBuffer();
 
-    const fileName = `${uuidv4()}.webp`;
+    const fileName = `${uuidv4()}.png`;
     const relativePath = path.join(targetDir, fileName);
     const fullPath = path.join(process.cwd(), "public", relativePath);
 

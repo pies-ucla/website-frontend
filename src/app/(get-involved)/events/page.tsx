@@ -149,7 +149,7 @@ export default function Events() {
         <h1 className={styles.header}>Events</h1>
         {isBoardMember && (
           <button
-            className={styles.createButton}
+            className={styles.button}
             onClick={() => {
               setFormState({
                 event_name: "",
@@ -221,11 +221,16 @@ export default function Events() {
           <div className={styles.modalContent}>
             <h1>{selectedEvent.event_name}</h1>
             <h2>{selectedEvent.description}</h2>
-            <p>{new Date(selectedEvent.date_time).toLocaleString()}</p>
+            <p>
+              {new Date(selectedEvent.date_time).toLocaleString(undefined, {
+                dateStyle: "medium",
+                timeStyle: "short", // removes seconds
+              })}
+            </p>
             <p>{selectedEvent.location}</p>
 
             {isBoardMember && (
-              <div className={styles.modalButtons}>
+              <div className={styles.buttons}>
                 <button onClick={() => {
                   setFormState({
                     ...selectedEvent,
@@ -233,8 +238,9 @@ export default function Events() {
                   });
                   setIsEditing(true);
                   setModalOpen(true);
-                }}>Edit ✎</button>
-                <button onClick={() => handleDelete(selectedEvent)}>Delete 🗑</button>
+                }}
+                 className={styles.button}>Edit ✎</button>
+                <button onClick={() => handleDelete(selectedEvent)} className={styles.button}>Delete 🗑</button>
               </div>
             )}
           </div>
@@ -253,7 +259,7 @@ export default function Events() {
             <input required placeholder="Link" value={formState.link} onChange={(e) => setFormState({ ...formState, link: e.target.value })} />
             <textarea required placeholder="Description" value={formState.description} onChange={(e) => setFormState({ ...formState, description: e.target.value })} />
             <input placeholder="Image URL (optional)" value={formState.image_url || ""} onChange={(e) => setFormState({ ...formState, image_url: e.target.value })} />
-            <button type="submit">{isEditing ? "Save Changes" : "Create Event"}</button>
+            <button type="submit" className={styles.button}>{isEditing ? "Save Changes" : "Create Event"}</button>
           </form>
         )}
       </Modal>

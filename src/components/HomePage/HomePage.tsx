@@ -44,9 +44,9 @@ const HomePage = () => {
     .slice(0, 3);
 
   const carouselImages = [
-    '/carousel/home/home_0.webp',
-    '/carousel/home/home_1.webp',
-    '/carousel/home/home_2.webp',
+    '/carousel/home/home_0.png',
+    '/carousel/home/home_1.png',
+    '/carousel/home/home_2.png',
   ];
 
   const fadeInUp = {
