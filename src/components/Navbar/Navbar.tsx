@@ -45,8 +45,8 @@ export default function Navbar() {
                     className={styles.logoImage}
                 />
                 <div className={styles.getInvolvedBox}>
-                    <Link href="/get-involved">
-                    Bi-weekly meetings from 6–8pm on Tuesdays!
+                    <Link href="/opportunities">
+                    Bi-weekly meetings from 6-8pm on Tuesdays!
                     </Link>
                 </div>
             </div>
