@@ -15,7 +15,7 @@ export default function About() {
     '/carousel/about/about_4.png',
   ];
 
-  const { isBoardMember } = useAuth();
+  const { isBoardMember, isAdmin } = useAuth();
   const [images, setImages] = useState({
       vision: `/about/vision.png?t=${Date.now()}`,
       mission: `/about/mission.png?t=${Date.now()}`,
@@ -33,7 +33,7 @@ export default function About() {
             <ImageSlot
               slot="vision"
               src={images.vision}
-              editable={isBoardMember}
+              editable={isBoardMember || isAdmin}
               targetDir="about"
               onImageReplaced={(newUrl) =>
                 setImages((prev) => ({
@@ -52,7 +52,7 @@ export default function About() {
             <ImageSlot
               slot="mission"
               src={images.mission}
-              editable={isBoardMember}
+              editable={isBoardMember || isAdmin}
               targetDir="about"
               onImageReplaced={(newUrl) =>
                 setImages((prev) => ({

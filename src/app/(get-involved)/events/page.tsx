@@ -37,7 +37,7 @@ export default function Events() {
   const [events, setEvents] = useState<Event[]>([]);
   const [termIndex, setTermIndex] = useState(2); // Default: Spring 2025
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  const { isBoardMember } = useAuth();
+  const { isBoardMember, isAdmin } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [formState, setFormState] = useState<
@@ -150,7 +150,7 @@ export default function Events() {
     <>
       <main className={styles.main}>
         <h1 className={styles.header}>Events</h1>
-        {isBoardMember && (
+        {(isBoardMember || isAdmin) && (
           <button
             className={styles.button}
             onClick={() => {
@@ -233,7 +233,7 @@ export default function Events() {
             </p>
             <p>{selectedEvent.location}</p>
 
-            {isBoardMember && (
+            {(isBoardMember || isAdmin) && (
               <div className={styles.buttons}>
                 <button onClick={() => {
                   setFormState({

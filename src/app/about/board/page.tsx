@@ -55,7 +55,7 @@ function getYearLevel(graduationYear: number): string {
 }
 
 export default function BoardPage() {
-  const { isBoardMember } = useAuth();
+  const { isBoardMember, isAdmin } = useAuth();
   const [board, setBoard] = useState<BoardMember[]>([]);
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -81,7 +81,7 @@ export default function BoardPage() {
   // Strip out empty fields
     const cleanBody = Object.fromEntries(
       Object.entries(formState).filter(
-        ([_, value]) => value !== undefined && value !== null && value !== ''
+        ([, value]) => value !== undefined && value !== null && value !== ''
       )
     );
 
@@ -139,7 +139,8 @@ export default function BoardPage() {
 
       <div className={styles.columns}>
         {sortedBoard.map((member, idx) => {
-          const slot = slotMap.get(member.id) ; // 👈 Add this line
+          const slot = slotMap.get(member.id);
+          if (!slot) return null;
 
           return (
             <div className={styles.textbox} key={member.id}>
@@ -148,7 +149,7 @@ export default function BoardPage() {
                   <ImageSlot
                     slot={slot}
                     src={`/board/${slot}.png`}
-                    editable={isBoardMember}
+                    editable={isBoardMember || isAdmin}
                     targetDir="board"
                     className={styles.replaceableImage}
                     onImageReplaced={() =>
@@ -184,7 +185,7 @@ export default function BoardPage() {
                 </p>
               )}
 
-              {isBoardMember && (
+              {(isBoardMember || isAdmin) && (
                 <div className={styles.buttonGroup}>
                   <button onClick={() => {
                     setFormState(member);

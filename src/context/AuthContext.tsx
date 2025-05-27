@@ -91,6 +91,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setAccessToken(null);
     setUser(null);
     setIsBoardMember(false);
+    setIsAdmin(false);
     await fetch('/api/auth/logout', {
       method: 'POST',
     });

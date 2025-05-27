@@ -23,7 +23,7 @@ const Carousel = ({
 }: CarouselProps) => {
   const [isClient, setIsClient] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { isBoardMember } = useAuth();
+  const { isBoardMember, isAdmin } = useAuth();
   const [imagesState, setImagesState] = useState(
     images.map((img) => `${img}?t=${Date.now()}`)
   );
@@ -35,7 +35,7 @@ const Carousel = ({
 
   useEffect(() => {
     // makes it easier for board members to replace photos if it doesn't autoscroll
-    if (!isClient || isBoardMember) return;
+    if (!isClient || isBoardMember || isAdmin) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) =>
@@ -44,7 +44,7 @@ const Carousel = ({
     }, autoScrollInterval);
 
     return () => clearInterval(interval); // cleanup on unmount
-  }, [isClient, isBoardMember, imagesState.length, autoScrollInterval]);
+  }, [isClient, isBoardMember, isAdmin, imagesState.length, autoScrollInterval]);
 
   return isClient ? (
     <div className={styles.carousel}>
@@ -52,7 +52,7 @@ const Carousel = ({
         <ImageSlot
           slot={`${slotPrefix || 'carousel'}_${currentIndex}`}
           src={imagesState[currentIndex]}
-          editable={isBoardMember}
+          editable={isBoardMember || isAdmin}
           targetDir={targetDir || 'carousel'}
           onImageReplaced={(newUrl) => {
             const updatedImages = [...imagesState];
