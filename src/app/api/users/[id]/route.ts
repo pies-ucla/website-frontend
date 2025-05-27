@@ -8,10 +8,41 @@ async function getToken() {
   return cookieStore.get('access_token')?.value;
 }
 
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+  const token = await getToken();
+  const id = params.id;
+
+  if (!token) {
+    return new Response(JSON.stringify({ error: 'Not authenticated' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}${id}/`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+    return new Response(JSON.stringify(data), {
+      status: response.status,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+}
+
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   const token = await getToken();
-  const param = await params;
-  const id = await param.id;
+  const id = params.id;
 
   if (!token) {
     return new Response(JSON.stringify({ error: 'Not authenticated' }), {
@@ -46,8 +77,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   const token = await getToken();
-  const param = await params;
-  const id = await param.id;
+  const id = params.id;
+
   if (!token) {
     return new Response(JSON.stringify({ error: 'Not authenticated' }), {
       status: 401,
