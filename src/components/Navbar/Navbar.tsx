@@ -37,33 +37,17 @@ export default function Navbar() {
     return (
         <>
             <div className={styles.socialBar}>
-                <div className={styles.socialBox}>
-                    
-                <div className={styles.socialBox1}>
-                   <div className={styles.logoContainer1}>
-                     <Image 
-                        src="/logo-placeholder.png" 
-                        alt="PIES" 
-                        width={50} 
-                        height={50}
-                        className={styles.logoImage}
-                     />
-                    </div>
-
-                    <div className={styles.logoContainer}>
-                     <Image 
-                        src="/logo-placeholder.png" 
-                        alt="PIES Logo" 
-                        width={50} 
-                        height={50}
-                        className={styles.logoImage}
-                     />
-                    </div>
-                    <div className={styles.clickHereToGetInvolved}>
-                    <Link href="/get-involved">Bi-weekly meetings from 6-8pm on Tuesdays!</Link>
-                    </div>
-                </div>
-              
+                <Image
+                    src="/icons/logo.png"
+                    alt="PIE"
+                    width={50}
+                    height={50}
+                    className={styles.logoImage}
+                />
+                <div className={styles.getInvolvedBox}>
+                    <Link href="/get-involved">
+                    Bi-weekly meetings from 6–8pm on Tuesdays!
+                    </Link>
                 </div>
             </div>
             <nav className={styles.navbar}>
