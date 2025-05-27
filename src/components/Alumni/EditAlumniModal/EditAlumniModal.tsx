@@ -2,7 +2,7 @@
 
 import styles from "../AddAlumniModal/AddAlumniModal.module.css";
 import React from "react";
-import Select from "react-select";
+import Select, { StylesConfig } from "react-select";
 import { Major, MajorLabels, enumToArray } from "@/utils/enums";
 
 type Alumni = {
@@ -16,6 +16,11 @@ type Alumni = {
   pie?: string;
 };
 
+type OptionType = {
+  value: string;
+  label: string;
+};
+
 type EditAlumniModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -24,13 +29,13 @@ type EditAlumniModalProps = {
   onSubmit: () => void;
 };
 
-const majorOptions = enumToArray(Major).map((value) => ({
+const majorOptions: OptionType[] = enumToArray(Major).map((value) => ({
   value,
   label: MajorLabels[value] || value,
 }));
 
-const customSelectStyles = {
-  control: (base: any, state: any) => ({
+const customSelectStyles: StylesConfig<OptionType, false> = {
+  control: (base, state) => ({
     ...base,
     backgroundColor: "white",
     border: "2px solid var(--off-yellow)",
@@ -44,23 +49,23 @@ const customSelectStyles = {
       borderColor: "var(--off-yellow)",
     },
   }),
-  placeholder: (base: any) => ({
+  placeholder: (base) => ({
     ...base,
     color: "#999",
     opacity: 0.8,
   }),
-  singleValue: (base: any) => ({
+  singleValue: (base) => ({
     ...base,
     color: "var(--primary-red)",
   }),
-  menu: (base: any) => ({
+  menu: (base) => ({
     ...base,
     backgroundColor: "white",
     border: "1px solid var(--off-yellow)",
     borderRadius: "10px",
     zIndex: 1000,
   }),
-  option: (base: any, state: any) => ({
+  option: (base, state) => ({
     ...base,
     backgroundColor: state.isSelected
       ? "#e4b8a5"
@@ -86,7 +91,9 @@ export default function EditAlumniModal({
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
-        <button onClick={onClose} className={styles.modalClose}>×</button>
+        <button onClick={onClose} className={styles.modalClose}>
+          ×
+        </button>
         <h2 className={styles.title}>Edit Alumni</h2>
 
         <input
@@ -103,10 +110,12 @@ export default function EditAlumniModal({
           placeholder="Year"
           type="number"
           value={alumni.year}
-          onChange={(e) => onChange({ ...alumni, year: parseInt(e.target.value) })}
+          onChange={(e) =>
+            onChange({ ...alumni, year: parseInt(e.target.value) || 0 })
+          }
         />
 
-        <Select
+        <Select<OptionType, false>
           styles={customSelectStyles}
           options={majorOptions}
           value={majorOptions.find((opt) => opt.value === alumni.major)}

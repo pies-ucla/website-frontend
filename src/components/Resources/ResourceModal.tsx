@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Select from "react-select";
+import Select, { StylesConfig } from "react-select";
 import styles from "./ResourceModal.module.css";
 import { ResourceType, ResourceTypeLabels, enumToArray } from "@/utils/enums";
 
@@ -14,6 +14,11 @@ type Resource = {
   link: string;
 };
 
+type OptionType = {
+  value: string;
+  label: string;
+};
+
 export default function ResourceModal({
   isOpen,
   onClose,
@@ -23,19 +28,21 @@ export default function ResourceModal({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  resource: Resource;
+  resource: Resource | null;
   setResource: (r: Resource) => void;
   onSubmit: () => void;
 }) {
   if (!isOpen) return null;
 
-  const resourceTypeOptions = enumToArray(ResourceType).map((value) => ({
-    value,
-    label: ResourceTypeLabels[value] || value,
-  }));
+  const resourceTypeOptions: OptionType[] = enumToArray(ResourceType).map(
+    (value) => ({
+      value,
+      label: ResourceTypeLabels[value] || value,
+    })
+  );
 
-  const customSelectStyles = {
-    control: (base: any, state: any) => ({
+  const customSelectStyles: StylesConfig<OptionType, false> = {
+    control: (base, state) => ({
       ...base,
       backgroundColor: "white",
       border: "2px solid var(--off-yellow)",
@@ -49,23 +56,23 @@ export default function ResourceModal({
         borderColor: "var(--off-yellow)",
       },
     }),
-    placeholder: (base: any) => ({
+    placeholder: (base) => ({
       ...base,
       color: "#999",
       opacity: 0.8,
     }),
-    singleValue: (base: any) => ({
+    singleValue: (base) => ({
       ...base,
       color: "var(--primary-red)",
     }),
-    menu: (base: any) => ({
+    menu: (base) => ({
       ...base,
       backgroundColor: "white",
       border: "1px solid var(--off-yellow)",
       borderRadius: "10px",
       zIndex: 1000,
     }),
-    option: (base: any, state: any) => ({
+    option: (base, state) => ({
       ...base,
       backgroundColor: state.isSelected
         ? "#e4b8a5"
@@ -79,16 +86,18 @@ export default function ResourceModal({
     }),
   };
 
+  if (!resource) return null;
+  
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
         <button onClick={onClose} className={styles.modalClose}>
           ×
         </button>
-        <h2>{resource.pk ? "Edit Resource" : "New Resource"}</h2>
+        <h2>{resource?.pk ? "Edit Resource" : "New Resource"}</h2>
 
         <input
-          value={resource.title}
+          value={resource?.title}
           onChange={(e) =>
             setResource({ ...resource, title: e.target.value })
           }
@@ -96,18 +105,18 @@ export default function ResourceModal({
         />
 
         <textarea
-          value={resource.description}
+          value={resource?.description}
           onChange={(e) =>
             setResource({ ...resource, description: e.target.value })
           }
           placeholder="Description"
         />
 
-        <Select
+        <Select<OptionType, false>
           styles={customSelectStyles}
           options={resourceTypeOptions}
           value={resourceTypeOptions.find(
-            (opt) => opt.value === resource.resource_type
+            (opt) => opt.value === resource?.resource_type
           )}
           onChange={(selected) => {
             if (selected) {
@@ -120,14 +129,14 @@ export default function ResourceModal({
 
         <input
           type="datetime-local"
-          value={resource.deadline}
+          value={resource?.deadline}
           onChange={(e) =>
             setResource({ ...resource, deadline: e.target.value })
           }
         />
 
         <input
-          value={resource.link}
+          value={resource?.link}
           onChange={(e) =>
             setResource({ ...resource, link: e.target.value })
           }

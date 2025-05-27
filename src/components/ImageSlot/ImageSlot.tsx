@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import styles from "./ImageSlot.module.css";
+import Image from "next/image";
 
 interface ImageSlotProps {
   src: string;
@@ -65,10 +66,13 @@ const ImageSlot = ({
       onClick={handleClick}
     >
       <div className={styles.imageContainer}>
-        <img
+        <Image
           src={src}
           alt={slot}
           className={styles.image}
+          width={200} // Set appropriate size
+          height={200} // Set appropriate size
+          unoptimized // Optional: disable Next.js optimization if image is dynamic
         />
         {editable && (
           <>

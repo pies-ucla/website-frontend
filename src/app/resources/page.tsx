@@ -4,8 +4,9 @@ import styles from "./resources.module.css";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import ResourceModal from "@/components/Resources/ResourceModal";
-import { ResourceType, ResourceTypeLabels, enumToArray } from "@/utils/enums";
-import Select from "react-select";
+// import { ResourceType, ResourceTypeLabels, enumToArray } from "@/utils/enums";
+// import Select from "react-select";
+
 type Resource = {
   pk?: number;
   resource_type: string;
@@ -20,7 +21,6 @@ function ResourceCard({
   description,
   deadline,
   link,
-  pk,
   onEdit,
   onDelete,
 }: Resource & { onEdit?: () => void; onDelete?: () => void }) {
@@ -79,7 +79,7 @@ function PaginatedCards({
 }
 
 export default function Resources() {
-  const { user, loading, isBoardMember } = useAuth();
+  const { user, loading, isBoardMember, isAdmin } = useAuth();
   const [resources, setResources] = useState<Resource[]>([]);
   const [editingResource, setEditingResource] = useState<Resource | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -133,7 +133,7 @@ export default function Resources() {
     <div className={styles.container}>
       <h1 className={styles.header}>Resources</h1>
 
-      {isBoardMember && (
+      {(isBoardMember || isAdmin) && (
         <div className={styles.actionBar}>
           <button
             className={styles.button}
@@ -171,14 +171,14 @@ export default function Resources() {
           resources={careerResources}
           itemsPerPage={3}
           onEdit={
-            isBoardMember
+            (isBoardMember || isAdmin)
               ? (res) => {
                   setEditingResource(res);
                   setShowModal(true); // <-- Add this
                 }
               : undefined
           }
-          onDelete={isBoardMember ? handleDelete : undefined}
+          onDelete={(isBoardMember || isAdmin) ? handleDelete : undefined}
         />
       </div>
 
@@ -189,14 +189,14 @@ export default function Resources() {
           resources={scholarshipResources}
           itemsPerPage={3}
           onEdit={
-            isBoardMember
+            (isBoardMember || isAdmin)
               ? (res) => {
                   setEditingResource(res);
                   setShowModal(true); // <-- Add this
                 }
               : undefined
           }
-          onDelete={isBoardMember ? handleDelete : undefined}
+          onDelete={(isBoardMember || isAdmin) ? handleDelete : undefined}
         />
       </div>
     </div>

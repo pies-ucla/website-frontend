@@ -1,13 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import styles from "./opportunities.module.css";
 import { useAuth } from "@/context/AuthContext";
 import ImageSlot from "@/components/ImageSlot/ImageSlot";
 import { useState } from "react";
 
 export default function Resources() {
-  const { isBoardMember } = useAuth();
+  const { isBoardMember, isAdmin } = useAuth();
   const [images, setImages] = useState({
       pieyanihan: `/opportunities/pieyanihan.png?t=${Date.now()}`,
       board: `/opportunities/board.png?t=${Date.now()}`
@@ -24,7 +23,7 @@ export default function Resources() {
               <ImageSlot
                 slot="pieyanihan"
                 src={images.pieyanihan}
-                editable={isBoardMember}
+                editable={isBoardMember || isAdmin}
                 targetDir="opportunities"
                 onImageReplaced={(newUrl) =>
                   setImages((prev) => ({
@@ -52,7 +51,7 @@ export default function Resources() {
               <ImageSlot
                 slot="board"
                 src={images.board}
-                editable={isBoardMember}
+                editable={isBoardMember || isAdmin}
                 targetDir="opportunities"
                 onImageReplaced={(newUrl) =>
                   setImages((prev) => ({

@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from 'react';
 import styles from './board.module.css';
 import { useAuth } from '@/context/AuthContext';
+import Image from 'next/image';
 import ImageSlot from '@/components/ImageSlot/ImageSlot';
 
 // Types
@@ -54,11 +55,11 @@ function getYearLevel(graduationYear: number): string {
 }
 
 export default function BoardPage() {
-  const { isBoardMember } = useAuth();
+  const { isBoardMember, isAdmin } = useAuth();
   const [board, setBoard] = useState<BoardMember[]>([]);
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+  const [, setIsEditing] = useState(false);
   const [formState, setFormState] = useState<Partial<BoardMember>>({
     user: undefined,
     role: '',
@@ -76,82 +77,148 @@ export default function BoardPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+  // Strip out empty fields
+    const cleanBody = Object.fromEntries(
+      Object.entries(formState).filter(
+        ([, value]) => value !== undefined && value !== null && value !== ''
+      )
+    );
+
     const res = await fetch(`/api/board/${formState.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formState),
+      body: JSON.stringify(cleanBody),
     });
+
     const updated = await res.json();
     setBoard(prev => prev.map(m => m.id === updated.id ? updated : m));
     setModalOpen(false);
   };
+
+
+  // Desired role order
+  const roleOrder = [
+    "president",
+    "internal_vice_president",
+    "external_vice_president",
+    "alumni_industry_relations",
+    "mentorship_coordinator",
+    "secretary",
+    "treasurer",
+    "activities_coordinator",
+    "activities_coordinator",
+    "public_relations",
+    "public_relations",
+    "historian",
+  ];
+
+  // Sort board members by defined role order
+  const sortedBoard = [...board].sort((a, b) => {
+    const indexA = roleOrder.findIndex((r, i) => a.role.startsWith(r) && roleOrder.indexOf(r) === i);
+    const indexB = roleOrder.findIndex((r, i) => b.role.startsWith(r) && roleOrder.indexOf(r) === i);
+    return indexA - indexB;
+  });
+
+  // Disambiguate slots for roles with duplicates
+  const slotMap = new Map<number, string>();
+  const roleCounter = new Map<string, number>();
+
+  sortedBoard.forEach(member => {
+    const base = member.role.toLowerCase();
+    const count = roleCounter.get(base) || 0;
+    roleCounter.set(base, count + 1);
+    const slot = count === 0 ? base : `${base}_${count + 1}`;
+    slotMap.set(member.id, slot);
+  });
+
 
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>Our Board</h1>
 
       <div className={styles.columns}>
-        {board.map((member, idx) => (
-          <div className={styles.textbox} key={member.id}>
-            <div className={styles.boardContainer}>
-              <div className={styles.boardMask}>
-                <ImageSlot
-                  slot={`profile_${member.user.pk}`}
-                  src={member.profile_picture_url || '/default-profile.png'}
-                  editable={isBoardMember}
-                  targetDir="board"
-                  className={styles.replaceableImage}
-                  onImageReplaced={(newUrl) =>
-                    setBoard((prev) =>
-                      prev.map((m) =>
-                        m.id === member.id
-                          ? { ...m, profile_picture_url: `${newUrl}?t=${Date.now()}` }
-                          : m
+        {sortedBoard.map((member, idx) => {
+          const slot = slotMap.get(member.id);
+          if (!slot) return null;
+
+          return (
+            <div className={styles.textbox} key={member.id}>
+              <div className={styles.boardContainer}>
+                <div className={styles.boardMask}>
+                  <ImageSlot
+                    slot={slot}
+                    src={`/board/${slot}.png`}
+                    editable={isBoardMember || isAdmin}
+                    targetDir="board"
+                    className={styles.replaceableImage}
+                    onImageReplaced={() =>
+                      setBoard((prev) =>
+                        prev.map((m) =>
+                          m.id === member.id ? { ...m } : m
+                        )
                       )
-                    )
-                  }
+                    }
+                  />
+                </div>
+                <Image
+                  src="/pie-tin.png"
+                  alt="Frame"
+                  width={200}
+                  height={200}
+                  className={styles.boardFrameImage}
                 />
               </div>
-              <img src="/pie-tin.png" alt="Frame" className={styles.boardFrameImage} />
+
+              <h1 className={styles.role}>{member.role.replaceAll('_', ' ').toUpperCase()}</h1>
+              <h1 className={styles.name}>{member.user.first_name} {member.user.last_name}</h1>
+              <h2 className={styles.major} onClick={() => setExpandedIdx(prev => prev === idx ? null : idx)}>
+                {getYearLevel(member.graduation_year)} <br /> {formatMajor(member.user.major)}
+                <span className={styles.arrow}>{expandedIdx === idx ? ' ▲' : ' ▼'}</span>
+              </h2>
+
+              {expandedIdx === idx && (
+                <p className={styles.content}>
+                  <u>Favorite Pie:</u> {member.pie || 'Favorite pie unknown...'} <br /><br />
+                  <u>Why did you join PIES?</u><br />
+                  {member.description || 'No reason provided... yet!'}
+                </p>
+              )}
+
+              {(isBoardMember || isAdmin) && (
+                <div className={styles.buttonGroup}>
+                  <button onClick={() => {
+                    setFormState(member);
+                    setIsEditing(true);
+                    setModalOpen(true);
+                  }}>Edit</button>
+                </div>
+              )}
             </div>
-
-            <h1 className={styles.role}>{member.role.replaceAll('_', ' ').toUpperCase()}</h1>
-            <h1 className={styles.name}>{member.user.first_name} {member.user.last_name}</h1>
-            <h2 className={styles.major} onClick={() => setExpandedIdx(prev => prev === idx ? null : idx)}>
-              {getYearLevel(member.graduation_year)} <br /> {formatMajor(member.user.major)}
-              <span className={styles.arrow}>{expandedIdx === idx ? ' ▲' : ' ▼'}</span>
-            </h2>
-
-            {expandedIdx === idx && member.description && (
-              <p className={styles.content}>
-                <u>Favorite Pie:</u> {member.pie || 'Favorite pie unknown...'} <br /><br />
-                <u>Why did you join PIES?</u><br />
-                {member.description}
-              </p>
-            )}
-
-            {isBoardMember && (
-              <div className={styles.buttonGroup}>
-                <button onClick={() => {
-                  setFormState(member);
-                  setIsEditing(true);
-                  setModalOpen(true);
-                }}>Edit</button>
-              </div>
-            )}
-          </div>
-        ))}
-
+          );
+        })}
         {/* Mascot */}
         <div className={styles.textbox}>
           <div className={styles.boardContainer}>
             <div className={styles.boardMask}>
-              <img src="/board/pierre.png" alt="Pierre!" className={styles.boardPhoto} />
+              <Image
+                src="/board/pierre.png"
+                alt="Pierre!"
+                width={200}
+                height={200}
+                className={styles.boardPhoto}
+              />
             </div>
-            <img src="/pie-tin.png" alt="Frame" className={styles.boardFrameImage} />
+            <Image
+              src="/pie-tin.png"
+              alt="Frame"
+              width={200}
+              height={200}
+              className={styles.boardFrameImage}
+            />
           </div>
           <h1 className={styles.role}>MASCOT</h1>
-          <h1 className={styles.name}>Pierre D'Pioneer</h1>
+          <h1 className={styles.name}>Pierre D&apos;Pioneer</h1>
           <h2 className={styles.major}><u>Year:</u> Hmm...a bear never tells his secrets!</h2>
           <p className={styles.content}>
             <u>Favorite Pie:</u> 3.1415926535... <br /><br />

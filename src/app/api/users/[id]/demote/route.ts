@@ -6,7 +6,7 @@ async function getToken() {
   return cookieStore.get('access_token')?.value;
 }
 
-export async function POST(_: Request, { params }: { params: { id: string } }) {
+export async function POST(_: Request, { params }: { params: Promise<{ id: string }> }) {
   const token = await getToken();
   const param = await params;
   const id = await param.id;

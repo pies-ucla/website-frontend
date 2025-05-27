@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 
 export default function AlumniBanner() {
-    const { user, loading, isBoardMember } = useAuth(); 
+    const { isBoardMember, isAdmin } = useAuth(); 
     const [images, setImages] = useState({
         uncs: `/alumni/uncs.png?t=${Date.now()}`
     });
@@ -34,7 +34,7 @@ export default function AlumniBanner() {
                         <ImageSlot
                         slot="uncs"
                         src={images.uncs}
-                        editable={isBoardMember}
+                        editable={isBoardMember || isAdmin}
                         targetDir="alumni"
                         onImageReplaced={(newUrl) =>
                             setImages((prev) => ({

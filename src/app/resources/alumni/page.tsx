@@ -30,7 +30,7 @@ type Alumni = {
 };
 
 export default function Alumni() {
-  const { user, loading, isBoardMember } = useAuth(); 
+  const { user, loading, isBoardMember, isAdmin } = useAuth(); 
   const [alumni, setAlumni] = useState<Alumni[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [filters, setFilters] = useState<string[]>([]);
@@ -99,7 +99,7 @@ export default function Alumni() {
       };
       fetchAlumni();
     }
-  }, []);
+  }, [loading, user]);
 
   const handleCreateAlum = async () => {
     try {
@@ -174,7 +174,7 @@ export default function Alumni() {
         removeFilter={removeFilter}
         clearAllFilters={clearAllFilters}
       />
-      {isBoardMember && (
+      {(isBoardMember || isAdmin) && (
         <div style={{ textAlign: "right",}}>
           <AddAlumniModal
             isOpen={showModal}
@@ -198,7 +198,7 @@ export default function Alumni() {
             <h2>UCLA Class of {alum.year}</h2>
             <h2>Major: {formatMajor(alum.major)}</h2>
             <h2>Current occupation: {alum.occupation}</h2>
-            {isBoardMember && (
+            {(isBoardMember || isAdmin) && (
               <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
               <button
                 className={styles.button}

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 // ====== Types ======
@@ -19,6 +19,7 @@ type AuthContextType = {
   accessToken: string | null;
   loading: boolean;
   isBoardMember: boolean;
+  isAdmin: boolean;
   login: (token: string, user: User) => void;
   logout: () => void;
 };
@@ -29,6 +30,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isBoardMember, setIsBoardMember] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -40,15 +42,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setAccessToken(refreshed.access_token);
         setUser(refreshed.user);
 
-        const res = await fetch("/api/is-board-member", {
-          method: "GET",
-          credentials: "include",
-        });
-        if (res.ok) {
-          const data = await res.json();
+        const [boardRes, adminRes] = await Promise.all([
+          fetch("/api/is-board-member", { credentials: "include" }),
+          fetch("/api/is-admin", { credentials: "include" }),
+        ]);
+
+        if (boardRes.ok) {
+          const data = await boardRes.json();
           setIsBoardMember(data.isBoardMember);
         }
 
+        if (adminRes.ok) {
+          const data = await adminRes.json();
+          setIsAdmin(data.isAdmin);
+        }
       }
       setLoading(false);
     };
@@ -56,25 +63,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     tryRefresh();
   }, []);
 
-  const login = async (token: string, user: User) => {
+  const login = useCallback(async (token: string, user: User) => {
     setAccessToken(token);
     setUser(user);
 
-    const res = await fetch("/api/is-board-member", {
-      method: "GET",
-      credentials: "include",
-    });
+    try {
+      const [boardRes, adminRes] = await Promise.all([
+        fetch("/api/is-board-member", { credentials: "include" }),
+        fetch("/api/is-admin", { credentials: "include" }),
+      ]);
 
-    if (res.ok) {
-      const data = await res.json();
-      setIsBoardMember(data.isBoardMember);
+      if (boardRes.ok) {
+        const data = await boardRes.json();
+        setIsBoardMember(data.isBoardMember);
+      }
+
+      if (adminRes.ok) {
+        const data = await adminRes.json();
+        setIsAdmin(data.isAdmin);
+      }
+    } catch (err) {
+      console.error("Failed to check board membership:", err);
     }
-  };
+  }, []);
 
   const logout = async () => {
     setAccessToken(null);
     setUser(null);
     setIsBoardMember(false);
+    setIsAdmin(false);
     await fetch('/api/auth/logout', {
       method: 'POST',
     });
@@ -83,7 +100,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, loading, isBoardMember, login, logout }}>
+    <AuthContext.Provider value={{ user, accessToken, loading, isBoardMember, isAdmin, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
