@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import styles from './ask-pierre.module.css';
 import { useEffect, useState } from "react";
 
@@ -97,10 +98,13 @@ export default function AskPierre() {
         onSubmit={handleSubmit}
         className={styles.letterWrapper}
       >
-        <img
+        <Image
           src="/resources/letter.png"
           alt="Letter to Pierre"
           className={styles.letterImage}
+          width={400} // ⬅️ Adjust to your actual layout
+          height={400} // ⬅️ Adjust to your actual layout
+          priority // optional: loads immediately
         />
         <textarea
           name="entry.1452242183"

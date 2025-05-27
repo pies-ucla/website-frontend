@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from 'react';
 import styles from './board.module.css';
 import { useAuth } from '@/context/AuthContext';
+import Image from 'next/image';
 import ImageSlot from '@/components/ImageSlot/ImageSlot';
 
 // Types
@@ -58,7 +59,6 @@ export default function BoardPage() {
   const [board, setBoard] = useState<BoardMember[]>([]);
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  // const [isEditing, setIsEditing] = useState(false);
   const [, setIsEditing] = useState(false);
   const [formState, setFormState] = useState<Partial<BoardMember>>({
     user: undefined,
@@ -113,7 +113,13 @@ export default function BoardPage() {
                   }
                 />
               </div>
-              <img src="/pie-tin.png" alt="Frame" className={styles.boardFrameImage} />
+              <Image
+                src="/pie-tin.png"
+                alt="Frame"
+                width={200}
+                height={200}
+                className={styles.boardFrameImage}
+              />
             </div>
 
             <h1 className={styles.role}>{member.role.replaceAll('_', ' ').toUpperCase()}</h1>
@@ -147,9 +153,21 @@ export default function BoardPage() {
         <div className={styles.textbox}>
           <div className={styles.boardContainer}>
             <div className={styles.boardMask}>
-              <img src="/board/pierre.png" alt="Pierre!" className={styles.boardPhoto} />
+              <Image
+                src="/board/pierre.png"
+                alt="Pierre!"
+                width={200}
+                height={200}
+                className={styles.boardPhoto}
+              />
             </div>
-            <img src="/pie-tin.png" alt="Frame" className={styles.boardFrameImage} />
+            <Image
+              src="/pie-tin.png"
+              alt="Frame"
+              width={200}
+              height={200}
+              className={styles.boardFrameImage}
+            />
           </div>
           <h1 className={styles.role}>MASCOT</h1>
           <h1 className={styles.name}>Pierre D&apos;Pioneer</h1>
