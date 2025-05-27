@@ -77,15 +77,25 @@ export default function BoardPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+  // Strip out empty fields
+    const cleanBody = Object.fromEntries(
+      Object.entries(formState).filter(
+        ([_, value]) => value !== undefined && value !== null && value !== ''
+      )
+    );
+
     const res = await fetch(`/api/board/${formState.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formState),
+      body: JSON.stringify(cleanBody),
     });
+
     const updated = await res.json();
     setBoard(prev => prev.map(m => m.id === updated.id ? updated : m));
     setModalOpen(false);
   };
+
 
   // Desired role order
   const roleOrder = [
@@ -129,7 +139,7 @@ export default function BoardPage() {
 
       <div className={styles.columns}>
         {sortedBoard.map((member, idx) => {
-          const slot = slotMap.get(member.id) ?? member.role.toLowerCase(); // 👈 Add this line
+          const slot = slotMap.get(member.id) ; // 👈 Add this line
 
           return (
             <div className={styles.textbox} key={member.id}>
@@ -166,11 +176,11 @@ export default function BoardPage() {
                 <span className={styles.arrow}>{expandedIdx === idx ? ' ▲' : ' ▼'}</span>
               </h2>
 
-              {expandedIdx === idx && member.description && (
+              {expandedIdx === idx && (
                 <p className={styles.content}>
                   <u>Favorite Pie:</u> {member.pie || 'Favorite pie unknown...'} <br /><br />
                   <u>Why did you join PIES?</u><br />
-                  {member.description}
+                  {member.description || 'No reason provided... yet!'}
                 </p>
               )}
 

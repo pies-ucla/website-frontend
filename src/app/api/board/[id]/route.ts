@@ -8,7 +8,7 @@ async function getToken() {
   return cookieStore.get('access_token')?.value;
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   const token = await getToken();
   const param = await params;
   const id = await param.id;
