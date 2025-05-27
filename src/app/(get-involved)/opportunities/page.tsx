@@ -9,8 +9,8 @@ import { useState } from "react";
 export default function Resources() {
   const { isBoardMember } = useAuth();
   const [images, setImages] = useState({
-      pieyanihan: `/opportunities/pieyanihan.webp?t=${Date.now()}`,
-      board: `/opportunities/board.webp?t=${Date.now()}`
+      pieyanihan: `/opportunities/pieyanihan.png?t=${Date.now()}`,
+      board: `/opportunities/board.png?t=${Date.now()}`
   });
 
   return (
