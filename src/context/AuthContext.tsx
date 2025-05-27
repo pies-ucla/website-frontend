@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 // ====== Types ======
@@ -56,20 +56,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     tryRefresh();
   }, []);
 
-  const login = async (token: string, user: User) => {
+  const login = useCallback(async (token: string, user: User) => {
     setAccessToken(token);
     setUser(user);
 
-    const res = await fetch("/api/is-board-member", {
-      method: "GET",
-      credentials: "include",
-    });
+    try {
+      const res = await fetch("/api/is-board-member", {
+        method: "GET",
+        credentials: "include",
+      });
 
-    if (res.ok) {
-      const data = await res.json();
-      setIsBoardMember(data.isBoardMember);
+      if (res.ok) {
+        const data = await res.json();
+        setIsBoardMember(data.isBoardMember);
+      }
+    } catch (err) {
+      console.error("Failed to check board membership:", err);
     }
-  };
+  }, []);
 
   const logout = async () => {
     setAccessToken(null);
