@@ -6,13 +6,13 @@ import styles from './events.module.css';
 import { useAuth } from '@/context/AuthContext';
 
 type Event = {
-  id: number;
+  pk: number;
   event_name: string;
   date_time: string;
   location: string;
   link: string;
   description: string;
-  image_url?: string | null;
+  // image?: string | null;
   created_time: string;
   updated_time: string;
 };
@@ -33,6 +33,16 @@ function toDatetimeLocal(dateStr: string) {
   return local.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:MM"
 }
 
+function toUTCISOString(localDatetime: string): string {
+  const localDate = new Date(localDatetime);
+  return localDate.toISOString(); // Converts to UTC string
+}
+
+function toLocalDateString(dateStr: string): string {
+  const localDate = new Date(dateStr);
+  return localDate.toLocaleDateString("en-CA"); // format: YYYY-MM-DD
+}
+
 export default function Events() {
   const [events, setEvents] = useState<Event[]>([]);
   const [termIndex, setTermIndex] = useState(2); // Default: Spring 2025
@@ -41,15 +51,15 @@ export default function Events() {
   const [isEditing, setIsEditing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [formState, setFormState] = useState<
-    Omit<Event, "created_time" | "updated_time"> & { id?: number }
+    Omit<Event, "created_time" | "updated_time"> & { pk?: number }
   >({
-    id: 0,
+    pk: 0,
     event_name: "",
     date_time: "",
     location: "",
     link: "",
     description: "",
-    image_url: null,
+    // image: null,
   });
 
   useEffect(() => {
@@ -76,10 +86,15 @@ export default function Events() {
 
   const handleCreate = async () => {
     try {
+      const payload = {
+        ...formState,
+        date_time: toUTCISOString(formState.date_time),
+      };
+
       const res = await fetch('/api/events', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formState),
+        body: JSON.stringify(payload),
       });
       const newEvent = await res.json();
       setEvents((prev) => [...prev, newEvent]);
@@ -90,23 +105,32 @@ export default function Events() {
   };
 
   const handleEdit = async () => {
+    console.log("formState", formState);
+
+    // Create a shallow copy
+    const payload = {
+      ...formState,
+      date_time: toUTCISOString(formState.date_time),
+    };
+
     try {
-      const res = await fetch(`/api/events/${formState.id}`, {
+      const res = await fetch(`/api/events/${formState.pk}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formState),
+        body: JSON.stringify(payload),
       });
       const updatedEvent = await res.json();
-      setEvents((prev) => prev.map(ev => (ev.id === updatedEvent.id ? updatedEvent : ev)));
+      setEvents((prev) => prev.map(ev => (ev.pk === updatedEvent.pk ? updatedEvent : ev)));
       closeModal();
     } catch (err) {
       console.error("Error updating event:", err);
     }
   };
 
+
   const handleDelete = async (eventToDelete: Event) => {
     try {
-      await fetch(`/api/events/${eventToDelete.id}`, { method: 'DELETE' });
+      await fetch(`/api/events/${eventToDelete.pk}`, { method: 'DELETE' });
       setEvents((prev) => prev.filter(ev => ev.event_name !== eventToDelete.event_name));
       setSelectedEvent(null);
     } catch (err) {
@@ -118,7 +142,7 @@ export default function Events() {
     setSelectedEvent(null);
     setIsEditing(false);
     setModalOpen(false);
-    setFormState({ id: 0, event_name: "", date_time: "", location: "", link: "", description: "", image_url: null });
+    setFormState({ pk: 0, event_name: "", date_time: "", location: "", link: "", description: "" });
   };
 
   const selectedTerm = TERMS[termIndex];
@@ -155,13 +179,13 @@ export default function Events() {
             className={styles.button}
             onClick={() => {
               setFormState({
-                id: 0,
+                pk: 0,
                 event_name: "",
                 date_time: "",
                 location: "",
                 link: "",
                 description: "",
-                image_url: null
+                // image: null
               });
               setIsEditing(false);
               setSelectedEvent(null);
@@ -192,9 +216,9 @@ export default function Events() {
               <div key={day} className={styles.dayHeader}>{day}</div>
             ))}
             {dates.map((date, idx) => {
-              const dateKey = date.toISOString().split("T")[0];
+              const dateKey = date.toLocaleDateString("en-CA"); // same local format
               const eventsOnThisDay = visibleEvents.filter(event =>
-                event.date_time.startsWith(dateKey)
+                toLocalDateString(event.date_time) === dateKey
               );
               return (
                 <div key={idx} className={styles.dateCell}>
@@ -266,7 +290,7 @@ export default function Events() {
             <input required placeholder="Location" value={formState.location} onChange={(e) => setFormState({ ...formState, location: e.target.value })} />
             <input required placeholder="Link" value={formState.link} onChange={(e) => setFormState({ ...formState, link: e.target.value })} />
             <textarea required placeholder="Description" value={formState.description} onChange={(e) => setFormState({ ...formState, description: e.target.value })} />
-            <input placeholder="Image URL (optional)" value={formState.image_url || ""} onChange={(e) => setFormState({ ...formState, image_url: e.target.value })} />
+            {/* <input placeholder="Image URL (optional)" value={formState.image || ""} onChange={(e) => setFormState({ ...formState, image: e.target.value })} /> */}
             <button type="submit" className={styles.button}>{isEditing ? "Save Changes" : "Create Event"}</button>
           </form>
         )}
