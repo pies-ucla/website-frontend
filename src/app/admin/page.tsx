@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import styles from "./admin.module.css";
 import { useAuth } from "@/context/AuthContext";
+import Select from "react-select";
+import { Major, MajorLabels, BoardPositions, BoardPositionLabels, enumToArray } from "@/utils/enums";
 
 type User = {
   pk: number;
@@ -14,10 +16,64 @@ type User = {
   position: string;
 };
 
-// Extend draft to support promotion payload inputs
 type DraftUser = Partial<User> & {
   promotion_role?: string;
   promotion_year?: number;
+};
+
+const majorOptions = enumToArray(Major).map((value) => ({
+  value,
+  label: MajorLabels[value] || value,
+}));
+
+const roleOptions = enumToArray(BoardPositions).map((value) => ({
+  value,
+  label: BoardPositionLabels[value] || value,
+}));
+
+const customSelectStyles = {
+  control: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: "white",
+    border: "2px solid var(--off-yellow)",
+    padding: "2px",
+    borderRadius: "10px",
+    fontSize: "1rem",
+    fontFamily: "var(--font-normal)",
+    color: "var(--primary-red)",
+    boxShadow: state.isFocused ? "0 0 0 2px var(--off-yellow)" : "none",
+    "&:hover": {
+      borderColor: "var(--off-yellow)",
+    },
+  }),
+  placeholder: (base: any) => ({
+    ...base,
+    color: "#999",
+    opacity: 0.8,
+  }),
+  singleValue: (base: any) => ({
+    ...base,
+    color: "var(--primary-red)",
+  }),
+  menu: (base: any) => ({
+    ...base,
+    backgroundColor: "white",
+    border: "1px solid var(--off-yellow)",
+    borderRadius: "10px",
+    zIndex: 1000,
+  }),
+  option: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: state.isSelected
+      ? "#e4b8a5"
+      : state.isFocused
+      ? "#f7e7b5"
+      : "white",
+    color: "#b83f3b",
+    fontFamily: "var(--font-normal)",
+    padding: "0.5rem 1rem",
+    cursor: "pointer",
+  }),
 };
 
 export default function Admin() {
@@ -41,12 +97,10 @@ export default function Admin() {
   }, [search, users]);
 
   const fetchUsers = async () => {
-    console.log("[Admin] Fetching users...");
     const res = await fetch("/api/users/", {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     const data: User[] = await res.json();
-    console.log(`[Admin] Fetched ${data.length} users`);
     setUsers(data);
   };
 
@@ -57,20 +111,12 @@ export default function Admin() {
     const promotion_role = draft.promotion_role ?? "member";
     const promotion_year = draft.promotion_year ?? new Date().getFullYear() + 1;
 
-    console.log(`[Admin] Attempting to update user ${u.pk}`);
-    console.log("Edited user:", editedUser);
-
     try {
       const res = await fetch(`/api/users/${u.pk}/`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
 
-      if (!res.ok) {
-        console.error(`[Admin] Failed to fetch user ${u.pk} before updating.`);
-        return;
-      }
+      if (!res.ok) return;
 
       const currentUserFromServer: User = await res.json();
       const positionChanged = position && currentUserFromServer.position !== position;
@@ -79,7 +125,6 @@ export default function Admin() {
         const endpoint = position === "board_member" ? "promote" : "demote";
 
         if (endpoint === "promote" && !isBoardMember) {
-          console.warn("[Admin] Unauthorized attempt to promote user.");
           alert("Only admins can promote users to board members.");
           return;
         }
@@ -92,7 +137,6 @@ export default function Admin() {
               }
             : undefined;
 
-        console.log(`[Admin] ${endpoint.toUpperCase()} user ${u.pk}`, payload || "(no payload)");
         const promoteRes = await fetch(`/api/users/${u.pk}/${endpoint}/`, {
           method: "POST",
           headers: {
@@ -102,14 +146,9 @@ export default function Admin() {
           body: payload ? JSON.stringify(payload) : undefined,
         });
 
-        if (!promoteRes.ok) {
-          const text = await promoteRes.text();
-          console.error(`[Admin] ${endpoint.toUpperCase()} failed:`, text);
-          return;
-        }
+        if (!promoteRes.ok) return;
       }
 
-      console.log(`[Admin] Sending final PATCH for user ${u.pk}`);
       const patchRes = await fetch(`/api/users/${u.pk}/`, {
         method: "PATCH",
         headers: {
@@ -119,13 +158,8 @@ export default function Admin() {
         body: JSON.stringify({ first_name, last_name, major, minor, position }),
       });
 
-      if (!patchRes.ok) {
-        const text = await patchRes.text();
-        console.error("[Admin] Final PATCH failed:", text);
-        return;
-      }
+      if (!patchRes.ok) return;
 
-      console.log(`[Admin] Successfully updated user ${u.pk}`);
       setDraftUsers((prev) => {
         const copy = { ...prev };
         delete copy[u.pk];
@@ -134,13 +168,11 @@ export default function Admin() {
 
       await fetchUsers();
     } catch (err) {
-      console.error("[Admin] Update failed:", err);
       setDraftUsers((prev) => ({ ...prev, [u.pk]: draft }));
     }
   };
 
   const deleteUser = async (pk: number) => {
-    console.log(`[Admin] Deleting user ${pk}`);
     await fetch(`/api/users/${pk}/`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -149,7 +181,6 @@ export default function Admin() {
   };
 
   if (!isBoardMember) {
-    console.warn("[Admin] Unauthorized access — not a board member");
     return (
       <div className={styles.modalBackdrop}>
         <div className={styles.modal}>
@@ -166,7 +197,6 @@ export default function Admin() {
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>Admin Panel</h1>
-
       <div className={styles.columns}>
         <div>
           <h2>Users</h2>
@@ -186,10 +216,7 @@ export default function Admin() {
               <div key={u.pk} className={styles.textbox}>
                 <div
                   className={styles.userHeader}
-                  onClick={() => {
-                    console.log(`[Admin] Toggling user ${u.pk} section`);
-                    setExpandedPk(isExpanded ? null : u.pk);
-                  }}
+                  onClick={() => setExpandedPk(isExpanded ? null : u.pk)}
                 >
                   <strong>{u.first_name} {u.last_name}</strong> — {u.email}
                   <span className={styles.expandIcon}>{isExpanded ? "▴" : "▾"}</span>
@@ -197,82 +224,93 @@ export default function Admin() {
 
                 {isExpanded && (
                   <div className={styles.userDetails}>
-                    {(["first_name", "last_name", "major", "minor", "position"] as const).map((field) => {
-                      const isDropdown = field === "position";
+                    {(["first_name", "last_name", "minor", "position"] as const).map((field) => {
                       const label = field.replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
 
-                      return isDropdown ? (
-                        <select
-                          key={field}
-                          className={styles.input}
-                          value={editedUser.position}
-                          onChange={(e) => {
-                            const newPosition = e.target.value;
-                            console.log(`[Admin] Draft updated for user ${u.pk} - new position: ${newPosition}`);
-                            setDraftUsers((prev) => ({
-                              ...prev,
-                              [u.pk]: {
-                                ...prev[u.pk],
-                                position: newPosition,
-                              },
-                            }));
-                          }}
-                        >
-                          <option value="user">General Member</option>
-                          <option value="board_member">Board Member</option>
-                          <option value="admin">Admin</option>
-                        </select>
-                      ) : (
+                      if (field === "position") {
+                        return (
+                          <select
+                            key={field}
+                            className={styles.input}
+                            value={editedUser.position}
+                            onChange={(e) =>
+                              setDraftUsers((prev) => ({
+                                ...prev,
+                                [u.pk]: { ...prev[u.pk], position: e.target.value },
+                              }))
+                            }
+                          >
+                            <option value="user">General Member</option>
+                            <option value="board_member">Board Member</option>
+                            <option value="admin">Admin</option>
+                          </select>
+                        );
+                      }
+
+                      return (
                         <input
                           key={field}
                           className={styles.input}
                           value={(editedUser as any)[field] || ""}
                           placeholder={label}
-                          onChange={(e) => {
-                            const newVal = e.target.value;
-                            console.log(`[Admin] Draft updated for user ${u.pk} - ${field}: ${newVal}`);
+                          onChange={(e) =>
                             setDraftUsers((prev) => ({
                               ...prev,
-                              [u.pk]: {
-                                ...prev[u.pk],
-                                [field]: newVal,
-                              },
-                            }));
-                          }}
+                              [u.pk]: { ...prev[u.pk], [field]: e.target.value },
+                            }))
+                          }
                         />
                       );
                     })}
 
+                    {/* Custom dropdown for major */}
+                    <Select
+                      styles={customSelectStyles}
+                      options={majorOptions}
+                      value={majorOptions.find((opt) => opt.value === editedUser.major)}
+                      onChange={(selected) => {
+                        if (selected) {
+                          setDraftUsers((prev) => ({
+                            ...prev,
+                            [u.pk]: { ...prev[u.pk], major: selected.value },
+                          }));
+                        }
+                      }}
+                      placeholder="Select a major..."
+                      isSearchable
+                    />
+
                     {(draft.position === "board_member" || editedUser.position === "board_member") && (
                       <>
-                        <input
-                          className={styles.input}
-                          placeholder="Role (e.g. member, president)"
-                          value={draft.promotion_role || ""}
-                          onChange={(e) => {
-                            setDraftUsers((prev) => ({
-                              ...prev,
-                              [u.pk]: {
-                                ...prev[u.pk],
-                                promotion_role: e.target.value,
-                              },
-                            }));
+                        <Select
+                          styles={customSelectStyles}
+                          options={roleOptions}
+                          value={roleOptions.find((opt) => opt.value === draft.promotion_role)}
+                          onChange={(selected) => {
+                            if (selected) {
+                              setDraftUsers((prev) => ({
+                                ...prev,
+                                [u.pk]: { ...prev[u.pk], promotion_role: selected.value },
+                              }));
+                            }
                           }}
+                          placeholder="Select a board role..."
+                          isSearchable
                         />
                         <input
                           className={styles.input}
                           placeholder="Graduation Year"
                           type="number"
                           value={draft.promotion_year || ""}
-                          onChange={(e) => {
+                          onChange={(e) =>
                             setDraftUsers((prev) => ({
                               ...prev,
                               [u.pk]: {
                                 ...prev[u.pk],
                                 promotion_year: parseInt(e.target.value),
                               },
-                            }));
-                          }}
+                            }))
+                          }
                         />
                       </>
                     )}
