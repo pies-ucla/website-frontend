@@ -16,6 +16,24 @@ type Resource = {
   link: string;
 };
 
+function getLocalDatetimeString() {
+  const now = new Date();
+  const offset = now.getTimezoneOffset();
+  const local = new Date(now.getTime() - offset * 60000);
+  return local.toISOString().slice(0, 16);
+}
+
+function toLocalDatetimeString(isoDateStr: string): string {
+  const date = new Date(isoDateStr);
+  const offset = date.getTimezoneOffset();
+  const local = new Date(date.getTime() - offset * 60000);
+  return local.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:MM"
+}
+
+function sortByDeadline(resources: Resource[]) {
+  return [...resources].sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
+}
+
 function ResourceCard({
   title,
   description,
@@ -28,7 +46,13 @@ function ResourceCard({
     <div className={styles.card}>
       <h2>{title}</h2>
       <p>{description}</p>
-      <p><strong>Deadline:</strong> {new Date(deadline).toLocaleString()}</p>
+      <p>
+        <strong>Deadline:</strong>{" "}
+        {new Date(deadline).toLocaleString(undefined, {
+          dateStyle: "medium",
+          timeStyle: "short",
+        })}
+      </p>
       <a href={link} target="_blank" rel="noopener noreferrer">Apply</a>
       {onEdit && <button className={styles.button} onClick={onEdit}>Edit ✎</button>}
       {onDelete && <button className={styles.button} onClick={onDelete}>Delete 🗑</button>}
@@ -103,31 +127,41 @@ export default function Resources() {
 
   const handleSaveResource = async () => {
     if (!editingResource) return;
+
     const method = editingResource.pk ? "PATCH" : "POST";
     const url = editingResource.pk
       ? `/api/resources/${editingResource.pk}`
       : "/api/resources";
 
+    // convert deadline to UTC ISO
+    const payload = {
+      ...editingResource,
+      deadline: new Date(editingResource.deadline).toISOString(),
+    };
+
     const res = await fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(editingResource),
+      body: JSON.stringify(payload),
     });
 
     if (res.ok) {
       await fetchResources();
       setShowModal(false);
       setEditingResource(null);
+    } else {
+      console.error("Failed to save resource:", await res.text());
     }
   };
+
 
   const handleDelete = async (pk: number) => {
     await fetch(`/api/resources/${pk}`, { method: "DELETE" });
     await fetchResources();
   };
 
-  const careerResources = resources.filter((r) => r.resource_type === "career");
-  const scholarshipResources = resources.filter((r) => r.resource_type === "scholarship");
+  const careerResources = sortByDeadline(resources.filter((r) => r.resource_type === "career"));
+  const scholarshipResources = sortByDeadline(resources.filter((r) => r.resource_type === "scholarship"));
 
   return (
     <div className={styles.container}>
@@ -141,7 +175,7 @@ export default function Resources() {
               setEditingResource({
                 title: "",
                 description: "",
-                deadline: new Date().toISOString().slice(0, 16),
+                deadline: getLocalDatetimeString(),
                 resource_type: "career",
                 link: "",
               });
@@ -173,8 +207,11 @@ export default function Resources() {
           onEdit={
             (isBoardMember || isAdmin)
               ? (res) => {
-                  setEditingResource(res);
-                  setShowModal(true); // <-- Add this
+                  setEditingResource({
+                    ...res,
+                    deadline: toLocalDatetimeString(res.deadline),
+                  });
+                  setShowModal(true);
                 }
               : undefined
           }
