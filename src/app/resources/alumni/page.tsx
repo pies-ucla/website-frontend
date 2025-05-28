@@ -58,7 +58,7 @@ export default function Alumni() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-
+  
     if (res.ok) {
       const updated = await res.json();
       setAlumni((prev) => prev.map(a => a.pk === updated.pk ? updated : a));
