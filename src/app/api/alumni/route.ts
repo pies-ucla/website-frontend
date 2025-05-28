@@ -14,7 +14,7 @@ export async function GET() {
   }
 
   try {
-    const response = await fetch('http://localhost:8000/alumni/', {
+    const response = await fetch('http://localhost:3000/alumni/', {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',

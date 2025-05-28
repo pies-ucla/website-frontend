@@ -105,7 +105,7 @@ type TokenResponse = {
 
 async function refreshAccessTokenAndUser(): Promise<TokenResponse | null> {
   try {
-    const res = await fetch("http://localhost:8000/token/refresh/", {
+    const res = await fetch("http://localhost:3000/token/refresh/", {
       method: "POST",
       credentials: "include",
     });

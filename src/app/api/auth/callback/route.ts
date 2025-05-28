@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     const cookieStore = await cookies();
     try {
         const { code, redirect_uri } = await request.json();
-        const response = await fetch("http://localhost:8000/token/get/", {
+        const response = await fetch("http://localhost:3000/token/get/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

@@ -39,9 +39,9 @@ export default function Navbar() {
                 <div className={styles.socialBox}>
                     
                 <div className={styles.socialBox1}>
-                   <div className={styles.logoContainer1}>
+                   {/* <div className={styles.logoContainer1}>
                      <Image 
-                        src="/logo-placeholder.png" 
+                        src=""
                         alt="PIES" 
                         width={50} 
                         height={50}
@@ -51,13 +51,13 @@ export default function Navbar() {
 
                     <div className={styles.logoContainer}>
                      <Image 
-                        src="/logo-placeholder.png" 
+                        src=""
                         alt="PIES Logo" 
                         width={50} 
                         height={50}
                         className={styles.logoImage}
                      />
-                    </div>
+                    </div> */}
                     <div className={styles.clickHereToGetInvolved}>
                     <Link href="/get-involved">Bi-weekly meetings from 6-8pm on Tuesdays!</Link>
                     </div>

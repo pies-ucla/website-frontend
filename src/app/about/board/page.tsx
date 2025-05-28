@@ -53,19 +53,35 @@ export default function BoardPage() {
   const [board, setBoard] = useState<BoardMember[]>([]);
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
 
-  useEffect(() => {
-    const fetchBoard = async () => {
-      try {
-        const res = await fetch('/api/board');
-        const data = await res.json();
-        setBoard(data);
-      } catch (err) {
-        console.error("Failed to fetch board:", err);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchBoard = async () => {
+  //     try {
+  //       const res = await fetch('/api/board');
+  //       const data = await res.json();
+  //       setBoard(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch board:", err);
+  //     }
+  //   };
 
-    fetchBoard();
-  }, []);
+  //   fetchBoard();
+  // }, []);
+  useEffect(() => {
+  const fetchBoard = async () => {
+    try {
+      const res = await fetch('/api/board');
+      const data = await res.json();
+      // Make sure data is an array before setting it
+      setBoard(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Failed to fetch board:", err);
+      // Set board to empty array on error
+      setBoard([]);
+    }
+  };
+
+  fetchBoard();
+}, []);
 
   return (
     <div className={styles.container}>

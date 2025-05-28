@@ -7,6 +7,7 @@ const CLIENT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
 const PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY ? 
   process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n') : '';
 const SHEET_NAME = 'Newsletter Subscribers';
+const GENERAL_MEMBERS_SHEET = 'General Members'; // Use separate sheet for general members
 
 // Rate limiting configuration
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour in milliseconds
@@ -109,6 +110,8 @@ export async function POST(request: NextRequest) {
   // Get client IP for rate limiting
   const ip = request.headers.get('x-forwarded-for') || 'unknown';
   
+  console.log('Processing form submission...');
+  
   // Check rate limit
   if (!checkRateLimit(ip)) {
     return NextResponse.json(
@@ -119,19 +122,25 @@ export async function POST(request: NextRequest) {
   
   try {
     // Parse and validate request body
-    let name, email;
+    let name, email, major, pronouns, year;
     try {
       const body = await request.json();
       name = body.name;
       email = body.email;
+      major = body.major;
+      pronouns = body.pronouns;
+      year = body.year;
+      
+      console.log('Received form data:', { name, email, major, pronouns, year });
     } catch (e) {
+      console.error('Failed to parse request body:', e);
       return NextResponse.json(
         { error: 'Invalid request body' },
         { status: 400 }
       );
     }
 
-    // Validate inputs
+    // Validate required inputs
     if (!name || !email) {
       return NextResponse.json(
         { error: 'Name and email are required' },
@@ -157,9 +166,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Sanitize additional fields if provided
+    const sanitizedMajor = major ? sanitizeInput(major) : '';
+    const sanitizedPronouns = pronouns ? sanitizeInput(pronouns) : '';
+    const sanitizedYear = year ? sanitizeInput(year) : '';
+
     // Make sure environment variables are properly set
     if (!SPREADSHEET_ID || !CLIENT_EMAIL || !PRIVATE_KEY) {
       console.error('Missing required environment variables for Google Sheets API');
+      console.error({
+        hasSpreadsheetId: !!SPREADSHEET_ID,
+        hasClientEmail: !!CLIENT_EMAIL,
+        hasPrivateKey: !!PRIVATE_KEY,
+      });
       return NextResponse.json(
         { error: 'Server configuration error' },
         { status: 500 }
@@ -177,6 +196,7 @@ export async function POST(request: NextRequest) {
 
     // Create client instance for auth
     const client = await auth.getClient();
+    console.log('Google Auth client created successfully');
 
     // Instance of Google Sheets API
     const sheets = google.sheets({ version: 'v4', auth: client });
@@ -185,6 +205,7 @@ export async function POST(request: NextRequest) {
     const emailExists = await checkEmailExists(sheets, sanitizedEmail);
     
     if (emailExists) {
+      console.log('Email already exists in spreadsheet:', sanitizedEmail);
       return NextResponse.json(
         { 
           success: true, 
@@ -197,22 +218,89 @@ export async function POST(request: NextRequest) {
     // Get the current date and time in a readable format
     const timestamp = new Date().toISOString();
 
-    // Add row to the spreadsheet - starting from row 2 (after headers)
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: SPREADSHEET_ID,
-      range: `${SHEET_NAME}!A2:D`, // Using A2:D to start after headers (adding timestamp column)
-      valueInputOption: 'USER_ENTERED',
-      requestBody: {
-        values: [[timestamp, sanitizedName, sanitizedEmail, ip]], // Store IP for security auditing
-      },
-    });
+    console.log('Adding newsletter subscriber to main sheet...');
+    
+    // Add row to the newsletter spreadsheet
+    try {
+      await sheets.spreadsheets.values.append({
+        spreadsheetId: SPREADSHEET_ID,
+        range: `${SHEET_NAME}!A2:D`, // Using A2:D to start after headers
+        valueInputOption: 'USER_ENTERED',
+        requestBody: {
+          values: [[timestamp, sanitizedName, sanitizedEmail, ip]],
+        },
+      });
+      console.log('Successfully added to newsletter subscribers');
+    } catch (error) {
+      console.error('Error adding to newsletter sheet:', error);
+      throw error;
+    }
+    
+    // If this is from the interest form (has major, pronouns, year)
+    if (major || pronouns || year) {
+      console.log('Adding general member information...');
+      
+      // Create formatted data row
+      const formattedData = [
+        timestamp,
+        sanitizedName,
+        sanitizedEmail, 
+        sanitizedMajor,
+        sanitizedPronouns,
+        sanitizedYear
+      ];
+      
+      // Simple approach: append all data in one row to the General Members sheet
+      try {
+        // First try to use a separate sheet for general members
+        await sheets.spreadsheets.values.append({
+          spreadsheetId: SPREADSHEET_ID,
+          range: `${GENERAL_MEMBERS_SHEET}!A2:F`,
+          valueInputOption: 'USER_ENTERED',
+          requestBody: {
+            values: [formattedData],
+          },
+        });
+        console.log('Successfully added to general members sheet');
+      } catch (generalSheetError) {
+        console.error('Error adding to general members sheet:', generalSheetError);
+        console.log('Attempting to add to column F in the main sheet instead...');
+        
+        // Fallback approach: Try using column J in the main sheet
+        try {
+          await sheets.spreadsheets.values.append({
+            spreadsheetId: SPREADSHEET_ID,
+            range: `${SHEET_NAME}!J3:K`,
+            valueInputOption: 'USER_ENTERED',
+            requestBody: {
+              values: [[
+                `Name: ${sanitizedName}`,
+                `Email: ${sanitizedEmail}`,
+                `Major(s) + Minor(s): ${sanitizedMajor}`,
+                `Pronouns: ${sanitizedPronouns}`,
+                `Year: ${sanitizedYear}`,
+                `------------------` // Simple text separator
+              ]],
+            },
+          });
+          console.log('Successfully added to column F in the main sheet');
+        } catch (fallbackError) {
+          console.error('Failed to add to column F in the main sheet:', fallbackError);
+          throw fallbackError;
+        }
+      }
+    }
 
+    console.log('Form submission completed successfully');
     return NextResponse.json(
-      { success: true, message: 'Thank you for subscribing to our newsletter!' },
+      { 
+        success: true, 
+        message: 'Thank you for your interest in PIES! Your information has been submitted successfully.' 
+      },
       { status: 200 }
     );
   } catch (error) {
-    console.error('Error in newsletter subscription:', error);
+    console.error('Error in form submission:', error);
     if (error instanceof Error) {
       console.error('Error details:', {
         message: error.message,
@@ -221,7 +309,7 @@ export async function POST(request: NextRequest) {
       });
     }
     return NextResponse.json(
-      { error: 'Failed to process subscription. Please try again later.' },
+      { error: 'Failed to process your submission. Please try again later.' },
       { status: 500 }
     );
   }

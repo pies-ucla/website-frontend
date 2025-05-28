@@ -1,0 +1,313 @@
+.pageContainer {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f9e5a0; /* Changed to beige/yellow background */
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem; /* Reduced margin-top */
+  padding-bottom: 4rem;
+  background-color: #eedea3; /* Match the beige/yellow background from image */
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #d14342; /* Changed to match the red color in the image */
+  margin-bottom: 1.5rem;
+  flex: 1;
+  min-width: 300px;
+  font-family: 'Comic Sans MS', cursive, sans-serif; /* More playful font similar to image */
+}
+
+.imageContainer {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  min-width: 250px;
+}
+
+.headerImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.description {
+  width: 100%;
+  margin-bottom: 2rem;
+  text-align: left;
+  color: #d14342; /* Changed to match the red color in the image */
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.description p {
+  margin-bottom: 1rem;
+}
+
+.joinForm {
+  width: 100%;
+  max-width: 650px; /* Increased to match image width */
+}
+
+.inputGroup {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #d14342; /* Changed to match red color in image */
+  font-size: 1.2rem; /* Increased to match image */
+}
+
+.inputText {
+  width: 100%;
+  margin-left: -120px;
+}
+
+.inputField {
+  width: calc(140% + 30px);
+  margin-left: -125px;
+  padding: 0.55rem;
+  border: 2px solid #d14342; /* Border thinner and matches red in image */
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #faecc2; /* Slightly lighter than background for input fields */
+  color: #333;
+  position: relative;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: #b73635; /* Darker red for focus */
+  box-shadow: 0 0 0 2px rgba(209, 67, 66, 0.2);
+}
+
+/* Modified to properly style the half-width input fields with labels */
+.inputFieldHalf {
+  width: calc(100% - 100px); /* Adjust width to leave space for label */
+  padding: 0.55rem;
+  border: 2px solid #d14342;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #faecc2;
+  color: #333;
+  margin-left: 10px; /* Add margin to separate from label */
+}
+
+/* Specific styling for Year field to position label on right */
+.columnRight {
+  position: relative;
+}
+
+.columnRight label {
+  position: absolute;
+  left: calc(100% - 65px); /* Position label on right side */
+  top: 0;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: #d14342; /* Ensure red color matches */
+}
+
+.columnRight .inputFieldHalf {
+  width: calc(100% - 70px); /* Make room for label on right */
+  margin-left: 0; /* Reset left margin */
+}
+
+/* Ensure Pronouns label has the same color */
+.columnLeft label {
+  color: #d14342; /* Same red color as Year label */
+}
+
+.submitButton {
+  background-color: #d14342; /* Changed to match red button in image */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.6rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 1.5rem auto 0;
+  width: auto; /* Auto width to match "Join!" button */
+}
+
+.submitButton:hover {
+  background-color: #b73635; /* Darker red for hover */
+}
+
+.submitButton:disabled {
+  background-color: #e68a84;
+  cursor: not-allowed;
+}
+
+.submitButton:active {
+  transform: translateY(1px);
+}
+
+/* Status message styles */
+.statusMessage {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Two-column layout for Pronouns and Year fields */
+.twoColumnContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+}
+
+.columnLeft, .columnRight {
+  flex: 1;
+  position: relative;
+}
+
+/* Style for both Pronouns and Year labels */
+.columnLeft label{
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgb(215, 0, 0);
+  font-size: 1.2rem;
+  font-weight: 600;
+  z-index: 2;
+  padding-left: 10px;
+}
+
+.columnRight label{
+  position: absolute;
+  left: 350;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgb(215, 0, 0);
+  font-size: 1.2rem;
+  font-weight: 600;
+  z-index: 2;
+  padding-left: 10px;
+
+}
+
+/* Reset the width for both input fields */
+.columnLeft .inputFieldHalf, .columnRight .inputFieldHalf {
+  width: 100%;
+  margin-left: 0;
+  padding-left: 110px; /* Make space for the label inside */
+}
+
+/* Specific styling for dropdown */
+select.inputFieldHalf {
+  padding-right: 30px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23d14342' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+/* Added styling for the bear mascot */
+.bearMascot {
+  width: 120px; 
+  height: auto;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .headerContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .imageContainer {
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .description {
+    font-size: 1rem;
+  }
+  
+  .twoColumnContainer {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .bearMascot {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin: 0 auto 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .submitButton {
+    width: 100%;
+  }
+}
