@@ -26,22 +26,29 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const res = await fetch('/api/events');
-        const data = await res.json();
-        setEvents(data);
-      } catch (err) {
-        console.error("Failed to fetch events:", err);
-      }
-    };
-    fetchEvents();
-  }, []);
-  const now = new Date();
-  const upcomingEvents = events
-    .filter((e) => new Date(e.date_time) > now)
-    .sort((a, b) => new Date(a.date_time).getTime() - new Date(b.date_time).getTime())
-    .slice(0, 3);
+  const fetchEvents = async () => {
+    try {
+      const res = await fetch('/api/events');
+      const data = await res.json();
+      // Ensure data is an array before setting it
+      setEvents(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Failed to fetch events:", err);
+      // Set to empty array on error
+      setEvents([]);
+    }
+  };
+  fetchEvents();
+}, []);
+
+const now = new Date();
+// Add a safety check to ensure events is always an array
+const upcomingEvents = Array.isArray(events) 
+  ? events
+      .filter((e) => new Date(e.date_time) > now)
+      .sort((a, b) => new Date(a.date_time).getTime() - new Date(b.date_time).getTime())
+      .slice(0, 3)
+  : [];
 
   const carouselImages = [
     '/carousel/home/home_0.png',

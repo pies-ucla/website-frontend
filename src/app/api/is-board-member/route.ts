@@ -21,7 +21,7 @@ export async function GET() {
     }
 
     // Now fetch board members using the token
-    const res = await fetch('http://localhost:8000/board/', {
+    const res = await fetch('http://localhost:3000/board/', {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",

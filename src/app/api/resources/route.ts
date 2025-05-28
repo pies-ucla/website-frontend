@@ -13,7 +13,7 @@ export async function GET() {
   }
 
   try {
-    const response = await fetch('http://localhost:8000/resources/', {
+    const response = await fetch('http://localhost:3000/resources/', {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',

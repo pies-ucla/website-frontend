@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 
 export async function GET() {
   try {
-    const response = await fetch('http://localhost:8000/board/');
+    const response = await fetch('http://localhost:3000/board/');
 
     if (!response.ok) {
       return new Response(JSON.stringify({ error: 'Failed to fetch alumni' }), {

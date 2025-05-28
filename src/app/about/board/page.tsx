@@ -68,6 +68,19 @@ export default function BoardPage() {
     pie: '',
   });
 
+  // useEffect(() => {
+  //   const fetchBoard = async () => {
+  //     try {
+  //       const res = await fetch('/api/board');
+  //       const data = await res.json();
+  //       setBoard(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch board:", err);
+  //     }
+  //   };
+
+  //   fetchBoard();
+  // }, []);
   useEffect(() => {
     fetch('/api/board')
       .then(res => res.json())
