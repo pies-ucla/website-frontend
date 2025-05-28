@@ -114,13 +114,13 @@ export default function Events() {
     };
 
     try {
-      const res = await fetch(`/api/events/${formState.pk}`, {
+      const res = await fetch(`/api/events/${formState.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
       const updatedEvent = await res.json();
-      setEvents((prev) => prev.map(ev => (ev.pk === updatedEvent.pk ? updatedEvent : ev)));
+      setEvents((prev) => prev.map(ev => (ev.id === updatedEvent.id ? updatedEvent : ev)));
       closeModal();
     } catch (err) {
       console.error("Error updating event:", err);
