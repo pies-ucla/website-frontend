@@ -1,11 +1,10 @@
 // app/api/is-board-member/route.ts
 import { cookies } from 'next/headers';
-import { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET); // Must match Django's signing key
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const cookieStore = await cookies();
   const token = cookieStore.get('access_token')?.value;
 
@@ -34,7 +33,7 @@ export async function GET(req: NextRequest) {
     }
 
     const boardMembers = await res.json();
-    const isMember = boardMembers.some((bm: any) => bm.user.pk === userId);
+    const isMember = boardMembers.some((bm: { user: { pk: number }}) => bm.user.pk === userId);
 
     return new Response(JSON.stringify({ isBoardMember: isMember }), {
       status: 200,

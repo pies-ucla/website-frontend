@@ -10,10 +10,10 @@ import { FiMenu, FiX } from 'react-icons/fi';
 export default function Navbar() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
     const dropdownRef = useRef<HTMLDivElement>(null);
     const loginURL = "https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:3000/auth/callback/&prompt=consent&response_type=code&client_id=229386821939-n5l1mhe4h7u497v93dksk76f8s46fu69.apps.googleusercontent.com&scope=openid email profile&access_type=offline";
-    const { user, logout, loading } = useAuth();
-    console.log("user", user);
+    const { user, logout, loading, isAdmin } = useAuth();
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
@@ -36,33 +36,17 @@ export default function Navbar() {
     return (
         <>
             <div className={styles.socialBar}>
-                <div className={styles.socialBox}>
-                    
-                <div className={styles.socialBox1}>
-                   {/* <div className={styles.logoContainer1}>
-                     <Image 
-                        src=""
-                        alt="PIES" 
-                        width={50} 
-                        height={50}
-                        className={styles.logoImage}
-                     />
-                    </div>
-
-                    <div className={styles.logoContainer}>
-                     <Image 
-                        src=""
-                        alt="PIES Logo" 
-                        width={50} 
-                        height={50}
-                        className={styles.logoImage}
-                     />
-                    </div> */}
-                    <div className={styles.clickHereToGetInvolved}>
-                    <Link href="/get-involved">Bi-weekly meetings from 6-8pm on Tuesdays!</Link>
-                    </div>
-                </div>
-              
+                <Image
+                    src="/icons/logo.png"
+                    alt="PIE"
+                    width={50}
+                    height={50}
+                    className={styles.logoImage}
+                />
+                <div className={styles.getInvolvedBox}>
+                    <Link href="/opportunities">
+                    Bi-weekly meetings from 6-8pm on Tuesdays!
+                    </Link>
                 </div>
             </div>
             <nav className={styles.navbar}>
@@ -134,6 +118,11 @@ export default function Navbar() {
                             {
                                 user ? (
                                     <div className={styles.userInfo}>
+                                        {isAdmin && (
+                                            <Link href="/admin">
+                                                <button className={styles.adminButton}>Admin</button>
+                                            </Link>
+                                        )}
                                         <span>Welcome, {user.first_name}!</span>
                                         <button onClick={logout} className={styles.logoutButton}>Logout</button>
                                     </div>

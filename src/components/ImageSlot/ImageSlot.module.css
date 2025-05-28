@@ -5,35 +5,42 @@
   overflow: hidden;
 }
 
+.editable {
+  cursor: pointer;
+}
+
 .imageContainer {
   position: relative;
   width: 100%;
-  height: auto;
+  height: 100%;
 }
 
 .image {
-  max-height: 100%;
-  max-width: 100%;
+  width: 100%;
   height: auto;
-  width: auto;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
 }
 
-.editButton {
+.overlay {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background: rgba(0, 0, 0, 0.7);
+  bottom: 0.1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
   color: white;
-  border: none;
-  padding: 0.5rem 0.8rem;
-  font-size: 0.9rem;
-  border-radius: 5px;
-  cursor: pointer;
-  display: none;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  pointer-events: none;
 }
 
-.wrapper:hover .editButton {
-  display: block;
+.editable:hover .overlay {
+  opacity: 1;
+}
+
+.replaceText {
+  pointer-events: none;
 }

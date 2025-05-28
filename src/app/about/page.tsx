@@ -2,24 +2,23 @@
 
 import React, { useState } from 'react';
 import styles from './about.module.css';
-import Image from 'next/image';
 import Carousel from '@/components/Carousel/Carousel';
 import ImageSlot from '@/components/ImageSlot/ImageSlot';
 import { useAuth } from '@/context/AuthContext';
 
 export default function About() {
   const carouselImages = [
-    '/carousel/about/about_0.webp',
-    '/carousel/about/about_1.webp',
-    '/carousel/about/about_2.webp',
-    '/carousel/about/about_3.webp',
-    '/carousel/about/about_4.webp',
+    '/carousel/about/about_0.png',
+    '/carousel/about/about_1.png',
+    '/carousel/about/about_2.png',
+    '/carousel/about/about_3.png',
+    '/carousel/about/about_4.png',
   ];
 
-  const { isBoardMember } = useAuth();
+  const { isBoardMember, isAdmin } = useAuth();
   const [images, setImages] = useState({
-      vision: `/about/vision.webp?t=${Date.now()}`,
-      mission: `/about/mission.webp?t=${Date.now()}`,
+      vision: `/about/vision.png?t=${Date.now()}`,
+      mission: `/about/mission.png?t=${Date.now()}`,
   });
 
   return (
@@ -34,7 +33,7 @@ export default function About() {
             <ImageSlot
               slot="vision"
               src={images.vision}
-              editable={isBoardMember}
+              editable={isBoardMember || isAdmin}
               targetDir="about"
               onImageReplaced={(newUrl) =>
                 setImages((prev) => ({
@@ -49,11 +48,11 @@ export default function About() {
         <div>
           <h2>OUR MISSION</h2>
           <div className={styles.textbox}>
-            <p>To ensure PIES' success in fulfilling its purpose, PIES must be dedicated to the personal and professional growth of its general members, specifically through its four pillars: Pilipino, Innovation, Education, and Social. By fostering a strong sense of cultural identity, promoting academic excellence, and building a supportive social network, PIES empowers its members to thrive both within and beyond the university setting.</p>
+            <p>To ensure PIES&apos; success in fulfilling its purpose, PIES must be dedicated to the personal and professional growth of its general members, specifically through its four pillars: Pilipino, Innovation, Education, and Social. By fostering a strong sense of cultural identity, promoting academic excellence, and building a supportive social network, PIES empowers its members to thrive both within and beyond the university setting.</p>
             <ImageSlot
               slot="mission"
               src={images.mission}
-              editable={isBoardMember}
+              editable={isBoardMember || isAdmin}
               targetDir="about"
               onImageReplaced={(newUrl) =>
                 setImages((prev) => ({

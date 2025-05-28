@@ -1,85 +1,41 @@
 .socialBar {
-    padding: 2em;
-    background-color: #2f61b9;
-    color: #fff;
-    display: flex;
-    width: 1000%;
-    justify-content: flex-start;
-    position: fixed;
-    top: 0;
-    z-index: 900;  /*ensure it stays on top*/
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary-blue);
+  padding: 0.75rem 2rem;
+  width: 100%;
+  height: 3rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
-.socialBox {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 1rem;
-    margin-top: -0.75rem;
-    
+.logoImage {
+  object-fit: contain;
+  height: 3rem;
+  width: auto;
 }
 
-.socialBox1 {
-    display: flex;
-    align-items: center;
+.getInvolvedBox {
+  font-family: var(--font-display);
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--off-yellow);
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
 }
 
-
-.socialBox img {
-    width: 25px;
-    height: 25px;
+.getInvolvedBox a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.socialBox a {
-    color: #fff;
-    text-decoration: none;
-    margin-left: 0.5rem;
-}
-
-.socialBox1 p {
-    padding: 0 1rem;
-    margin-left: 1rem;
-    display: flex;
-    align-items: center;
-    color:rgb(173, 232, 251)
-}
-
-.socialBox2 p {
-    padding: 0 1rem;
-    display: flex;
-    align-items: center;
-    margin-left: 100rem;
-    color:rgb(173, 232, 251)
-}
-
-.socialBox3 p {
-    padding: 0 1rem;
-    display: flex;
-    align-items: center;
-    color:rgb(173, 232, 251)
-}
-
-.clickHereToGetInvolved {
-    color: #fff;
-    font-size: 1rem;
-    font-weight: bold;
-    margin-left: 55rem;
-    white-space: nowrap; 
-    position: relative; 
-    top: -15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem 1rem;
-    background-color: rgba(255, 255, 255, 0.1); 
-    border-radius: 4px;
-    transition: all 0.2s ease;
-}
-
-.clickHereToGetInvolved:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
+.getInvolvedBox:hover {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .navbar {
@@ -196,13 +152,15 @@
 }
 
 .logoContainer {
-    display: flex;
-    align-items: center;
-    position: relative;
-    left: 5%;
-    transform: translateX(-500%);
-    z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0.25rem;
 }
+
+
 
 .logoContainer1 {
     display: flex;
@@ -467,4 +425,20 @@
         margin-left: 0;
         padding-right: 0;
     }
+}
+
+.adminButton {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.adminButton:hover {
+  background-color: #003f8a;
 }

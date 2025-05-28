@@ -18,10 +18,10 @@ export async function POST(req: NextRequest) {
 
     const processedImage = await sharp(buffer)
       .resize({ width: 1920 })
-      .toFormat("webp")
+      .toFormat("png")
       .toBuffer();
 
-    const relativePath = path.join(targetDir, `${slot}.webp`);
+    const relativePath = path.join(targetDir, `${slot}.png`);
     const fullPath = path.join(process.cwd(), "public", relativePath);
 
     // Ensure the directory exists

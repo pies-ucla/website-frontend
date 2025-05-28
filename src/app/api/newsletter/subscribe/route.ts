@@ -1,5 +1,7 @@
 import { google } from 'googleapis';
 import { NextRequest, NextResponse } from 'next/server';
+import { sheets_v4 } from "googleapis";
+import { JWT } from 'google-auth-library';
 
 // Google Sheets API configuration
 const SPREADSHEET_ID = process.env.GOOGLE_SHEET_ID;
@@ -77,31 +79,28 @@ function checkRateLimit(ip: string): boolean {
 /**
  * Check if email already exists in the spreadsheet
  */
-async function checkEmailExists(sheets: any, email: string): Promise<boolean> {
+async function checkEmailExists(
+  sheets: sheets_v4.Sheets,
+  email: string
+): Promise<boolean> {
   try {
-    // Get all the data from the spreadsheet (specifically the email column)
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${SHEET_NAME}!C:C`, 
+      range: `${SHEET_NAME}!C:C`,
     });
 
     const rows = response.data.values || [];
-    
-    // Convert email to lowercase for case-insensitive comparison
     const emailLowerCase = email.toLowerCase();
-    
-    // Check if email exists in any row (skip the header row)
+
     for (let i = 1; i < rows.length; i++) {
       if (rows[i][0] && rows[i][0].toLowerCase() === emailLowerCase) {
         return true;
       }
     }
-    
+
     return false;
-  } catch (error) {
-    console.error('Error checking for duplicate email:', error);
-    // If there's an error checking, we'll assume email doesn't exist
-    // to avoid blocking legitimate submissions
+  } catch (error: unknown) {
+    console.error("Error checking for duplicate email:", error);
     return false;
   }
 }
@@ -132,8 +131,7 @@ export async function POST(request: NextRequest) {
       year = body.year;
       
       console.log('Received form data:', { name, email, major, pronouns, year });
-    } catch (e) {
-      console.error('Failed to parse request body:', e);
+    } catch {
       return NextResponse.json(
         { error: 'Invalid request body' },
         { status: 400 }
@@ -186,14 +184,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Set up auth
-    const auth = new google.auth.GoogleAuth({
-      credentials: {
-        client_email: CLIENT_EMAIL,
-        private_key: PRIVATE_KEY,
-      },
+    const client = new JWT({
+      email: CLIENT_EMAIL,
+      key: PRIVATE_KEY,
       scopes: ['https://www.googleapis.com/auth/spreadsheets'],
     });
-
+    
     // Create client instance for auth
     const client = await auth.getClient();
     console.log('Google Auth client created successfully');

@@ -37,7 +37,7 @@ export default function CallbackPage() {
     };
 
     fetchTokens();
-  }, [router]);
+  }, [router, login]);
 
   return <p className="p-4 text-center">Logging you in…</p>;
 }
