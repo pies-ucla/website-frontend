@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
 import { useRouter } from "next/navigation";
+const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
 // ====== Types ======
 type User = {
