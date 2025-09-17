@@ -1,11 +1,12 @@
 // app/api/auth/callback/route.ts
 import { cookies } from "next/headers";
+const API_URL =  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 
 export async function POST(request: Request) {
     const cookieStore = await cookies();
     try {
         const { code, redirect_uri } = await request.json();
-        const response = await fetch("http://localhost:8000/token/get/", {
+        const response = await fetch(`${API_URL}/token/get/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

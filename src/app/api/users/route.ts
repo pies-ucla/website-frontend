@@ -1,5 +1,6 @@
 // app/api/alumni/route.ts
 import { cookies } from 'next/headers';
+const API_URL =  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 
 export async function GET() {
   const cookieStore = await cookies();
@@ -14,7 +15,7 @@ export async function GET() {
   }
 
   try {
-    const response = await fetch('http://localhost:8000/users/', {
+    const response = await fetch('${API_URL}/users/', {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -55,7 +56,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const response = await fetch('http://localhost:8000/users/', {
+    const response = await fetch(`${API_URL}/users/`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,

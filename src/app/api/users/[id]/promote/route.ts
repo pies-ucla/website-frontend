@@ -1,5 +1,6 @@
 // app/api/users/[userId]/demote/route.ts
 import { cookies } from 'next/headers';
+const API_URL =  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 
 async function getToken() {
   const cookieStore = await cookies();
@@ -17,7 +18,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
   const payload = await req.json(); // read body from client
 
-  const res = await fetch(`http://localhost:8000/users/${id}/promote/`, {
+  const res = await fetch(`${API_URL}/users/${id}/promote/`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,

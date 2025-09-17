@@ -1,7 +1,8 @@
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 
-const API_BASE_URL = 'http://localhost:8000/events/';
+const API_URL =  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
+const API_BASE_URL = '${API_URL}/events/';
 
 async function getToken() {
   const cookieStore = await cookies();

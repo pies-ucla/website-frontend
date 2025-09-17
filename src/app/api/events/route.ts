@@ -1,9 +1,10 @@
 import { cookies } from "next/headers";
+const API_URL =  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 
 // app/api/events/route.ts
 export async function GET() {
   try {
-    const response = await fetch('http://localhost:8000/events/');
+    const response = await fetch(`${API_URL}/events/`);
 
     if (!response.ok) {
       return new Response(JSON.stringify({ error: 'Failed to fetch events' }), {
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const response = await fetch('http://localhost:8000/events/', {
+    const response = await fetch(`${API_URL}/events/`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,

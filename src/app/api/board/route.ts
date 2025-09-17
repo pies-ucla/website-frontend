@@ -1,9 +1,10 @@
 // app/api/alumni/route.ts
 import { cookies } from 'next/headers';
+const API_URL =  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 
 export async function GET() {
   try {
-    const response = await fetch('http://localhost:8000/board/');
+    const response = await fetch(`${API_URL}/board/`);
 
     if (!response.ok) {
       return new Response(JSON.stringify({ error: 'Failed to fetch alumni' }), {
@@ -28,6 +29,7 @@ export async function GET() {
 export async function POST(request: Request) {
   const cookieStore = await cookies();
   const token = cookieStore.get('access_token')?.value;
+  
 
   if (!token) {
     return new Response(JSON.stringify({ error: 'Not authenticated' }), {
@@ -39,7 +41,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const response = await fetch('http://localhost:8000/board/', {
+    const response = await fetch(`${API_URL}/board/`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,

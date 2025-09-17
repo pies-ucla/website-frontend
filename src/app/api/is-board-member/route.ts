@@ -3,6 +3,8 @@ import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET); // Must match Django's signing key
+const API_URL =  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
+
 
 export async function GET() {
   const cookieStore = await cookies();
@@ -21,7 +23,7 @@ export async function GET() {
     }
 
     // Now fetch board members using the token
-    const res = await fetch('http://localhost:8000/board/', {
+    const res = await fetch(`${API_URL}/board/`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",

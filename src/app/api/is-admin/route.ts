@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
+const API_URL =  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 
 export async function GET() {
   const cookieStore = await cookies();
@@ -22,7 +23,7 @@ export async function GET() {
     }
 
     // Fetch all users and find the one matching the token's userId
-    const res = await fetch('http://localhost:8000/users/', {
+    const res = await fetch(`${API_URL}/users/`, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
