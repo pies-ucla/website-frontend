@@ -1,8 +1,7 @@
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 
-const API_URL =  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
-const API_BASE_URL = `${API_URL}/resources/`;
+const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
 async function getToken() {
   const cookieStore = await cookies();
@@ -23,7 +22,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   try {
     const body = await req.json();
-    const response = await fetch(`${API_BASE_URL}${id}/`, {
+    const response = await fetch(`${API_URL}/resources/${id}/`, {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -57,7 +56,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}${id}/`, {
+    const response = await fetch(`${API_URL}/resources/${id}/`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
