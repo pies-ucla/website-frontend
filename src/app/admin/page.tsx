@@ -5,6 +5,7 @@ import styles from "./admin.module.css";
 import { useAuth } from "@/context/AuthContext";
 import Select, { StylesConfig } from "react-select";
 import { Major, MajorLabels, BoardPositions, BoardPositionLabels, enumToArray } from "@/utils/enums";
+const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
 type User = {
   pk: number;
@@ -90,7 +91,7 @@ export default function Admin() {
   const [expandedPk, setExpandedPk] = useState<number | null>(null);
 
   const fetchUsers = useCallback(async () => {
-    const res = await fetch("/api/users/", {
+    const res = await fetch(`${API_URL}/api/users/`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     const data: User[] = await res.json();
@@ -117,7 +118,7 @@ export default function Admin() {
     const promotion_year = draft.promotion_year ?? new Date().getFullYear() + 1;
 
     try {
-      const res = await fetch(`/api/users/${u.pk}/`, {
+      const res = await fetch(`${API_URL}/api/users/${u.pk}/`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
@@ -142,7 +143,7 @@ export default function Admin() {
               }
             : undefined;
 
-        const promoteRes = await fetch(`/api/users/${u.pk}/${endpoint}/`, {
+        const promoteRes = await fetch(`${API_URL}/api/users/${u.pk}/${endpoint}/`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -154,7 +155,7 @@ export default function Admin() {
         if (!promoteRes.ok) return;
       }
 
-      const patchRes = await fetch(`/api/users/${u.pk}/`, {
+      const patchRes = await fetch(`${API_URL}/api/users/${u.pk}/`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -178,7 +179,7 @@ export default function Admin() {
   };
 
   const deleteUser = async (pk: number) => {
-    await fetch(`/api/users/${pk}/`, {
+    await fetch(`${API_URL}/api/users/${pk}/`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${accessToken}` },
     });

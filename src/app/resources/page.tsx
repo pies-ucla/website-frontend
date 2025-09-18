@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import ResourceModal from "@/components/Resources/ResourceModal";
 // import { ResourceType, ResourceTypeLabels, enumToArray } from "@/utils/enums";
 // import Select from "react-select";
+const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
 type Resource = {
   pk?: number;
@@ -110,7 +111,7 @@ export default function Resources() {
 
   const fetchResources = async () => {
     try {
-      const res = await fetch("/api/resources");
+      const res = await fetch(`${API_URL}}/api/resources`);
       const data = await res.json();
       const now = new Date();
       if (Array.isArray(data)) {
@@ -156,7 +157,7 @@ export default function Resources() {
 
 
   const handleDelete = async (pk: number) => {
-    await fetch(`/api/resources/${pk}`, { method: "DELETE" });
+    await fetch(`${API_URL}/api/resources/${pk}`, { method: "DELETE" });
     await fetchResources();
   };
 

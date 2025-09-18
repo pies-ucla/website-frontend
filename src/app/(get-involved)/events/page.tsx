@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from '@/components/Modal/Modal';
 import styles from './events.module.css';
 import { useAuth } from '@/context/AuthContext';
+const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
 type Event = {
   pk: number;
@@ -65,7 +66,7 @@ export default function Events() {
   useEffect(() => {
       const fetchEvents = async () => {
         try {
-          const res = await fetch('/api/events');
+          const res = await fetch(`${API_URL}/api/events`);
           const data = await res.json();
           setEvents(data);
         } catch (err) {
@@ -91,7 +92,7 @@ export default function Events() {
         date_time: toUTCISOString(formState.date_time),
       };
 
-      const res = await fetch('/api/events', {
+      const res = await fetch(`${API_URL}/api/events`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -115,7 +116,7 @@ export default function Events() {
 
     try {
       // Replace formState.id with formState.pk
-      const res = await fetch(`/api/events/${formState.pk}`, {
+      const res = await fetch(`${API_URL}/api/events/${formState.pk}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -132,7 +133,7 @@ export default function Events() {
 
   const handleDelete = async (eventToDelete: Event) => {
     try {
-      await fetch(`/api/events/${eventToDelete.pk}`, { method: 'DELETE' });
+      await fetch(`${API_URL}/api/events/${eventToDelete.pk}`, { method: 'DELETE' });
       setEvents((prev) => prev.filter(ev => ev.event_name !== eventToDelete.event_name));
       setSelectedEvent(null);
     } catch (err) {

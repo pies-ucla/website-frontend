@@ -15,7 +15,7 @@ export default function CallbackPage() {
 
     const fetchTokens = async () => {
       try {
-        const res = await fetch("/api/auth/callback", {
+        const res = await fetch(`${API_URL}/api/auth/callback`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

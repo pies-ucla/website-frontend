@@ -5,6 +5,7 @@ import styles from './board.module.css';
 import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import ImageSlot from '@/components/ImageSlot/ImageSlot';
+const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
 // Types
 
@@ -69,7 +70,7 @@ export default function BoardPage() {
   });
 
   useEffect(() => {
-    fetch('/api/board')
+    fetch(`${API_URL}/api/board`)
       .then(res => res.json())
       .then(setBoard)
       .catch(err => console.error('Failed to fetch board:', err));
@@ -85,7 +86,7 @@ export default function BoardPage() {
       )
     );
 
-    const res = await fetch(`/api/board/${formState.id}`, {
+    const res = await fetch(`${API_URL}/api/board/${formState.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(cleanBody),

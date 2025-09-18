@@ -1,6 +1,6 @@
 // app/api/users/[userId]/demote/route.ts
 import { cookies } from 'next/headers';
-const API_URL =  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
+const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
 async function getToken() {
   const cookieStore = await cookies();

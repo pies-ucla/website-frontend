@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import styles from './newsletter.module.css';
+const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
 export default function Newsletter() {
   const [name, setName] = useState('');
@@ -19,7 +20,7 @@ export default function Newsletter() {
     setSubmissionStatus({});
     
     try {
-      const response = await fetch('/api/newsletter/subscribe', {
+      const response = await fetch(`${API_URL}/api/newsletter/subscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

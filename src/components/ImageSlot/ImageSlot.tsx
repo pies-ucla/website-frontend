@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import styles from "./ImageSlot.module.css";
 import Image from "next/image";
+const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
 interface ImageSlotProps {
   src: string;
@@ -40,7 +41,7 @@ const ImageSlot = ({
     if (targetDir) formData.append("targetDir", targetDir);
 
     try {
-      const res = await fetch("/api/images/replace", {
+      const res = await fetch(`${API_URL/api/images/replace`, {
         method: "POST",
         body: formData,
         credentials: "include",

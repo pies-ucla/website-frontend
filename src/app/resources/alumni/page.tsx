@@ -7,6 +7,7 @@ import AddAlumniModal from "@/components/Alumni/AddAlumniModal/AddAlumniModal";
 import AlumniBanner from "@/components/Alumni/AlumniBanner/AlumniBanner";
 import AlumniFilter from "@/components/Alumni/AlumniFilter/AlumniFilter";
 import EditAlumniModal from "@/components/Alumni/EditAlumniModal/EditAlumniModal";
+const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
 function formatMajor(enumStr: string): string {
   const namePart = enumStr.replace(/^(ba|bs|undeclared)_/, '');
@@ -53,7 +54,7 @@ export default function Alumni() {
     if (!payload.minor?.trim()) delete payload.minor;
     if (!payload.pie?.trim()) delete payload.pie;
 
-    const res = await fetch(`/api/alumni/${payload.pk}`, {
+    const res = await fetch(`${API_URL}/api/alumni/${payload.pk}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -71,7 +72,7 @@ export default function Alumni() {
   if (!confirm("Are you sure you want to delete this alumni?")) return;
 
   try {
-    const res = await fetch(`/api/alumni/${id}`, {
+    const res = await fetch(`${API_URL}/api/alumni/${id}`, {
       method: 'DELETE',
     });
 
@@ -90,7 +91,7 @@ export default function Alumni() {
     if (!loading && user){
       const fetchAlumni = async () => {
         try {
-          const res = await fetch('/api/alumni');
+          const res = await fetch(`${API_URL}/api/alumni`);
           const data = await res.json();
           setAlumni(data);
         } catch (err) {

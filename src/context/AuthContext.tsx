@@ -44,8 +44,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(refreshed.user);
 
         const [boardRes, adminRes] = await Promise.all([
-          fetch("/api/is-board-member", { credentials: "include" }),
-          fetch("/api/is-admin", { credentials: "include" }),
+          fetch(`${API_URL}/api/is-board-member`, { credentials: "include" }),
+          fetch(`${API_URL}/api/is-admin`, { credentials: "include" }),
         ]);
 
         if (boardRes.ok) {
@@ -70,8 +70,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     try {
       const [boardRes, adminRes] = await Promise.all([
-        fetch("/api/is-board-member", { credentials: "include" }),
-        fetch("/api/is-admin", { credentials: "include" }),
+        fetch(`${API_URL}/api/is-board-member`, { credentials: "include" }),
+        fetch(`${API_URL}/api/is-admin`, { credentials: "include" }),
       ]);
 
       if (boardRes.ok) {
@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
     setIsBoardMember(false);
     setIsAdmin(false);
-    await fetch('/api/auth/logout', {
+    await fetch(`${API_URL}/api/auth/logout`, {
       method: 'POST',
     });
     setLoading(false);
