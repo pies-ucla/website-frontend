@@ -108,7 +108,7 @@ export default function Alumni() {
       if (!payload.minor?.trim()) delete payload.minor;
       if (!payload.pie?.trim()) delete payload.pie;
 
-      const res = await fetch('/api/alumni', {
+      const res = await fetch(`${API_URL}/api/alumni`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

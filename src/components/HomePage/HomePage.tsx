@@ -7,6 +7,7 @@ import Carousel from '../Carousel/Carousel';
 import { useEffect, useState } from 'react';
 import Pillars from '../Pillars/Pillars';
 import StaticModalCard from '../StaticPierreCard/StaticModal';
+const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
 type Event = {
   event_name: string;
@@ -28,7 +29,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch('/api/events');
+        const res = await fetch(`${API_URL}/api/events`);
         const data = await res.json();
         setEvents(data);
       } catch (err) {

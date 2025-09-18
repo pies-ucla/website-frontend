@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 
 const API_URL =  process.env.NEXT_PUBLIC_API_URL;
+console.log("API_URL:", API_URL); // Debugging line to check if API_URL is defined
 
 async function getToken() {
   const cookieStore = await cookies();
