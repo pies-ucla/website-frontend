@@ -41,7 +41,7 @@ const ImageSlot = ({
     if (targetDir) formData.append("targetDir", targetDir);
 
     try {
-      const res = await fetch(`${API_URL/api/images/replace`, {
+      const res = await fetch(`${API_URL}/api/images/replace`, {
         method: "POST",
         body: formData,
         credentials: "include",
