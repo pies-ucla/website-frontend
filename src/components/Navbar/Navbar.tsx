@@ -46,7 +46,7 @@ export default function Navbar() {
                 />
                 <div className={styles.getInvolvedBox}>
                     <Link href="/opportunities">
-                    Bi-weekly meetings from 6-8pm on Tuesdays!
+                    Bi-weekly meetings from 6-8pm on Wednesdays @ Dodd Hall 175!
                     </Link>
                 </div>
             </div>
