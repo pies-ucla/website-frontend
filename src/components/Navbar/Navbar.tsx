@@ -7,13 +7,14 @@ import { useState, useEffect, useRef } from 'react';
 import { useAuth } from "@/context/AuthContext";
 import { FiMenu, FiX } from 'react-icons/fi';
 const API_URL =  process.env.NEXT_PUBLIC_API_URL;
+const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
 export default function Navbar() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const loginURL = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${API_URL}/auth/callback/&prompt=consent&response_type=code&client_id=229386821939-n5l1mhe4h7u497v93dksk76f8s46fu69.apps.googleusercontent.com&scope=openid email profile&access_type=offline`;
+    const loginURL = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${REDIRECT_URI}/api/auth/callback/&prompt=consent&response_type=code&client_id=229386821939-n5l1mhe4h7u497v93dksk76f8s46fu69.apps.googleusercontent.com&scope=openid email profile&access_type=offline`;
     const { user, logout, loading, isAdmin } = useAuth();
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);

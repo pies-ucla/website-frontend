@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 const API_URL =  process.env.NEXT_PUBLIC_API_URL;
+const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
 export default function CallbackPage() {
   const { login } = useAuth();
@@ -15,12 +16,12 @@ export default function CallbackPage() {
 
     const fetchTokens = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/auth/callback`, {
+        const res = await fetch(`${REDIRECT_URI}/api/auth/callback`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             code,
-            redirect_uri: `${API_URL}/auth/callback`,
+            redirect_uri: `${REDIRECT_URI}/auth/callback`,
           }),
         });
 
