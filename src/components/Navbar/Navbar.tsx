@@ -13,7 +13,7 @@ export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const loginURL = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://www.piesatla.com/auth/callback/&prompt=consent&response_type=code&client_id=229386821939-n5l1mhe4h7u497v93dksk76f8s46fu69.apps.googleusercontent.com&scope=openid email profile&access_type=offline`;
+    const loginURL = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${API_URL}/auth/callback/&prompt=consent&response_type=code&client_id=229386821939-n5l1mhe4h7u497v93dksk76f8s46fu69.apps.googleusercontent.com&scope=openid email profile&access_type=offline`;
     const { user, logout, loading, isAdmin } = useAuth();
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -47,7 +47,7 @@ export default function Navbar() {
                 />
                 <div className={styles.getInvolvedBox}>
                     <Link href="/opportunities">
-                    Bi-weekly meetings from 6-8pm on Tuesdays!
+                    Bi-weekly meetings from 6-8pm on Wednesdays @ Dodd Hall 175!
                     </Link>
                 </div>
             </div>
