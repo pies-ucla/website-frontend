@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-const API_URL =  process.env.NEXT_PUBLIC_API_URL;
+// const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
 export default function CallbackPage() {

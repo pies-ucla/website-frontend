@@ -6,7 +6,7 @@ import styles from './Navbar.module.css';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from "@/context/AuthContext";
 import { FiMenu, FiX } from 'react-icons/fi';
-const API_URL =  process.env.NEXT_PUBLIC_API_URL;
+// const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
 export default function Navbar() {
