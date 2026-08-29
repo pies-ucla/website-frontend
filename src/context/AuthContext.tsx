@@ -123,9 +123,8 @@ type TokenResponse = {
 
 async function refreshAccessTokenAndUser(): Promise<TokenResponse | null> {
   try {
-    const res = await fetch(`${API_URL}/token/refresh/`, {
+    const res = await fetch(`/api/auth/refresh`, {
       method: "POST",
-      credentials: "include",
     });
 
     if (!res.ok) return null;

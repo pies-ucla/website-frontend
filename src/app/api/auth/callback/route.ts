@@ -25,6 +25,15 @@ export async function POST(request: Request) {
             path: '/',
             maxAge: 60 * 60 * 24
         });
+        cookieStore.set({
+            name: 'refresh_token',
+            value: data.refresh,
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax',
+            path: '/',
+            maxAge: 60 * 60 * 24 * 3
+        });
 
         return new Response(JSON.stringify(data), {
         status: response.status,
