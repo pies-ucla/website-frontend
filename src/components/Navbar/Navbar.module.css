@@ -1,16 +1,4 @@
-.socialBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--primary-blue);
-  padding: 0.75rem 2rem;
-  width: 100%;
-  height: 3rem;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-}
+
 
 .logoImage {
   object-fit: contain;
@@ -43,14 +31,18 @@
     background-color: #eee1a1;
     color: #fff;
     display: flex;
-    width: 100%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 85%;
     justify-content: flex-end; 
     position: fixed;
-    top: 3rem; 
-    border-bottom: 3px solid #6a8ac3;
+    top: 2rem; 
+    border: 3px solid #6a8ac3;
     z-index: 900;  /*ensure it stays below socialBar but above content */
     font-family: var(--font-display);
-    display: flex;
+    display: sticky;
+    border-radius: 50px;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.15);
     flex-direction: column;
     padding: 1rem;
 }

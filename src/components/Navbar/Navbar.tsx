@@ -39,20 +39,6 @@ export default function Navbar() {
     if (loading) return <p>Loading...</p>
     return (
         <>
-            <div className={styles.socialBar}>
-                <Image
-                    src="/icons/logo.png"
-                    alt="PIE"
-                    width={50}
-                    height={50}
-                    className={styles.logoImage}
-                />
-                <div className={styles.getInvolvedBox}>
-                    <Link href="/opportunities">
-                    Bi-weekly meetings from 6-7pm on Wednesdays @ Dodd Hall 161!
-                    </Link>
-                </div>
-            </div>
             <nav className={styles.navbar}>
                 <div className={styles.navHeader}>
                     <button
@@ -97,6 +83,9 @@ export default function Navbar() {
                             
                             {dropdownOpen && (
                                 <div className={styles.dropdownMenu}>
+                                    <Link href="/projects" className={styles.dropdownItem}>
+                                        Projects
+                                    </Link>
                                     <Link href="https://linktr.ee/piesucla" className={styles.dropdownItem} target="_blank" rel="noopener noreferrer">
                                         Linktree
                                     </Link>
@@ -116,6 +105,7 @@ export default function Navbar() {
                                     <Link href="/events" className={styles.dropdownItem}>
                                         Events
                                     </Link>
+                                    
                                 </div>
                             )}
                         </div>
