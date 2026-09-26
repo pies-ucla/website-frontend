@@ -7,7 +7,7 @@
 }
 
 .getInvolvedBox {
-  font-family: var(--font-display);
+  font-family: 'GFS Didot', serif;
   font-weight: bold;
   font-size: 1rem;
   color: var(--off-yellow);
@@ -33,6 +33,7 @@
 
 
     padding: 1rem;
+    alignItems: 'center',
     background-color: #eee1a1;
     color: #fff;
     display: flex;
@@ -40,10 +41,10 @@
     transform: translate(-50%, 0%);
     width: 85%;
     justify-content: flex-end; 
-    position: fixed;
-    top: 5%; 
+    position: relative;
+    margin-top: 2%;
     z-index: 900;  /*ensure it stays below socialBar but above content */
-    font-family: var(--font-display);
+    font-family: 'GFS Didot', serif;
     display: sticky;
     border-radius: 2.0vw;
     box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.15);
@@ -239,7 +240,7 @@
   font-size: 0.9rem;
   font-weight: bold;
   transition: background 0.2s ease;
-  font-family: var(--font-display)
+  font-family: 'GFS Didot', serif;
 }
 
 .logoutButton:hover {

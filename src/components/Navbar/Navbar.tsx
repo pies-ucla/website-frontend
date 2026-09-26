@@ -1,14 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import styles from './Navbar.module.css';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from "@/context/AuthContext";
 import { FiMenu, FiX } from 'react-icons/fi';
+import Image from 'next/image';
+
 // const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
 const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+
 
 export default function Navbar() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -40,6 +42,9 @@ export default function Navbar() {
     return (
         <>
             <nav className={styles.navbar}>
+                <Image src={"/logo.png"} width={500} height={500} 
+      style={{ width: '8vw', height: '8vw',
+          position: 'absolute', left: '1%', top: '50%', transform: 'translateY(-50%)'}}></Image>
                 <div className={styles.navHeader}>
                     <button
                     className={styles.hamburger}
