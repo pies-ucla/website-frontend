@@ -75,20 +75,6 @@ const HomePage = () => {
         >
           <div className={styles.mainContent}>
             <motion.div 
-              className={styles.imageSection}
-              initial={{ x: -100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8 }}
-            >
-              <Carousel 
-                images={carouselImages} 
-                width={800}   // Specify desired width
-                height={600}  // Specify desired height
-                slotPrefix="home"
-                targetDir="carousel/home"
-              />
-            </motion.div>
-            <motion.div 
               className={styles.textContainer}
               variants={staggerContainer}
               initial="initial"
@@ -168,6 +154,7 @@ const HomePage = () => {
 
        
         <motion.div
+          className={styles.pillarsSection}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}

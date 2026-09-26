@@ -42,18 +42,22 @@ export default function Navbar() {
     return (
         <>
             <nav className={styles.navbar}>
-                <Image src={"/logo.png"} width={2000} height={2000} className={styles.navLogo}
-      style={{ width: '7.5vw', height: '7.5vw',
-          position: 'absolute', left: '-1.5%', top: '50%', translate: '0 -50%',}}></Image>
+                <Image src={"/logo.png"} alt="PIES logo" width={2000} height={2000} className={styles.navLogo} />
                 <div className={styles.navHeader}>
                     <button
                     className={styles.hamburger}
                     onClick={() => setMobileMenuOpen(prev => !prev)}
+                    aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                    aria-expanded={mobileMenuOpen}
                     >
                     {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
                     </button>
                 </div>
-                <ul className={`${styles.navList} ${mobileMenuOpen ? styles.mobileOpen : ''}`}>
+                <ul
+                    className={`${styles.navList} ${mobileMenuOpen ? styles.mobileOpen : ''}`}
+                    // close the mobile menu once a link is tapped
+                    onClick={(e) => { if ((e.target as HTMLElement).closest('a')) setMobileMenuOpen(false); }}
+                >
                     <li className={styles.navItem}>
                         <Link href="/"><u>Home</u></Link>
                     </li>
@@ -78,15 +82,9 @@ export default function Navbar() {
                         </div>
                     </li>
                     <li className={styles.navItem}>
-                        <div 
-                            className={`${styles.box1} ${dropdownOpen ? styles.active : ''}`}
-                            onClick={toggleDropdown}
-                            ref={dropdownRef}
-                        >
-                            <span>Get Involved</span>
-                            <span className={styles.dropdownArrow}></span>
+                        <div className={styles.hoverDropdown}>
+                            <span>Get Involved!</span>
                             
-                            {dropdownOpen && (
                                 <div className={styles.dropdownMenu}>
                                     <Link href="/projects" className={styles.dropdownItem}>
                                         Projects
@@ -112,11 +110,14 @@ export default function Navbar() {
                                     </Link>
                                     
                                 </div>
-                            )}
                         </div>
                     </li>
                     <li className={styles.navItem}>
-                        <div>
+                        <div 
+                            className={`${styles.box1} ${dropdownOpen ? styles.active : ''}`}
+                            onClick={toggleDropdown}
+                            ref={dropdownRef}
+                        >
                             {
                                 user ? (
                                     <div className={styles.userInfo}>
@@ -130,8 +131,7 @@ export default function Navbar() {
                                     </div>
                                 ) : (
                                     <a href={loginURL} className={styles.loginButton}>
-                                        Login with Google
-                                    </a>
+                                        Member Login                                    </a>
                                 )
                             }
                         </div> 

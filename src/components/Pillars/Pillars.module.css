@@ -70,22 +70,6 @@
     animation: clickEffect 0.4s ease-in-out;
 }
 
-/* Optional click indicator */
-.clickIndicator {
-    position: absolute;
-    top: 20px;
-    color: #444;
-    font-size: 0.85rem;
-    opacity: 0.8;
-    pointer-events: none;
-    animation: fadeInOut 2s infinite;
-}
-
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
-}
-
 .pillar.active::before,
 .pillar.active::after {
     background-color: #2561b3;

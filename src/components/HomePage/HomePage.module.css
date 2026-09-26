@@ -13,19 +13,24 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    min-height: 65vh;
+    /* fill the whole screen, starting behind the fixed navbar (cancels the 4rem navbarSpacer) */
+    min-height: 100vh;
     background-color: #eee1a1;
-    padding: 4rem 2rem;
-    margin-top: -30px;
-    gap: 2rem;
+    padding: 0;
+    margin-top: -4rem;
   }
   
   .mainContent {
-    flex: 2;
+    flex: 1;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap: 1rem;
+    /* top padding keeps the text clear of the floating navbar */
+    padding: 12vh 2rem 2rem;
+    overflow: hidden;
+    background-color: #ffffff;
+
   }
   
   .imageSection {
@@ -119,6 +124,11 @@
     top: -15px;
   }
   
+  /* gap between the full-screen hero and the pillars, so the pillar tops don't peek into the hero */
+  .pillarsSection {
+    padding-top: 12vh;
+  }
+
   .navySection {
     width: 100%;
     min-height: 50vh;
@@ -246,7 +256,10 @@
 
 
   @media (max-width: 1024px) {
-    .infoFooter,
+    .infoFooter {
+      flex-direction: column;
+    }
+
     .textContainer,
     .textSection,
     .textSection1 {
@@ -274,9 +287,6 @@
       gap: 1.5rem;
     }
   
-    .learnMoreButton {
-      transform: translateX(-5rem);
-    }
   }
   
   @media (max-width: 768px) {
@@ -312,10 +322,6 @@
   @media (max-width: 480px) {
     .eventImages {
       gap: 4rem;
-    }
-  
-    .learnMoreButton {
-      transform: translateX(-2rem);
     }
   
     .navyHeader {

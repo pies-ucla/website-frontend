@@ -47,7 +47,6 @@ const Pillars: React.FC = () => {
     'In one of the toughest schools in the nation, students often find themselves with little or no time to relax from their studies or meet other people. PIES was created in orderto give students the support they need to face the competitive curriculum ahead of them, and form a close, welcoming community dedicated to being a support system for its general members and to resonate familial values found within Pilipino families and other organizations on campus.',
   ]
   const [activeIndex, setActiveIndex] = useState(1);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const handlePrevClick = () => {
@@ -59,11 +58,7 @@ const Pillars: React.FC = () => {
   };
 
   const handleActivePillarClick = () => {
-    setIsAnimating(true);
     setShowModal(true);
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 1000);
   };
 
   const displayPillars = [
@@ -87,11 +82,6 @@ const Pillars: React.FC = () => {
       </div>
       <NavButton direction="right" onClick={handleNextClick} />
 
-      {!isAnimating && (
-        <div className={styles.clickIndicator}>
-          Click to learn more
-        </div>
-      )}
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <h2 className={styles.pillarHeading}>{pillars[activeIndex]}</h2>
         <p className={styles.pillarText}>{pillarContent[activeIndex]}</p>
