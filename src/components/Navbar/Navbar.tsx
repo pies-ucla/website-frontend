@@ -42,9 +42,9 @@ export default function Navbar() {
     return (
         <>
             <nav className={styles.navbar}>
-                <Image src={"/logo.png"} width={500} height={500} 
-      style={{ width: '8vw', height: '8vw',
-          position: 'absolute', left: '1%', top: '50%', transform: 'translateY(-50%)'}}></Image>
+                <Image src={"/logo.png"} width={2000} height={2000} className={styles.navLogo}
+      style={{ width: '7.5vw', height: '7.5vw',
+          position: 'absolute', left: '-1.5%', top: '50%', translate: '0 -50%',}}></Image>
                 <div className={styles.navHeader}>
                     <button
                     className={styles.hamburger}

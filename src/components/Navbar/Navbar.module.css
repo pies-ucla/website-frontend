@@ -6,8 +6,26 @@
   width: auto;
 }
 
+/* sit above the absolutely-positioned navList so the logo receives hover */
+.navLogo {
+  z-index: 1;
+}
+
+/* `rotate` pairs with the inline `translate` centering; the browser rotates before translating, so the logo spins around its own center */
+.navLogo:hover {
+  animation: logoShake 0.5s ease-in-out;
+}
+
+@keyframes logoShake {
+  0%, 100% { rotate: 0deg; }
+  20% { rotate: -8deg; }
+  40% { rotate: 8deg; }
+  60% { rotate: -5deg; }
+  80% { rotate: 5deg; }
+}
+
 .getInvolvedBox {
-  font-family: 'GFS Didot', serif;
+  font-family: var(--font-navbar), sans-serif;
   font-weight: bold;
   font-size: 1rem;
   color: var(--off-yellow);
@@ -39,14 +57,18 @@
     display: flex;
     left: 50%;
     transform: translate(-50%, 0%);
-    width: 85%;
+    width: 65%;
     justify-content: flex-end; 
-    position: relative;
-    margin-top: 2%;
+    position: fixed;
+    top: 3%;
     z-index: 900;  /*ensure it stays below socialBar but above content */
-    font-family: 'GFS Didot', serif;
-    display: sticky;
+    font-family: var(--font-navbar), sans-serif;
+    font-size: 1.2vw;
+    /* Dongle has tiny glyphs for its font-size; scale it to a normal x-height */
+    font-size-adjust: 0.5;
     border-radius: 2.0vw;
+    /* vw keeps the border proportional when zooming; max() stops it vanishing on small windows */
+    border: max(1px, 0.15vw) solid var(--primary-blue);
     box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.15);
     flex-direction: column;
     padding: 1rem;
@@ -55,19 +77,23 @@
 
 .navList {
     display: flex;
+    position: absolute;
+    top: 10%;
+    left: 0;
     list-style: none;
-    margin: -8;
-    padding: 0.5rem;
-    justify-content: center;  
-    width: 100%;            
-    margin-left: 0;
+    margin: 0;
+    /* left padding clears the 5vw logo; vw keeps spacing proportional at any zoom level */
+    padding: 0.5rem 4vw 0.5rem 9vw;
+    box-sizing: border-box;
+    justify-content: space-between;
+    width: 100%;
     flex-direction: row;
-    gap: 2rem;
 }
 
 .navItem {
-    margin: 0 2rem;          
+    margin: 0;
     color: var(--primary-blue);
+    font-weight: bold;
     position: relative;     
     left: 0;                
 }
@@ -75,16 +101,18 @@
 .box1 {
     background-color: #6a8ac3;
     color: white;
-    padding: 0.4rem 1.2rem;  
-    margin-top: -0.5rem;    
+    padding: 0.1em 1em;
+    margin-top: -0.2em;
     border: 1px solid #000;
-    border-radius: 15px;  
-    font-size: 1.1rem;
+    border-radius: 1em;
+    font-size: 1.2vw;
+    white-space: nowrap;
     position: relative; /* Added for dropdown positioning */
     cursor: pointer;
     display: flex;
     align-items: center;
-    transition: all 0.3s ease;
+    /* only animate colors, so size changes on zoom/resize don't animate */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .box1:hover {
@@ -93,8 +121,8 @@
 }
 
 .dropdownArrow {
-    margin-left: 0.5rem;
-    font-size: 0.8rem;
+    margin-left: 0.4em;
+    font-size: 0.7em;
     transition: transform 0.3s ease;
 }
 
@@ -113,14 +141,17 @@
 
 .dropdownMenu {
     font-family: var(--font-normal);
+    font-size-adjust: none;
+    /* em units scale with the navbar's vw font, so the menu keeps its size when zooming */
+    font-size: 0.9em;
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 0.6em);
     left: 0;
     background-color: #fff;
-    border-radius: 8px;
+    border-radius: 0.5em;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-    min-width: 200px;
-    padding: 0.5rem 0;
+    min-width: 12em;
+    padding: 0.3em 0;
     z-index: 1000;
     border: 1px solid #e0e0e0;
     animation: fadeIn 0.3s ease;
@@ -134,11 +165,11 @@
 
 .dropdownItem {
     display: block;
-    padding: 0.75rem 1.2rem;
+    padding: 0.75em 1.2em;
     color: #1e5091;
     text-decoration: none;
-    transition: all 0.2s ease;
-    font-size: 1rem;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    font-size: 1em;
     font-weight: 500;
     border-left: 3px solid transparent;
 }
@@ -195,7 +226,7 @@
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     z-index: 1000;
-    min-width: 160px;
+    min-width: 10em;
 }
   
 .hoverDropdown:hover .dropdownMenu {
@@ -203,7 +234,7 @@
 }
   
 .dropdownItem {
-    padding: 0.75rem 1rem;
+    padding: 0.75em 1em;
     display: block;
     white-space: nowrap;
     color: #000;
@@ -240,7 +271,7 @@
   font-size: 0.9rem;
   font-weight: bold;
   transition: background 0.2s ease;
-  font-family: 'GFS Didot', serif;
+  font-family: var(--font-navbar), sans-serif;
 }
 
 .logoutButton:hover {
