@@ -21,6 +21,7 @@
   }
   
   .mainContent {
+    background-image: url('/background.png');
     flex: 1;
     display: flex;
     justify-content: center;
@@ -124,9 +125,13 @@
     top: -15px;
   }
   
-  /* gap between the full-screen hero and the pillars, so the pillar tops don't peek into the hero */
   .pillarsSection {
     padding-top: 12vh;
+    /* same paper texture as the navbar */
+    background-image: url('/background.png');
+    height: 100%;
+    background-size: cover;
+    background-position: center;
   }
 
   .navySection {
