@@ -7,6 +7,7 @@ import Carousel from '../Carousel/Carousel';
 import { useEffect, useState } from 'react';
 import Pillars from '../Pillars/Pillars';
 import StaticModalCard from '../StaticPierreCard/StaticModal';
+import { FaInstagram, FaLinkedinIn, FaEnvelope, FaFacebookF } from 'react-icons/fa6';
 const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
 type Event = {
@@ -80,6 +81,20 @@ const HomePage = () => {
               initial="initial"
               animate="animate"
             >
+              {/* bottom-right: shift right & down by half */}
+              <Image src="/pierre_sticker.png" alt="" width={500} height={500}
+                style={{ position: "absolute", right: "calc(2% + 6em)", bottom: "calc(5% + 5em)",
+                  height: "15em", width: "15em", transform: "translate(50%, 50%)" }} />
+
+              {/* top-right: shift right & up */}
+              <Image src="/planer.png" alt="" width={500} height={500}
+                style={{ position: "absolute", right: "calc(1% + 11em)", top: "calc(-2% + 11em)",
+                  height: "20em", width: "20em", transform: "translate(50%, -50%)" }} />
+
+              {/* bottom-left: shift left & down */}
+              <Image src="/stars.png" alt="" width={500} height={500}
+                style={{ position: "absolute", left: "calc(1% + 10em)", bottom: "calc(-2% + 10em)",
+                  height: "18em", width: "18em", transform: "translate(-50%, 50%)" }} />
               <motion.div 
                 className={styles.textSection}
                 variants={fadeInUp}
@@ -101,17 +116,17 @@ const HomePage = () => {
                   <Link href="/about">Learn More!</Link>
                 </motion.div>
                 <div className={styles.socialLinks}>
-                  <a href="https://www.instagram.com/piesatucla/" target="_blank" rel="noopener noreferrer">
-                    <Image src="/instagram.png" alt="Instagram" width={24} height={24} />
+                  <a href="https://www.instagram.com/piesatucla/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={styles.socialIcon}>
+                    <FaInstagram />
                   </a>
-                  <a href="https://www.linkedin.com/company/pilipinos-in-engineering-and-sciences/" target="_blank" rel="noopener noreferrer">
-                    <Image src="/linkedln.png" alt="LinkedIn" width={24} height={24} />
+                  <a href="https://www.linkedin.com/company/pilipinos-in-engineering-and-sciences/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className={styles.socialIcon}>
+                    <FaLinkedinIn />
                   </a>
-                  <a href="" target="_blank" rel="noopener noreferrer">
-                    <Image src="/email.png" alt="Email" width={24} height={24} />
+                  <a href="" target="_blank" rel="noopener noreferrer" aria-label="Email" className={styles.socialIcon}>
+                    <FaEnvelope />
                   </a>
-                  <a href="https://www.facebook.com/uclapies/" target="_blank" rel="noopener noreferrer">
-                    <Image src="/facebook.png" alt="Facebook" width={24} height={24} />
+                  <a href="https://www.facebook.com/uclapies/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className={styles.socialIcon}>
+                    <FaFacebookF />
                   </a>
                 </div>
               </motion.div>
@@ -152,7 +167,7 @@ const HomePage = () => {
           </motion.div>
         </motion.div>
 
-       
+
         <motion.div
           className={styles.pillarsSection}
           initial={{ opacity: 0, y: 30 }}
@@ -178,7 +193,7 @@ const HomePage = () => {
             transition={{ delay: 0.2 }}
           >
 
-          <div ></div>
+            <div ></div>
 
             Upcoming Events
           </motion.h1>
@@ -187,39 +202,39 @@ const HomePage = () => {
             {upcomingEvents.length === 0 ? (
               <div className={styles.noEvents}>No upcoming events!</div>
             ) : (
-              upcomingEvents.map((event, index) => (
-                <div key={index} className={styles.eventImageContainer}>
-                  {event.image_url ? (
-                    <Image
-                      src={event.image_url}
-                      alt={event.event_name}
-                      width={300}
-                      height={300}
-                      className={styles.eventImage}
-                    />
-                  ) : (
-                  <StaticModalCard>
-                    <h3>{event.event_name}</h3>
-                    <p>
-                      {new Date(event.date_time).toLocaleString(undefined, {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        hour12: true
-                      })}
-                    </p>
-                    <p>{event.location}</p>
-                    <p>{event.description}</p>
-                  </StaticModalCard>
-                  )}
-                </div>
-              ))
-            )}
+                upcomingEvents.map((event, index) => (
+                  <div key={index} className={styles.eventImageContainer}>
+                    {event.image_url ? (
+                      <Image
+                        src={event.image_url}
+                        alt={event.event_name}
+                        width={300}
+                        height={300}
+                        className={styles.eventImage}
+                      />
+                    ) : (
+                        <StaticModalCard>
+                          <h3>{event.event_name}</h3>
+                          <p>
+                            {new Date(event.date_time).toLocaleString(undefined, {
+                              month: 'short',
+                              day: 'numeric',
+                              year: 'numeric',
+                              hour: 'numeric',
+                              minute: '2-digit',
+                              hour12: true
+                            })}
+                          </p>
+                          <p>{event.location}</p>
+                          <p>{event.description}</p>
+                        </StaticModalCard>
+                      )}
+                  </div>
+                ))
+              )}
           </div>
         </motion.div>
-        </div>
+      </div>
     ) : null
   );
 };
