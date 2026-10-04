@@ -21,8 +21,8 @@ type AuthContextType = {
   loading: boolean;
   isBoardMember: boolean;
   isAdmin: boolean;
-  login: (token: string, user: User) => void;
   logout: () => void;
+  refreshAuth: () => Promise<boolean>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -36,39 +36,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    const tryRefresh = async () => {
-      const refreshed = await refreshAccessTokenAndUser();
-      if (refreshed) {
-        setAccessToken(refreshed.access_token);
-        setUser(refreshed.user);
+  const refreshAuth = useCallback(async (): Promise<boolean> => {
+    const refreshed = await refreshAccessTokenAndUser();
+    if (refreshed) {
+      setAccessToken(refreshed.access_token);
+      setUser(refreshed.user);
 
-        const [boardRes, adminRes] = await Promise.all([
-          fetch(`${API_URL}/api/is-board-member`, { credentials: "include" }),
-          fetch(`${API_URL}/api/is-admin`, { credentials: "include" }),
-        ]);
-
-        if (boardRes.ok) {
-          const data = await boardRes.json();
-          setIsBoardMember(data.isBoardMember);
-        }
-
-        if (adminRes.ok) {
-          const data = await adminRes.json();
-          setIsAdmin(data.isAdmin);
-        }
-      }
-      setLoading(false);
-    };
-
-    tryRefresh();
-  }, []);
-
-  const login = useCallback(async (token: string, user: User) => {
-    setAccessToken(token);
-    setUser(user);
-
-    try {
       const [boardRes, adminRes] = await Promise.all([
         fetch(`${API_URL}/api/is-board-member`, { credentials: "include" }),
         fetch(`${API_URL}/api/is-admin`, { credentials: "include" }),
@@ -83,10 +56,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const data = await adminRes.json();
         setIsAdmin(data.isAdmin);
       }
-    } catch (err) {
-      console.error("Failed to check board membership:", err);
     }
+    return !!refreshed;
   }, []);
+
+  useEffect(() => {
+    refreshAuth().finally(() => setLoading(false));
+  }, [refreshAuth]);
 
   const logout = async () => {
     setAccessToken(null);
@@ -101,7 +77,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, loading, isBoardMember, isAdmin, login, logout }}>
+    <AuthContext.Provider value={{ user, accessToken, loading, isBoardMember, isAdmin, logout, refreshAuth }}>
       {children}
     </AuthContext.Provider>
   );

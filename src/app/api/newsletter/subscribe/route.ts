@@ -1,7 +1,5 @@
-import { google } from 'googleapis';
+import { createSign } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
-import { sheets_v4 } from "googleapis";
-import { JWT } from 'google-auth-library';
 
 // Google Sheets API configuration
 const SPREADSHEET_ID = process.env.GOOGLE_SHEET_ID;
@@ -75,20 +73,63 @@ function checkRateLimit(ip: string): boolean {
   return ipData.count <= RATE_LIMIT_MAX;
 }
 
+const SHEETS_API = 'https://sheets.googleapis.com/v4/spreadsheets';
+
+/**
+ * Get an OAuth access token for the service account.
+ *
+ * This talks to Google directly instead of using googleapis/google-auth-library:
+ * those pull in a dependency (buffer-equal-constant-time) that crashes on newer
+ * Node versions, which broke `next build`. The flow is Google's standard
+ * service-account one: sign a JWT with the private key, trade it for a token.
+ */
+async function getAccessToken(): Promise<string> {
+  const now = Math.floor(Date.now() / 1000);
+  const encode = (obj: object) => Buffer.from(JSON.stringify(obj)).toString('base64url');
+
+  const unsigned = `${encode({ alg: 'RS256', typ: 'JWT' })}.${encode({
+    iss: CLIENT_EMAIL,
+    scope: 'https://www.googleapis.com/auth/spreadsheets',
+    aud: 'https://oauth2.googleapis.com/token',
+    iat: now,
+    exp: now + 3600,
+  })}`;
+  const signature = createSign('RSA-SHA256').update(unsigned).sign(PRIVATE_KEY, 'base64url');
+
+  const response = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+      assertion: `${unsigned}.${signature}`,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`Google auth failed (${response.status}): ${await response.text()}`);
+  }
+
+  const data = await response.json();
+  return data.access_token;
+}
+
 /**
  * Check if email already exists in the spreadsheet
  */
 async function checkEmailExists(
-  sheets: sheets_v4.Sheets,
+  accessToken: string,
   email: string
 ): Promise<boolean> {
   try {
-    const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: SPREADSHEET_ID,
-      range: `${SHEET_NAME}!C:C`,
+    const range = encodeURIComponent(`${SHEET_NAME}!C:C`);
+    const response = await fetch(`${SHEETS_API}/${SPREADSHEET_ID}/values/${range}`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
+    if (!response.ok) {
+      throw new Error(`Sheets read failed (${response.status}): ${await response.text()}`);
+    }
 
-    const rows = response.data.values || [];
+    const data: { values?: string[][] } = await response.json();
+    const rows = data.values || [];
     const emailLowerCase = email.toLowerCase();
 
     for (let i = 1; i < rows.length; i++) {
@@ -166,15 +207,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Set up auth
-    const client = new JWT({
-      email: CLIENT_EMAIL,
-      key: PRIVATE_KEY,
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    });
-    const sheets = google.sheets({ version: 'v4', auth: client }); // ✅ Fully typed
+    const accessToken = await getAccessToken();
 
     // Check if email already exists in the spreadsheet
-    const emailExists = await checkEmailExists(sheets, sanitizedEmail);
+    const emailExists = await checkEmailExists(accessToken, sanitizedEmail);
     
     if (emailExists) {
       return NextResponse.json(
@@ -190,14 +226,24 @@ export async function POST(request: NextRequest) {
     const timestamp = new Date().toISOString();
 
     // Add row to the spreadsheet - starting from row 2 (after headers)
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: SPREADSHEET_ID,
-      range: `${SHEET_NAME}!A2:D`, // Using A2:D to start after headers (adding timestamp column)
-      valueInputOption: 'USER_ENTERED',
-      requestBody: {
-        values: [[timestamp, sanitizedName, sanitizedEmail, ip]], // Store IP for security auditing
-      },
-    });
+    // Using A2:D to start after headers (adding timestamp column)
+    const range = encodeURIComponent(`${SHEET_NAME}!A2:D`);
+    const appendResponse = await fetch(
+      `${SHEETS_API}/${SPREADSHEET_ID}/values/${range}:append?valueInputOption=USER_ENTERED`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          values: [[timestamp, sanitizedName, sanitizedEmail, ip]], // Store IP for security auditing
+        }),
+      }
+    );
+    if (!appendResponse.ok) {
+      throw new Error(`Sheets append failed (${appendResponse.status}): ${await appendResponse.text()}`);
+    }
 
     return NextResponse.json(
       { success: true, message: 'Thank you for subscribing to our newsletter!' },

@@ -1,14 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import styles from './Navbar.module.css';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from "@/context/AuthContext";
 import { FiMenu, FiX } from 'react-icons/fi';
+import Image from 'next/image';
+
 // const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
 const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+
 
 export default function Navbar() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -39,30 +41,25 @@ export default function Navbar() {
     if (loading) return <p>Loading...</p>
     return (
         <>
-            <div className={styles.socialBar}>
-                <Image
-                    src="/icons/logo.png"
-                    alt="PIE"
-                    width={50}
-                    height={50}
-                    className={styles.logoImage}
-                />
-                <div className={styles.getInvolvedBox}>
-                    <Link href="/opportunities">
-                    Bi-weekly meetings from 6-7pm on Wednesdays @ Dodd Hall 161!
-                    </Link>
-                </div>
-            </div>
             <nav className={styles.navbar}>
+                <Link href="/" aria-label="Home" onClick={() => setMobileMenuOpen(false)}>
+                    <Image src={"/logo.png"} alt="PIES logo" width={2000} height={2000} className={styles.navLogo} />
+                </Link>
                 <div className={styles.navHeader}>
                     <button
                     className={styles.hamburger}
                     onClick={() => setMobileMenuOpen(prev => !prev)}
+                    aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                    aria-expanded={mobileMenuOpen}
                     >
                     {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
                     </button>
                 </div>
-                <ul className={`${styles.navList} ${mobileMenuOpen ? styles.mobileOpen : ''}`}>
+                <ul
+                    className={`${styles.navList} ${mobileMenuOpen ? styles.mobileOpen : ''}`}
+                    // close the mobile menu once a link is tapped
+                    onClick={(e) => { if ((e.target as HTMLElement).closest('a')) setMobileMenuOpen(false); }}
+                >
                     <li className={styles.navItem}>
                         <Link href="/"><u>Home</u></Link>
                     </li>
@@ -87,16 +84,13 @@ export default function Navbar() {
                         </div>
                     </li>
                     <li className={styles.navItem}>
-                        <div 
-                            className={`${styles.box1} ${dropdownOpen ? styles.active : ''}`}
-                            onClick={toggleDropdown}
-                            ref={dropdownRef}
-                        >
-                            <span>Get Involved</span>
-                            <span className={styles.dropdownArrow}></span>
+                        <div className={styles.hoverDropdown}>
+                            <span>Get Involved!</span>
                             
-                            {dropdownOpen && (
                                 <div className={styles.dropdownMenu}>
+                                    <Link href="/projects" className={styles.dropdownItem}>
+                                        Projects
+                                    </Link>
                                     <Link href="https://linktr.ee/piesucla" className={styles.dropdownItem} target="_blank" rel="noopener noreferrer">
                                         Linktree
                                     </Link>
@@ -116,12 +110,16 @@ export default function Navbar() {
                                     <Link href="/events" className={styles.dropdownItem}>
                                         Events
                                     </Link>
+                                    
                                 </div>
-                            )}
                         </div>
                     </li>
                     <li className={styles.navItem}>
-                        <div>
+                        <div 
+                            className={`${styles.box1} ${dropdownOpen ? styles.active : ''}`}
+                            onClick={toggleDropdown}
+                            ref={dropdownRef}
+                        >
                             {
                                 user ? (
                                     <div className={styles.userInfo}>
@@ -135,8 +133,7 @@ export default function Navbar() {
                                     </div>
                                 ) : (
                                     <a href={loginURL} className={styles.loginButton}>
-                                        Login with Google
-                                    </a>
+                                        Member Login                                    </a>
                                 )
                             }
                         </div> 

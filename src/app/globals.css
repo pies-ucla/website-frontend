@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=La+Belle+Aurore&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&display=swap');
 
 :root {
-  --background: #eee1a1;
+  --background: #f5eedc;
   --foreground: #171717;
 
   --primary-red: #b83f3b;
@@ -12,6 +14,7 @@
   --font-cursive: 'La Belle Aurore';
   --font-normal: 'Darker Grotesque';
   --font-display: 'Darumadrop One';
+  --font-navbar: 'Dongle';
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,10 +29,11 @@
   }
 }
 
+/* clip (not hidden) so html and body don't each become their own scroll container,
+   which caused two vertical scrollbars */
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 html {

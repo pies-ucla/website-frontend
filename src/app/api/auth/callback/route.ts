@@ -15,7 +15,31 @@ export async function POST(request: Request) {
         body: JSON.stringify({ code, redirect_uri }),
         });
 
-        const data = await response.json();
+        const rawBody = await response.text();
+        let data;
+        try {
+            data = JSON.parse(rawBody);
+        } catch {
+            console.error(
+                `Token exchange to ${API_URL}/token/get/ returned non-JSON (status ${response.status}):`,
+                rawBody.slice(0, 500)
+            );
+            return new Response(
+                JSON.stringify({
+                    error: "Token exchange failed",
+                    details: `Backend returned ${response.status} with a non-JSON body`,
+                }),
+                { status: 502 }
+            );
+        }
+
+        if (!response.ok) {
+            return new Response(JSON.stringify(data), {
+                status: response.status,
+                headers: { "Content-Type": "application/json" },
+            });
+        }
+
         cookieStore.set({
             name: 'access_token',
             value: data.access,

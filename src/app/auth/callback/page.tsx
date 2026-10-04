@@ -7,7 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
 
 export default function CallbackPage() {
-  const { login } = useAuth();
+  const { refreshAuth } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -26,9 +26,10 @@ export default function CallbackPage() {
         });
 
         const data = await res.json();
-        console.log("daters", data);
-        if (res.ok && data.access && data.user) {
-          login(data.access, data.user);
+        if (res.ok && data.access) {
+          // The callback response doesn't reliably include the user object,
+          // so pull it via the refresh endpoint using the cookies just set.
+          await refreshAuth();
           router.push("/");
         } else {
           console.error("Login failed:", data);
@@ -39,7 +40,7 @@ export default function CallbackPage() {
     };
 
     fetchTokens();
-  }, [router, login]);
+  }, [router, refreshAuth]);
 
   return <p className="p-4 text-center">Logging you in…</p>;
 }
