@@ -57,7 +57,7 @@
 
 
     padding: 1rem;
-    alignItems: 'center',
+    align-items: center;
     background-color: #eee1a1;
     color: #fff;
     display: flex;

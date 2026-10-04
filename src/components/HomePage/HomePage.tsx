@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import styles from './HomePage.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import Carousel from '../Carousel/Carousel';
 import { useEffect, useState, type CSSProperties } from 'react';
 import Pillars from '../Pillars/Pillars';
 import StaticModalCard from '../StaticPierreCard/StaticModal';
@@ -68,12 +67,6 @@ const HomePage = () => {
   .filter((e) => new Date(e.date_time) > now)
   .sort((a, b) => new Date(a.date_time).getTime() - new Date(b.date_time).getTime())
   .slice(0, 3);
-
-  const carouselImages = [
-    '/carousel/home/home_0.png',
-    '/carousel/home/home_1.png',
-    '/carousel/home/home_2.png',
-  ];
 
   const fadeInUp = {
     initial: { y: 30, opacity: 0 },
