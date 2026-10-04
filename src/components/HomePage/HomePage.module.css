@@ -21,7 +21,7 @@
 }
 
 .mainContent {
-  background-image: url('/background.png');
+  background-image: url('/background.jpg');
   flex: 1;
   display: flex;
   justify-content: center;
@@ -216,7 +216,7 @@
 .pillarsSection {
   padding-top: 12vh;
   /* same paper texture as the navbar */
-  background-image: url('/background.png');
+  background-image: url('/background.jpg');
   height: 100%;
   background-size: cover;
   background-position: center;
@@ -225,7 +225,7 @@
 .picturesSection {
   padding-top: 12vh;
   /* same paper texture as the navbar */
-  background-image: url('/background.png');
+  background-image: url('/background.jpg');
   min-height: 500px;
   background-size: cover;
   background-position: center;
@@ -253,7 +253,7 @@
 }
 
 .navySection {
-  background-image: url('/background.png');
+  background-image: url('/background.jpg');
   width: 100%;
   min-height: 50vh;
   background-color: #eee1a1;

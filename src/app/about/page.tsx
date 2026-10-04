@@ -8,17 +8,17 @@ import { useAuth } from '@/context/AuthContext';
 
 export default function About() {
   const carouselImages = [
-    '/carousel/about/about_0.png',
-    '/carousel/about/about_1.png',
-    '/carousel/about/about_2.png',
-    '/carousel/about/about_3.png',
-    '/carousel/about/about_4.png',
+    '/carousel/about/about_0.jpg',
+    '/carousel/about/about_1.jpg',
+    '/carousel/about/about_2.jpg',
+    '/carousel/about/about_3.jpg',
+    '/carousel/about/about_4.jpg',
   ];
 
   const { isBoardMember, isAdmin } = useAuth();
   const [images, setImages] = useState({
-      vision: `/about/vision.png?t=${Date.now()}`,
-      mission: `/about/mission.png?t=${Date.now()}`,
+      vision: `/about/vision.jpg?t=${Date.now()}`,
+      mission: `/about/mission.jpg?t=${Date.now()}`,
   });
 
   return (

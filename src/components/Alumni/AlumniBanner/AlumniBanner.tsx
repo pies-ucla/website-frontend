@@ -8,7 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 export default function AlumniBanner() {
     const { isBoardMember, isAdmin } = useAuth(); 
     const [images, setImages] = useState({
-        uncs: `/alumni/uncs.png?t=${Date.now()}`
+        uncs: `/alumni/uncs.jpg?t=${Date.now()}`
     });
 
     return (

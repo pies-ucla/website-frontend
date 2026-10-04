@@ -149,7 +149,7 @@ export default function BoardPage() {
                 <div className={styles.boardMask}>
                   <ImageSlot
                     slot={slot}
-                    src={`/board/${slot}.png`}
+                    src={`/board/${slot}.jpg`}
                     editable={isBoardMember || isAdmin}
                     targetDir="board"
                     className={styles.replaceableImage}
