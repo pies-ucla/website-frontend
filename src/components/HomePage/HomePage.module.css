@@ -288,8 +288,18 @@
   gap: 2rem;
   width: 90%;
   max-width: 1200px;
+  min-height: 200px;
   margin: 0 auto;
   padding: 1rem;
+
+  border: 10px solid transparent;
+  border-radius: 10px;
+  background-image: url("/square_paper.png"), url("/square_paper.png");
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
 }
 
 .eventImageContainer {
@@ -373,9 +383,17 @@
 }
 
 .noEvents {
+  /* span every column of the events grid so it's centered instead of in the first slot */
+  grid-column: 1 / -1;
+  align-self: center;
   text-align: center;
-  font-style: italic;
-  color: #999;
+  /* same font as the navbar; Dongle needs the size adjust to render at a normal size */
+  font-family: var(--font-navbar), sans-serif;
+  font-size-adjust: 0.5;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1;
+  color: #4a3a2a;
 }
 
 
