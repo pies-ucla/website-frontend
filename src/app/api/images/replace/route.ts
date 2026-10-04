@@ -16,12 +16,16 @@ export async function POST(req: NextRequest) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
 
+    // saved as a compressed JPEG: full-size PNG photos were 3-14MB each, which made
+    // pages slow and used a lot of server memory when Next.js resized them
     const processedImage = await sharp(buffer)
-      .resize({ width: 1920 })
-      .toFormat("png")
+      .rotate()
+      .resize({ width: 1920, withoutEnlargement: true })
+      .flatten({ background: "#ffffff" })
+      .jpeg({ quality: 80, mozjpeg: true })
       .toBuffer();
 
-    const relativePath = path.join(targetDir, `${slot}.png`);
+    const relativePath = path.join(targetDir, `${slot}.jpg`);
     const fullPath = path.join(process.cwd(), "public", relativePath);
 
     // Ensure the directory exists

@@ -32,12 +32,21 @@ const Polaroid = ({ src, x, y, rotate }: { src: string; x: number; y: number; ro
 
 // two staggered rows (3 on top, 4 below) mirrored around the middle so the group stays centered
 const POLAROIDS = [
+<<<<<<< HEAD
+  { src: "/pictures/pic2.jpg", x: 25, y: 0, rotate: -8 },
+  { src: "/pictures/pic1.jpg", x: 50, y: 1, rotate: 4 },
+  { src: "/pictures/pic3.jpg", x: 75, y: 0, rotate: 10 },
+  { src: "/pictures/pic4.jpg", x: 20, y: 15, rotate: 6 },
+  { src: "/pictures/pic5.jpg", x: 40, y: 16, rotate: -5 },
+  { src: "/pictures/pic6.jpg", x: 60, y: 15, rotate: 7 },
+=======
   { src: "/pictures/pic2.png", x: 25, y: 0, rotate: -8 },
   { src: "/pictures/pic1.png", x: 50, y: 1, rotate: 4 },
   { src: "/pictures/pic3.png", x: 75, y: 0, rotate: 10 },
   { src: "/pictures/pic4.jpg", x: 20, y: 15, rotate: 6 },
   { src: "/pictures/pic5.png", x: 40, y: 16, rotate: -5 },
   { src: "/pictures/pic6.png", x: 60, y: 15, rotate: 7 },
+>>>>>>> main
   { src: "/pictures/pic7.jpg", x: 80, y: 16, rotate: -9 },
 ];
 
