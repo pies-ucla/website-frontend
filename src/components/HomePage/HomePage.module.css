@@ -1,285 +1,371 @@
 /* === General Structure === */
 .footer {
-    padding: 4rem;
-    background-color: #6a8ac3;
-    color: #96e5ff;
-    text-align: center;
-    margin: auto 0;
-    position: relative;
-    z-index: 2;
-  }
-  
-  .infoFooter {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    /* fill the whole screen, starting behind the fixed navbar (cancels the 4rem navbarSpacer) */
-    min-height: 100vh;
-    background-color: #eee1a1;
-    padding: 0;
-    margin-top: -4rem;
-  }
-  
-  .mainContent {
-    background-image: url('/background.png');
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    /* top padding keeps the text clear of the floating navbar */
-    padding: 12vh 2rem 2rem;
-    overflow: hidden;
-    background-color: #ffffff;
+  padding: 4rem;
+  background-color: #6a8ac3;
+  color: #96e5ff;
+  text-align: center;
+  margin: auto 0;
+  position: relative;
+  z-index: 2;
+}
 
-  }
-  
-  .imageSection {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    max-width: 55%;
-    padding-right: 2rem;
-    transform: translateX(2rem);
-  }
-  
-  .textContainer {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    max-width: 800px;
-    width: 100%;
-    margin-left: 3rem;
-  }
-  
-  .textSection,
-  .textSection1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-  }
-  
-  .textSection h1 {
-    color: #b83f3b;
-    text-align: center;
-    font-weight: 600;
-    font-family: 'Darumadrop One';
-    font-size: 7rem;
-  }
-  
-  .textSection .mainTitle {
-    font-family: 'La Belle Aurore';
-    margin-bottom: -3.0rem;
-    font-size: 2.0rem;
-  }
+.infoFooter {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  /* fill the whole screen, starting behind the fixed navbar (cancels the 4rem navbarSpacer) */
+  min-height: 100vh;
+  background-color: #eee1a1;
+  padding: 0;
+  margin-top: -4rem;
+}
 
-  .textSection h2 {
-    font-size: 1.6rem;
-    color: #b83f3b;
-    font-family: 'La Belle Aurore';
-  }
-  
-  .textSection1 p {
-    font-size: 1.5rem;
-    color: var(--primary-blue);
-    margin: 1.5rem 0;
-    padding-right: 1rem;
-    max-width: 800px;
-    font-weight: 500;
-    width: 120%;
-    text-align: center;
-    transform: translateX(2%);
-    font-family: var(--font-normal);
-  }
-  
-  .learnMoreButton {
-    background-color: #6a8ac3;
-    color: white;
-    padding: 0.7rem 1.2rem;
-    border: 1px solid #000;
-    border-radius: 15px;
-    /* same font as the navbar; Dongle needs the size adjust to render at a normal size */
-    font-family: var(--font-navbar), sans-serif;
-    font-size-adjust: 0.5;
-    font-size: 1.1rem;
-    /* Dongle has very tall line spacing, which would make the button chunky */
-    line-height: 1;
-    width: fit-content;
-    margin: 1rem auto 2rem;
-    position: relative;
-    top: -10px;
-    align-self: center;
-  }
-  
-  .learnMoreButton a {
-    color: white;
-    text-decoration: none;
-  }
-  
-  .socialLinks {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: -0.5rem;
-    position: relative;
-    top: -15px;
-  }
+.mainContent {
+  background-image: url('/background.png');
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  /* top padding keeps the text clear of the floating navbar */
+  padding: 12vh 2rem 2rem;
+  /* anchor the absolutely positioned stickers here so overflow: hidden clips them
+     (otherwise they're positioned against <body> and widen the page on phones) */
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff;
 
-  /* round "sticker" buttons that match the Learn More button */
-  .socialIcon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.6rem;
-    height: 2.6rem;
-    border-radius: 50%;
-    background-color: #6a8ac3;
-    color: white;
-    font-size: 1.2rem;
-    border: 1px solid #000;
-    box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-  }
+}
 
-  /* little hop + tilt on hover, alternating direction for a playful feel */
-  .socialIcon:hover {
-    background-color: #5679b3;
-    box-shadow: 3px 6px 0 rgba(0, 0, 0, 0.2);
-    transform: translateY(-4px) rotate(-8deg);
-  }
+.imageSection {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  max-width: 55%;
+  padding-right: 2rem;
+  transform: translateX(2rem);
+}
 
-  .socialIcon:nth-child(even):hover {
-    transform: translateY(-4px) rotate(8deg);
-  }
-  
-  .pillarsSection {
-    padding-top: 12vh;
-    /* same paper texture as the navbar */
-    background-image: url('/background.png');
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-  }
+.textContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  max-width: 800px;
+  width: 100%;
+  margin-left: 3rem;
+}
 
-  .navySection {
-    width: 100%;
-    min-height: 50vh;
-    background-color: #eee1a1;
-    position: relative;
-    z-index: 100;
-    padding: 4rem 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .navyHeader {
-    color: var(--primary-red);
-    font-size: 2.7rem;
-    font-weight: bolder;
-    text-align: center;
-    font-family: 'Darumadrop One';
-  }
-  
-  .navySubheader {
-    color: var(--primary-red);
-    font-family: var(--font-normal);
-    font-size: 1rem;
-    font-weight: normal;
-    margin-bottom: 3rem;
-    text-align: center;
-  }
-  
-  .eventImages {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1rem;
-  }
-  
-  .eventImageContainer {
-    width: 100%;
-    max-width: 300px;
-    aspect-ratio: 1;
-    margin: 0 auto 6rem;
-    position: relative;
-  }
-  
-  .eventImage {
-    object-fit: cover;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-  }
-  
-  .eventImage:hover {
-    transform: scale(1.08);
-  }
-  
-  .newsSection {
-    flex: 1;
-    padding: 1.5rem;
-    max-width: 600px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-  }
-  
-  .newsSectionTitle {
-    color: #6a8ac3;
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-  
-  .newsItem {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.8rem;
-    border-bottom: 1px solid rgba(106, 138, 195, 0.2);
-  }
-  
-  .newsImage {
-    border-radius: 4px;
-    object-fit: cover;
-  }
-  
-  .newsContent {
-    flex: 1;
-  }
-  
-  .newsTitle {
-    color: #6a8ac3;
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .newsDate {
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .newsDescription {
-    color: #333;
-    font-size: 0.95rem;
-    line-height: 1.4;
-  }
+.textSection,
+.textSection1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
 
-  /* event information at the bottom */
-  .eventImageContainer {
+.textSection h1 {
+  color: #b83f3b;
+  text-align: center;
+  font-weight: 600;
+  font-family: 'Darumadrop One';
+  font-size: 7rem;
+}
+
+.textSection .mainTitle {
+  font-family: 'La Belle Aurore';
+  margin-bottom: -3.0rem;
+  font-size: 2.0rem;
+}
+
+.textSection h2 {
+  font-size: 1.6rem;
+  color: #b83f3b;
+  font-family: 'La Belle Aurore';
+}
+
+.textSection1 p {
+  font-size: 1.5rem;
+  color: var(--primary-blue);
+  margin: 1.5rem 0;
+  padding-right: 1rem;
+  max-width: 800px;
+  font-weight: 500;
+  width: 120%;
+  text-align: center;
+  transform: translateX(2%);
+  font-family: var(--font-normal);
+}
+
+.learnMoreButton {
+  background-color: #6a8ac3;
+  color: white;
+  padding: 0.7rem 1.2rem;
+  border: 1px solid #000;
+  border-radius: 15px;
+  /* same font as the navbar; Dongle needs the size adjust to render at a normal size */
+  font-family: var(--font-navbar), sans-serif;
+  font-size-adjust: 0.5;
+  font-size: 1.1rem;
+  /* Dongle has very tall line spacing, which would make the button chunky */
+  line-height: 1;
+  width: fit-content;
+  margin: 1rem auto 2rem;
+  position: relative;
+  top: -10px;
+  align-self: center;
+}
+
+.learnMoreButton a {
+  color: white;
+  text-decoration: none;
+}
+
+.pillarsHeader {
+  top: -5%;
+  color: #b83f3b;
+  text-align: center;
+  font-weight: 600;
+  font-family: 'Darumadrop One';
+  font-size: 4.5rem;
+  line-height: 1;
+  margin: 0 0 1.5rem;
+}
+
+
+.connectHeader {
+  color: #6b4f32;
+  text-align: center;
+  font-weight: 600;
+  font-family: 'Darumadrop One';
+  font-size: 4.5rem;
+  line-height: 1;
+  margin: 0 0 1.5rem;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* round "sticker" buttons that match the Learn More button */
+.socialIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  background-color: #9c7a55;
+  color: white;
+  font-size: 1.2rem;
+  border: 1px solid #000;
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* little hop + tilt on hover, alternating direction for a playful feel */
+.socialIcon:hover {
+  background-color: #82633f;
+  box-shadow: 3px 6px 0 rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px) rotate(-8deg);
+}
+
+.socialIcon:nth-child(even):hover {
+  transform: translateY(-4px) rotate(8deg);
+}
+
+/* area under the social icons that holds the polaroids. Everything inside is sized in
+   em, so this font-size scales the polaroids, their offsets and the area's height together */
+.polaroids {
+  position: relative;
+  font-size: clamp(9px, 1.1vw, 14px);
+  /* bottom row starts at 16em and a polaroid is 19.7em tall, plus room for the tilt */
+  height: 38em;
+  margin-top: 2rem;
+}
+
+.polaroid {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  transform: rotate(var(--rotate));
+  width: 26.25em;
+  height: 19.7em;
+}
+
+.polaroidFrame {
+  width: 100%;
+  height: 100%;
+}
+
+.polaroidPhoto {
+  position: absolute;
+  left: 2.25em;
+  top: 3.1em;
+  width: 22.75em;
+  height: 12.95em;
+  object-fit: cover;
+}
+
+.pillarsSection {
+  padding-top: 12vh;
+  /* same paper texture as the navbar */
+  background-image: url('/background.png');
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.picturesSection {
+  padding-top: 12vh;
+  /* same paper texture as the navbar */
+  background-image: url('/background.png');
+  min-height: 500px;
+  background-size: cover;
+  background-position: center;
+  display: grid;
+  place-items: center;
+}
+
+.pictureBoard {
+  box-shadow: 4px 5px 5 rgba(0, 0, 0, 0.1);
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  min-height: 700px;
+  position: relative;
+  width: 90%;
+
+  border: 10px solid transparent;
+  border-radius: 10px;
+  background-image: url("/square_paper.png"), url("/square_paper.png");
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  margin-bottom: 50px;
+}
+
+.navySection {
+  background-image: url('/background.png');
+  width: 100%;
+  min-height: 50vh;
+  background-color: #eee1a1;
+  position: relative;
+  z-index: 100;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navyHeader {
+  color: var(--primary-red);
+  font-size: 2.7rem;
+  font-weight: bolder;
+  text-align: center;
+  font-family: 'Darumadrop One';
+}
+
+.navySubheader {
+  color: var(--primary-red);
+  font-family: var(--font-normal);
+  font-size: 1rem;
+  font-weight: normal;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.eventImages {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.eventImageContainer {
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 1;
+  margin: 0 auto 6rem;
+  position: relative;
+}
+
+.eventImage {
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.eventImage:hover {
+  transform: scale(1.08);
+}
+
+.newsSection {
+  flex: 1;
+  padding: 1.5rem;
+  max-width: 600px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.newsSectionTitle {
+  color: #6a8ac3;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.newsItem {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(106, 138, 195, 0.2);
+}
+
+.newsImage {
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.newsContent {
+  flex: 1;
+}
+
+.newsTitle {
+  color: #6a8ac3;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.newsDate {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.newsDescription {
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* event information at the bottom */
+.eventImageContainer {
   margin: 1rem;
   border-radius: 10px;
   padding: 1rem;
-  }
+}
 
 .eventImage {
   border-radius: 8px;
@@ -293,84 +379,116 @@
 }
 
 
-  @media (max-width: 1024px) {
-    .infoFooter {
-      flex-direction: column;
-    }
+@media (max-width: 1024px) {
+  .infoFooter {
+    flex-direction: column;
+  }
 
-    .textContainer,
-    .textSection,
-    .textSection1 {
-      padding: 2rem 1rem;
-      flex-direction: column;
-      transform: none;
-      margin-left: 0;
-    }
-  
-    .textSection h1,
-    .title-main,
-    .title-sub {
-      font-size: 2rem;
-      width: 100%;
-      transform: none;
-    }
-  
-    .mainTitle {
-      font-size: 2.8rem;
-      width: 140%;
-      transform: translateX(-15%) scaleX(1.1);
-    }
-  
-    .eventImages {
-      gap: 1.5rem;
-    }
-  
+  .textContainer,
+  .textSection,
+  .textSection1 {
+    padding: 2rem 1rem;
+    flex-direction: column;
+    transform: none;
+    margin-left: 0;
   }
-  
-  @media (max-width: 768px) {
-    .eventImages {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-      padding: 2rem 1rem;
-    }
-  
-    .navyHeader {
-      font-size: 2rem;
-    }
-  
-    .navySubheader {
-      font-size: 1.2rem;
-    }
-  
-    .textSection h1,
-    .title-main {
-      font-size: 2.2rem;
-      letter-spacing: 10px;
-      width: 120%;
-    }
-  
-    .mainTitle {
-      font-size: 2rem;
-      width: 120%;
-      letter-spacing: 2px;
-      transform: translateX(-10%) scaleX(1);
-    }
+
+  .textSection h1,
+  .title-main,
+  .title-sub {
+    font-size: 2rem;
+    width: 100%;
+    transform: none;
   }
-  
-  @media (max-width: 480px) {
-    .eventImages {
-      gap: 4rem;
-    }
-  
-    .navyHeader {
-      font-size: 1.5rem;
-    }
-  
-    .navySubheader {
-      font-size: 1rem;
-    }
-  
-    .title-main {
-      font-size: 1.8rem;
-    }
-  }  
+
+  .mainTitle {
+    font-size: 2.8rem;
+    width: 140%;
+    transform: translateX(-15%) scaleX(1.1);
+  }
+
+  .eventImages {
+    gap: 1.5rem;
+  }
+
+}
+
+@media (max-width: 768px) {
+  /* two-column grid of polaroids instead of the scattered desktop layout */
+  .pictureBoard {
+    min-height: 0;
+    width: 94%;
+    padding-bottom: 2rem;
+  }
+
+  .polaroids {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    row-gap: 1rem;
+    height: auto;
+    /* two ~28em-wide polaroids (incl. tilt) across the board */
+    font-size: min(10px, calc((100vw - 3rem) / 58));
+  }
+
+  .polaroid {
+    position: relative;
+    left: auto;
+    top: auto;
+  }
+
+  /* odd one out at the end gets centered on its own row */
+  .polaroid:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .connectHeader {
+    font-size: 2.8rem;
+  }
+
+  .eventImages {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 2rem 1rem;
+  }
+
+  .navyHeader {
+    font-size: 2rem;
+  }
+
+  .navySubheader {
+    font-size: 1.2rem;
+  }
+
+  .textSection h1,
+  .title-main {
+    font-size: 2.2rem;
+    letter-spacing: 10px;
+    width: 120%;
+  }
+
+  .mainTitle {
+    font-size: 2rem;
+    width: 120%;
+    letter-spacing: 2px;
+    transform: translateX(-10%) scaleX(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .eventImages {
+    gap: 4rem;
+  }
+
+  .navyHeader {
+    font-size: 1.5rem;
+  }
+
+  .navySubheader {
+    font-size: 1rem;
+  }
+
+  .title-main {
+    font-size: 1.8rem;
+  }
+}  

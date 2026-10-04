@@ -12,7 +12,6 @@ const QuickLinks: React.FC = () => {
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
     >
-      <h1 className={styles.quickLinksHeader}>Quick Links</h1>
     </motion.div>
   );
 };

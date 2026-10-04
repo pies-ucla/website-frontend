@@ -1,24 +1,45 @@
+/* All pillar sizes are in em, so the font-size here scales the whole set
+   (16px = the original desktop size; it shrinks on smaller screens) */
 .threePillarsContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px;
-    background-color: #eee1a1;
+    /* extra bottom room for the pillar bases, which hang 2.1875em below the pillars */
+    padding: 40px 40px calc(40px + 2.1875em);
+    /* transparent so the section's paper texture shows through */
+    background-color: transparent;
     width: 100%;
-    height: 400px;
+    font-size: clamp(11px, 1.6vw, 16px);
+}
+
+/* the hidden <svg> that holds the hand-drawn filter; display: none would disable it */
+.sketchFilter {
+    position: absolute;
+    width: 0;
+    height: 0;
 }
 
 .pillarsWrapper {
     display: flex;
     justify-content: center;
-    gap: 180px;
+    /* shrinks on smaller screens so the arrow buttons stay on screen */
+    gap: clamp(2.5em, 8vw, 11.25em);
+    /* the active pillar is raised 5.625em plus its 2.1875em capital; reserve that
+       space so it doesn't poke up into the "Our Pillars" heading */
+    padding-top: 7.8125em;
 }
 
 .pillar {
     position: relative;
-    width: 150px; 
-    height: 220px;
+    width: 9.375em;
+    height: 13.75em;
     background-color: #1e5091;
+    /* loose diagonal marker strokes so the fill looks colored in by hand */
+    background-image: repeating-linear-gradient(
+        -60deg,
+        rgba(255, 255, 255, 0.07) 0 0.15em,
+        transparent 0.15em 0.6em
+    );
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,9 +49,11 @@
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
-    padding: 45px 12px;
+    padding: 2.8125em 0.75em;
     transition: all 0.3s ease;
-    margin-top: 80px;
+    margin-top: 5em;
+    /* wobbly edges + ink outline, defined in Pillars.tsx */
+    filter: url(#pillar-sketch);
 }
 
 .pillarContent {
@@ -42,19 +65,18 @@
 }
 
 .pillar.active {
-    height: 390px; 
-    width: 195px; 
+    height: 24.375em;
+    width: 12.1875em;
     background-color: #2561b3;
     z-index: 1;
-    margin-top: -90px;
-    padding: 60px 10px 45px 10px;
+    margin-top: -5.625em;
+    padding: 3.75em 0.625em 2.8125em;
     cursor: pointer; 
     transition: all 0.5s ease; /* Slightly slower transition for smoother effect */
 }
 
 .pillar.active:hover {
-    transform: translateY(-30px) scale(0.99);
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1.875em) scale(0.99);
     background-color: #4b8ce1;
 }
 
@@ -72,37 +94,37 @@
 
 .pillar.active::before,
 .pillar.active::after {
-    background-color: #2561b3;
-    left: -51.5px;
-    width: 295px;
+    left: -3.21875em;
+    width: 18.4375em;
 }
 
+/* the capital (top) and base (bottom) of each pillar */
 .pillar::before,
 .pillar::after {
     content: "";
     position: absolute;
-    left: -38px; 
-    width: 225px; 
-    height: 35px;
+    left: -2.375em;
+    width: 14.0625em;
+    height: 2.1875em;
     background-color: inherit;
+    background-image: inherit;
     clip-path: polygon(0% 0%, 17% 100%, 84% 100%, 100% 0%);
-    box-shadow: -10px -10px 10px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
 }
 
 .pillar::before {
-    top: -35px; 
+    top: -2.1875em;
 }
 
 .pillar::after {
-    bottom: -35px; 
+    bottom: -2.1875em;
     transform: rotate(180deg);
 }
 
 .pillarChar {
     color: white;
     font-weight: bolder;
-    font-size: 1.7rem; 
+    font-size: 1.9em;
     letter-spacing: 0.8px; 
     line-height: 0.75; 
     transition: all 0.3s ease;
@@ -110,12 +132,12 @@
 }
 
 .pillar.active .pillarChar {
-    font-size: 3rem; 
+    font-size: 3.375em;
     font-weight: 900;
     color: #ffffff;
     text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.5); /* Add glow effect */
     letter-spacing: 1.2px; 
-    line-height: 2rem;
+    line-height: 0.667;
 }
 
 /* Animation for active pillar text */
@@ -133,43 +155,49 @@
     padding: 20px 0;
 }
 
+/* round "sticker" arrows, same style as the homepage's social icons and Learn More button */
 .navigationButton {
-    width: 60px; 
-    height: 50px;
-    background-color: #cbcbcb;
-    border-radius: 50%;
+    flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0 2.5rem;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid #000;
+    background-color: #6a8ac3;
+    color: white;
+    font-size: 1.4rem;
+    box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    color: rgb(46, 123, 182);
     user-select: none;
-    margin: 0 60px; 
-    font-size: 34px; 
-    transition: transform 0.3s ease; 
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .navigationButton:hover {
-    background-color: #333333;
-    transform: scale(1.3); 
+    background-color: #5679b3;
+    box-shadow: 3px 6px 0 rgba(0, 0, 0, 0.2);
 }
 
-.navigationButton:first-child {
-    margin-right: 80px; /* Push to left */
-    transform: translateX(-30px); /* Move to left */
+/* hop and lean toward the direction the arrow points */
+.navLeft:hover {
+    transform: translate(-3px, -4px) rotate(-8deg);
 }
 
-.navigationButton:last-child {
-    margin-left: 80px; /* Push toright */
-    transform: translateX(30px); /* Move to right */
+.navRight:hover {
+    transform: translate(3px, -4px) rotate(8deg);
 }
 
-.navigationButton:first-child:hover {
-    transform: translateX(-30px) scale(1.1);
+.navigationButton:active {
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+    transform: translateY(1px);
 }
 
-.navigationButton:last-child:hover {
-    transform: translateX(30px) scale(1.1);
+.navigationButton:focus-visible {
+    outline: 3px solid #b83f3b;
+    outline-offset: 3px;
 }
 
 .pillarHeading {
@@ -187,4 +215,30 @@
     0% { transform: translateY(-90px); }
     50% { transform: translateY(-95px); }
     100% { transform: translateY(-90px); }
+}
+
+@media (max-width: 768px) {
+    /* pillars use the full width; the arrows move underneath them */
+    .threePillarsContainer {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 1rem 1rem 1.5rem;
+        row-gap: 3em;
+        /* the set is ~45em wide including the capitals, so fit that to the screen */
+        font-size: min(12px, calc((100vw - 2rem) / 45));
+    }
+
+    .pillarsWrapper {
+        order: -1;
+        width: 100%;
+        /* just enough room that neighboring capitals don't overlap */
+        gap: 4.5em;
+    }
+
+    .navigationButton {
+        width: 2.75rem;
+        height: 2.75rem;
+        margin: 0 1rem;
+        font-size: 1.1rem;
+    }
 }

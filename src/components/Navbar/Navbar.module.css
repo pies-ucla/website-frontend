@@ -146,8 +146,7 @@
 }
 
 .dropdownMenu {
-    font-family: var(--font-normal);
-    font-size-adjust: none;
+    /* font-family and font-size-adjust inherit from .navbar, so the menu uses the navbar font */
     /* em units scale with the navbar's vw font, so the menu keeps its size when zooming */
     font-size: 0.9em;
     position: absolute;

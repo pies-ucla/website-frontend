@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import styles from './Pillars.module.css';
 import Modal from '../Modal/Modal';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
 
 interface PillarProps {
   text: string;
@@ -28,9 +29,14 @@ const Pillar: React.FC<PillarProps> = ({ text, isActive = false, onClick }) => {
 
 const NavButton: React.FC<{ direction: 'left' | 'right', onClick: () => void }> = ({ direction, onClick }) => {
   return (
-    <div className={styles.navigationButton} onClick={onClick}>
-      {direction === 'left' ? '←' : '→'}
-    </div>
+    <button
+      type="button"
+      className={`${styles.navigationButton} ${direction === 'left' ? styles.navLeft : styles.navRight}`}
+      onClick={onClick}
+      aria-label={direction === 'left' ? 'Previous pillar' : 'Next pillar'}
+    >
+      {direction === 'left' ? <FaArrowLeft /> : <FaArrowRight />}
+    </button>
   );
 };
 
@@ -69,6 +75,21 @@ const Pillars: React.FC = () => {
 
   return (
     <div className={styles.threePillarsContainer}>
+      {/* "hand-drawn" look for the pillars: roughen the edges with noise, then trace an
+          ink outline around the wobbly shape. Used via filter: url(#pillar-sketch) */}
+      <svg className={styles.sketchFilter} aria-hidden="true">
+        <filter id="pillar-sketch" x="-40%" y="-30%" width="180%" height="160%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="1" seed="7" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G" result="wobbly" />
+          <feMorphology in="wobbly" operator="dilate" radius="2.5" result="thick" />
+          <feFlood floodColor="#1b1b1b" />
+          <feComposite in2="thick" operator="in" result="outline" />
+          <feMerge>
+            <feMergeNode in="outline" />
+            <feMergeNode in="wobbly" />
+          </feMerge>
+        </filter>
+      </svg>
       <NavButton direction="left" onClick={handlePrevClick} />
       <div className={styles.pillarsWrapper}>
         {displayPillars.map((text, index) => (

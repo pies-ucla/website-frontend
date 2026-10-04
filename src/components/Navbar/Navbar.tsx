@@ -42,7 +42,9 @@ export default function Navbar() {
     return (
         <>
             <nav className={styles.navbar}>
-                <Image src={"/logo.png"} alt="PIES logo" width={2000} height={2000} className={styles.navLogo} />
+                <Link href="/" aria-label="Home" onClick={() => setMobileMenuOpen(false)}>
+                    <Image src={"/logo.png"} alt="PIES logo" width={2000} height={2000} className={styles.navLogo} />
+                </Link>
                 <div className={styles.navHeader}>
                     <button
                     className={styles.hamburger}

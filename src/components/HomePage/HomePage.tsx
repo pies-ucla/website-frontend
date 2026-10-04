@@ -4,7 +4,7 @@ import styles from './HomePage.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import Carousel from '../Carousel/Carousel';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import Pillars from '../Pillars/Pillars';
 import StaticModalCard from '../StaticPierreCard/StaticModal';
 import { FaInstagram, FaLinkedinIn, FaEnvelope, FaFacebookF } from 'react-icons/fa6';
@@ -17,6 +17,30 @@ type Event = {
   description: string;
   image_url?: string | null;
 };
+
+// polaroid frame with a photo pinned inside it. On desktop, x is where its center sits
+// (% of the board width), y is its top (em, so it scales with the polaroids), and
+// rotate tilts it. On mobile the CSS lays them out in a grid instead (see .polaroids)
+const Polaroid = ({ src, x, y, rotate }: { src: string; x: number; y: number; rotate: number }) => (
+  <div
+    className={styles.polaroid}
+    style={{ "--x": `calc(${x}% - 13.125em)`, "--y": `${y}em`, "--rotate": `${rotate}deg` } as CSSProperties}
+  >
+    <Image src="/polaroid.png" alt="" width={750} height={563} className={styles.polaroidFrame} />
+    <Image src={src} alt="" width={4032} height={3024} className={styles.polaroidPhoto} />
+  </div>
+);
+
+// two staggered rows (3 on top, 4 below) mirrored around the middle so the group stays centered
+const POLAROIDS = [
+  { src: "/pictures/pic2.png", x: 25, y: 0, rotate: -8 },
+  { src: "/pictures/pic1.png", x: 50, y: 1, rotate: 4 },
+  { src: "/pictures/pic3.png", x: 75, y: 0, rotate: 10 },
+  { src: "/pictures/pic4.jpg", x: 20, y: 15, rotate: 6 },
+  { src: "/pictures/pic5.png", x: 40, y: 16, rotate: -5 },
+  { src: "/pictures/pic6.png", x: 60, y: 15, rotate: 7 },
+  { src: "/pictures/pic7.jpg", x: 80, y: 16, rotate: -9 },
+];
 
 const HomePage = () => {
   // Add state for client-side rendering
@@ -41,9 +65,9 @@ const HomePage = () => {
   }, []);
   const now = new Date();
   const upcomingEvents = events
-    .filter((e) => new Date(e.date_time) > now)
-    .sort((a, b) => new Date(a.date_time).getTime() - new Date(b.date_time).getTime())
-    .slice(0, 3);
+  .filter((e) => new Date(e.date_time) > now)
+  .sort((a, b) => new Date(a.date_time).getTime() - new Date(b.date_time).getTime())
+  .slice(0, 3);
 
   const carouselImages = [
     '/carousel/home/home_0.png',
@@ -88,8 +112,8 @@ const HomePage = () => {
 
               {/* top-right: shift right & up */}
               <Image src="/planer.png" alt="" width={500} height={500}
-                style={{ position: "absolute", right: "calc(1% + 11em)", top: "calc(-2% + 11em)",
-                  height: "20em", width: "20em", transform: "translate(50%, -50%)" }} />
+                style={{ position: "absolute", right: "calc(1% + 8em)", top: "calc(-2% + 11em)",
+                  height: "16em", width: "16em", transform: "translate(50%, -50%)" }} />
 
               {/* bottom-left: shift left & down */}
               <Image src="/stars.png" alt="" width={500} height={500}
@@ -115,20 +139,7 @@ const HomePage = () => {
                 >
                   <Link href="/about">Learn More!</Link>
                 </motion.div>
-                <div className={styles.socialLinks}>
-                  <a href="https://www.instagram.com/piesatucla/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={styles.socialIcon}>
-                    <FaInstagram />
-                  </a>
-                  <a href="https://www.linkedin.com/company/pilipinos-in-engineering-and-sciences/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className={styles.socialIcon}>
-                    <FaLinkedinIn />
-                  </a>
-                  <a href="" target="_blank" rel="noopener noreferrer" aria-label="Email" className={styles.socialIcon}>
-                    <FaEnvelope />
-                  </a>
-                  <a href="https://www.facebook.com/uclapies/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className={styles.socialIcon}>
-                    <FaFacebookF />
-                  </a>
-                </div>
+
               </motion.div>
             </motion.div>
           </div>
@@ -166,7 +177,37 @@ const HomePage = () => {
             ))} */}
           </motion.div>
         </motion.div>
+        <motion.div
+          className={styles.picturesSection}
+          viewport={{ once: true }}
+        >
+          <div
+            className={styles.pictureBoard}
+          >
+            <h1 className={styles.connectHeader}>Connect with us!</h1>
+            <div className={styles.socialLinks}>
+              <a href="https://www.instagram.com/piesatucla/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={styles.socialIcon}>
+                <FaInstagram />
+              </a>
+              <a href="https://www.linkedin.com/company/pilipinos-in-engineering-and-sciences/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className={styles.socialIcon}>
+                <FaLinkedinIn />
+              </a>
+              <a href="" target="_blank" rel="noopener noreferrer" aria-label="Email" className={styles.socialIcon}>
+                <FaEnvelope />
+              </a>
+              <a href="https://www.facebook.com/uclapies/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className={styles.socialIcon}>
+                <FaFacebookF />
+              </a>
+            </div>
 
+            <div className={styles.polaroids}>
+              {POLAROIDS.map((p, i) => (
+                <Polaroid key={i} {...p} />
+              ))}
+            </div>
+
+          </div>
+        </motion.div>
 
         <motion.div
           className={styles.pillarsSection}
@@ -175,6 +216,7 @@ const HomePage = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
+            <h1 className={styles.pillarsHeader}>Our Pillars</h1>
           <Pillars />
         </motion.div>
 
