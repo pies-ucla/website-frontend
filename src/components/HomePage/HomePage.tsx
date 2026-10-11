@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, type CSSProperties } from 'react';
 import Pillars from '../Pillars/Pillars';
+import LoadingImage from '../LoadingImage/LoadingImage';
 import StaticModalCard from '../StaticPierreCard/StaticModal';
 import { FaInstagram, FaLinkedinIn, FaEnvelope, FaFacebookF } from 'react-icons/fa6';
 const API_URL =  process.env.NEXT_PUBLIC_API_URL;
@@ -26,7 +27,7 @@ const Polaroid = ({ src, x, y, rotate }: { src: string; x: number; y: number; ro
     style={{ "--x": `calc(${x}% - 13.125em)`, "--y": `${y}em`, "--rotate": `${rotate}deg` } as CSSProperties}
   >
     <Image src="/polaroid.png" alt="" width={750} height={563} className={styles.polaroidFrame} />
-    <Image src={src} alt="" width={4032} height={3024} className={styles.polaroidPhoto} />
+    <LoadingImage src={src} alt="" width={4032} height={3024} className={styles.polaroidPhoto} />
   </div>
 );
 
@@ -240,7 +241,7 @@ const HomePage = () => {
                 upcomingEvents.map((event, index) => (
                   <div key={index} className={styles.eventImageContainer}>
                     {event.image_url ? (
-                      <Image
+                      <LoadingImage
                         src={event.image_url}
                         alt={event.event_name}
                         width={300}

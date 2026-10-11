@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import styles from './AuthGuard.module.css';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import LoadingText from '@/components/LoadingText/LoadingText';
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -18,7 +19,11 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   }, [loading, user, router]);
 
   if (loading) {
-    return <p className="p-4 text-center">Loading…</p>;
+    return (
+      <div className={styles.loading}>
+        <LoadingText />
+      </div>
+    );
   }
 
   if (showModal) {

@@ -1,0 +1,49 @@
+.text {
+  display: inline-flex;
+  align-items: center;
+}
+
+.spinner {
+  width: 0.8em;
+  height: 0.8em;
+  margin-right: 0.4em;
+  flex-shrink: 0;
+  border: 0.12em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.letter {
+  display: inline-block;
+  animation: wave 1.2s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.08s);
+}
+
+@keyframes wave {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  30% {
+    transform: translateY(-0.35em);
+    opacity: 0.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter {
+    animation: none;
+  }
+
+  /* still spin, just slower, so it reads as "working" */
+  .spinner {
+    animation-duration: 2s;
+  }
+}

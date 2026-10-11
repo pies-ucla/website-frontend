@@ -441,3 +441,12 @@
 .adminButton:hover {
   background-color: #003f8a;
 }
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  font-family: var(--font-navbar), sans-serif;
+  font-size: 2rem;
+  color: var(--primary-blue);
+}

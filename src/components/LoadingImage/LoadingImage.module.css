@@ -1,0 +1,31 @@
+.loading {
+  background: linear-gradient(
+    100deg,
+    var(--off-yellow) 30%,
+    #faf3dd 50%,
+    var(--off-yellow) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.loaded {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes shimmer {
+  from { background-position: 150% 0; }
+  to { background-position: -50% 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading,
+  .loaded {
+    animation: none;
+  }
+}

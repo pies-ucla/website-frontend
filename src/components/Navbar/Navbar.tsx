@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useAuth } from "@/context/AuthContext";
 import { FiMenu, FiX } from 'react-icons/fi';
 import Image from 'next/image';
+import LoadingText from '../LoadingText/LoadingText';
 
 // const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
@@ -38,7 +39,7 @@ export default function Navbar() {
         };
     }, [dropdownRef]);
     
-    if (loading) return <p>Loading...</p>
+    if (loading) return <p className={styles.loading}><LoadingText /></p>
     return (
         <>
             <nav className={styles.navbar}>

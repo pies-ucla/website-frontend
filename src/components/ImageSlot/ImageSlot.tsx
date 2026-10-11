@@ -2,7 +2,8 @@
 
 import { useRef, useState } from "react";
 import styles from "./ImageSlot.module.css";
-import Image from "next/image";
+import LoadingImage from "../LoadingImage/LoadingImage";
+import LoadingText from "../LoadingText/LoadingText";
 const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
 interface ImageSlotProps {
@@ -67,7 +68,7 @@ const ImageSlot = ({
       onClick={handleClick}
     >
       <div className={styles.imageContainer}>
-        <Image
+        <LoadingImage
           src={src}
           alt={slot}
           className={styles.image}
@@ -78,7 +79,7 @@ const ImageSlot = ({
         {editable && (
           <>
             <div className={styles.overlay}>
-              <span className={styles.replaceText}>{loading ? "Uploading…" : "Replace"}</span>
+              <span className={styles.replaceText}>{loading ? <LoadingText text="Uploading..." /> : "Replace"}</span>
             </div>
             <input
               type="file"
