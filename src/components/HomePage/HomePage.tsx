@@ -118,7 +118,7 @@ const HomePage = () => {
                 variants={fadeInUp}
               >
                 <h1 className={styles.mainTitle}>Pilipinos in Engineering & Sciences</h1>
-                <h1>PIES @ UCLDSDAKJDKSADA</h1>
+                <h1>PIES @ UCLA</h1>
                 <h2>Est. 1993</h2>
               </motion.div>
               <motion.div 
