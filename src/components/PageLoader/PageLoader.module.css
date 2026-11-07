@@ -1,0 +1,21 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+  transition: opacity 0.4s ease;
+}
+
+.fading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.text {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  color: var(--primary-blue);
+}

@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import { AuthProvider } from "@/context/AuthContext";
+import PageLoader from "@/components/PageLoader/PageLoader";
 
 export const metadata: Metadata = {
   title: "UCLA PIES",
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <PageLoader />
         <AuthProvider>
           <Navbar />
             {children}
