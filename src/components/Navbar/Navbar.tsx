@@ -6,11 +6,10 @@ import { useState, useEffect, useRef } from 'react';
 import { useAuth } from "@/context/AuthContext";
 import { FiMenu, FiX } from 'react-icons/fi';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import LoadingText from '../LoadingText/LoadingText';
 
 // const API_URL =  process.env.NEXT_PUBLIC_API_URL;
-const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
-const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
 
 export default function Navbar() {
@@ -18,7 +17,7 @@ export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const loginURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${REDIRECT_URI}/auth/callback&response_type=code&scope=openid email profile&access_type=offline&prompt=consent`;
+    const pathname = usePathname();
     const { user, logout, loading, isAdmin } = useAuth();
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -39,6 +38,8 @@ export default function Navbar() {
         };
     }, [dropdownRef]);
     
+    // the login page is full screen and has its own way back home
+    if (pathname === '/login') return null;
     if (loading) return <p className={styles.loading}><LoadingText /></p>
     return (
         <>
@@ -133,8 +134,9 @@ export default function Navbar() {
                                         <button onClick={logout} className={styles.logoutButton}>Logout</button>
                                     </div>
                                 ) : (
-                                    <a href={loginURL} className={styles.loginButton}>
-                                        Member Login                                    </a>
+                                    <Link href="/login" className={styles.loginButton}>
+                                        Member Login
+                                    </Link>
                                 )
                             }
                         </div> 

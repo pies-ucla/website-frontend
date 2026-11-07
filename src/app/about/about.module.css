@@ -1,70 +1,272 @@
+/* paper texture + colors match the home page (see HomePage.module.css) */
 .container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    gap: 2rem;
-    background-color: #95a7bf;
+    /* start behind the fixed navbar (cancels the 4rem navbarSpacer), like the home page */
+    margin-top: -4rem;
+    background-image: url('/background.jpg');
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
 }
-  
-.header {
-    font-size: 4rem;
-    font-family: var(--font-display);
-    text-align: center;
-    color: var(--off-yellow);
-}
-  
-.columns {
+
+/* === Hero === */
+.hero {
+    position: relative;
+    min-height: 70vh;
     display: flex;
-    gap: 4rem;
+    align-items: center;
     justify-content: center;
-    text-align: left;
-    flex-wrap: wrap;
-    align-items: stretch;
+    /* top padding keeps the text clear of the floating navbar */
+    padding: 14vh 2rem 4rem;
 }
-  
-.columns > div {
-    flex: 1;
-    min-width: 250px;
-    max-width: 400px;
+
+.heroText {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
-  
-.columns h2 {
+
+.kicker {
+    font-family: var(--font-cursive);
+    color: var(--primary-red);
+    font-size: 2rem;
+    margin-bottom: -2rem;
+}
+
+.header {
     font-family: var(--font-display);
-    color: var(--off-yellow);
-    font-size: 3rem;
+    color: var(--primary-red);
+    font-weight: 600;
+    font-size: 7rem;
+    line-height: 1.3;
+}
+
+.tagline {
+    font-family: var(--font-normal);
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.sticker {
+    position: absolute;
+    pointer-events: none;
+    height: auto;
+}
+
+.stars {
+    left: 4%;
+    bottom: 0;
+    width: 16em;
+}
+
+.planer {
+    right: 6%;
+    top: 14vh;
+    width: 14em;
+}
+
+/* === Vision + Mission === */
+.paperSection {
+    padding: 2rem 2rem 4rem;
+}
+
+.columns {
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* same square-paper sheet as the home page's picture board and events */
+.card {
+    flex: 1;
+    min-width: 280px;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 2rem;
+    border: 10px solid transparent;
+    border-radius: 10px;
+    background-image: url('/square_paper.png'), url('/square_paper.png');
+    background-size: cover, cover;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+}
+
+.cardTitle {
+    font-family: var(--font-display);
+    color: var(--primary-red);
+    font-size: 3.2rem;
+    line-height: 1.2;
     margin-bottom: 1rem;
     text-align: center;
 }
-  
-.columns p {
-    font-family: var(--font-normal);
-    color: var(--off-yellow);
-}
 
-.columns .textbox {
-    border: 3px solid var(--off-yellow);
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+.cardText {
+    font-family: var(--font-normal);
+    color: var(--primary-blue);
+    font-size: 1.3rem;
+    font-weight: 500;
+    line-height: 1.35;
+    text-align: center;
     flex-grow: 1;
 }
 
+/* polaroid frame with the photo pinned inside (same proportions as the home page polaroids) */
+.polaroid {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    aspect-ratio: 750 / 563;
+    margin-top: 2rem;
+    transform: rotate(var(--rotate));
+    transition: transform 0.3s ease;
+}
+
+.polaroid:hover {
+    transform: rotate(0deg) scale(1.03);
+}
+
+.polaroidFrame {
+    width: 100%;
+    height: 100%;
+}
+
+/* scoped under .polaroid so it beats ImageSlot's own position/size styles */
+.polaroid .polaroidPhoto {
+    position: absolute;
+    left: 8.57%;
+    top: 15.74%;
+    width: 86.67%;
+    height: 65.74%;
+}
+
+.polaroid .polaroidPhoto > div,
+.polaroid .polaroidPhoto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* === Timeline === */
 .timeline {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    padding: 2rem 2rem 5rem;
+}
+
+.timelineHeader {
+    font-family: var(--font-display);
+    color: #6b4f32;
+    font-size: 4.5rem;
+    line-height: 1;
+    text-align: center;
+}
+
+.timelineSubheader {
+    font-family: var(--font-cursive);
+    color: #6b4f32;
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+}
+
+.timelineBoard {
+    width: 90%;
+    max-width: 1000px;
+    padding: 2.5rem 2rem 3rem;
+    border: 10px solid transparent;
+    border-radius: 10px;
+    background-image: url('/square_paper.png'), url('/square_paper.png');
+    background-size: cover, cover;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+    display: flex;
     justify-content: center;
 }
 
-.timeline h2 {
-    font-family: var(--font-display);
-    color: var(--off-yellow);
-    font-size: 3rem;
+/* the carousel shifts itself left on smaller screens; keep it centered on the board */
+.timelineBoard > * {
+    margin: 0 auto 2rem !important;
 }
-  
-.replaceableImage {
-    margin-top: 1rem;
+
+.timelineBoard img {
+    border-radius: 8px;
+}
+
+@media (max-width: 1024px) {
+    .header {
+        font-size: 4.5rem;
+    }
+
+    .sticker {
+        opacity: 0.6;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        min-height: 50vh;
+    }
+
+    .header {
+        font-size: 3.2rem;
+    }
+
+    .kicker {
+        font-size: 1.5rem;
+        margin-bottom: -1rem;
+    }
+
+    .tagline {
+        font-size: 1.2rem;
+    }
+
+    /* tucked into the corner so it doesn't sit on the tagline */
+    .stars {
+        width: 7em;
+        left: -1rem;
+        bottom: -1.5rem;
+    }
+
+    .planer {
+        width: 8em;
+        top: 10vh;
+    }
+
+    .paperSection,
+    .timeline {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .card {
+        padding: 2rem 1.25rem;
+    }
+
+    .cardTitle {
+        font-size: 2.4rem;
+    }
+
+    .timelineHeader {
+        font-size: 2.8rem;
+    }
+
+    .timelineBoard {
+        width: 100%;
+        padding: 1.5rem 0.75rem 2.5rem;
+    }
 }

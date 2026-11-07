@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import styles from './board.module.css';
 import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import ImageSlot from '@/components/ImageSlot/ImageSlot';
 const API_URL =  process.env.NEXT_PUBLIC_API_URL;
 
@@ -136,7 +137,15 @@ export default function BoardPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.header}>Our Board</h1>
+      <motion.div
+        className={styles.hero}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+      >
+        <p className={styles.kicker}>meet the people behind PIES</p>
+        <h1 className={styles.header}>Our Board</h1>
+      </motion.div>
 
       <div className={styles.columns}>
         {sortedBoard.map((member, idx) => {
@@ -144,7 +153,14 @@ export default function BoardPage() {
           if (!slot) return null;
 
           return (
-            <div className={styles.textbox} key={member.id}>
+            <motion.div
+              className={styles.textbox}
+              key={member.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               <div className={styles.boardContainer}>
                 <div className={styles.boardMask}>
                   <ImageSlot
@@ -195,7 +211,7 @@ export default function BoardPage() {
                   }}>Edit</button>
                 </div>
               )}
-            </div>
+            </motion.div>
           );
         })}
         {/* Mascot */}

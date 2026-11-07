@@ -1,0 +1,176 @@
+/* full-screen split layout: sign-in on the left, a PIES photo on the right */
+.page {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  min-height: 100vh;
+}
+
+/* === Left: sign in === */
+.formSide {
+  position: relative;
+  /* above the photo so the torn edge can hang over it */
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 3rem clamp(1.5rem, 5vw, 5rem);
+  background-image: url('/background.jpg');
+  background-size: cover;
+  background-position: center;
+  /* fixed so the torn edge below lines up with the same paper texture */
+  background-attachment: fixed;
+  /* soft shadow under the paper, which follows the torn edge */
+  filter: drop-shadow(4px 0 6px rgba(0, 0, 0, 0.35));
+}
+
+/* torn paper edge along the right side, hanging over the photo */
+.formSide::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -18px;
+  width: 18px;
+  height: 100%;
+  background: inherit;
+  clip-path: polygon(0% 0%, 43% 0.0%, 70% 1.0%, 61% 1.9%, 20% 3.2%, 18% 4.7%, 21% 6.1%, 51% 7.1%, 26% 9.0%, 68% 10.1%, 64% 12.3%, 98% 13.6%, 88% 14.5%, 27% 15.7%, 41% 16.7%, 30% 18.6%, 69% 20.2%, 62% 21.5%, 20% 22.4%, 73% 23.5%, 42% 24.9%, 54% 26.5%, 83% 27.7%, 36% 29.5%, 60% 31.1%, 77% 33.2%, 98% 34.4%, 51% 35.3%, 28% 37.2%, 18% 38.7%, 80% 40.4%, 89% 42.0%, 74% 43.2%, 64% 44.9%, 86% 46.3%, 55% 48.4%, 20% 50.2%, 70% 52.0%, 85% 54.1%, 48% 55.3%, 17% 57.1%, 29% 58.5%, 20% 59.5%, 26% 61.4%, 48% 62.5%, 22% 64.5%, 62% 66.0%, 85% 68.0%, 39% 70.0%, 45% 71.4%, 96% 73.4%, 30% 74.4%, 35% 75.6%, 65% 77.0%, 15% 78.2%, 46% 79.6%, 96% 81.2%, 59% 83.0%, 72% 84.6%, 91% 85.5%, 89% 87.4%, 48% 89.3%, 24% 90.7%, 20% 92.3%, 33% 93.2%, 44% 94.3%, 15% 95.1%, 24% 96.2%, 17% 97.5%, 67% 99.5%, 36% 100%, 0% 100%);
+}
+
+.form {
+  width: 100%;
+  max-width: 28rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.logo {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+.brandText {
+  font-family: var(--font-display);
+  color: var(--primary-red);
+  font-size: 1.8rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  color: var(--primary-red);
+  font-size: clamp(2.8rem, 3.6vw, 3.5rem);
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.description {
+  font-family: var(--font-normal);
+  color: var(--primary-blue);
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 2rem;
+}
+
+.hint {
+  font-family: var(--font-normal);
+  color: var(--primary-blue);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.googleButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1.4rem;
+  background: white;
+  color: #3c4043;
+  border: 1px solid #000;
+  border-radius: 12px;
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.2);
+  font-family: var(--font-normal);
+  font-size: 1.2rem;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* same little hop as the home page's social icons */
+.googleButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 3px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.googleIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 3rem;
+  font-family: var(--font-normal);
+  color: var(--primary-blue);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+/* === Right: photo === */
+.photoSide {
+  position: relative;
+  overflow: hidden;
+}
+
+.photo {
+  object-fit: cover;
+  /* keep the group, which sits a little below the middle, in frame */
+  object-position: center 55%;
+}
+
+/* on phones the photo becomes a short banner above the sign-in */
+@media (max-width: 768px) {
+  .page {
+    grid-template-columns: 1fr;
+    grid-template-rows: 16rem 1fr;
+  }
+
+  .photoSide {
+    order: -1;
+  }
+
+  .formSide {
+    filter: drop-shadow(0 -4px 6px rgba(0, 0, 0, 0.35));
+  }
+
+  /* on phones the paper is torn along its top edge, under the photo banner */
+  .formSide::after {
+    top: -18px;
+    right: auto;
+    left: 0;
+    width: 100%;
+    height: 18px;
+    clip-path: polygon(0% 100%, 0.0% 30%, 2.4% 10%, 6.0% 84%, 8.7% 41%, 10.4% 9%, 12.8% 23%, 16.3% 14%, 17.9% 81%, 20.7% 12%, 23.6% 2%, 26.4% 83%, 30.1% 59%, 32.2% 31%, 34.1% 66%, 37.0% 66%, 39.3% 19%, 42.8% 84%, 46.4% 69%, 50.0% 63%, 52.1% 44%, 54.4% 2%, 56.0% 24%, 58.2% 59%, 62.1% 38%, 65.9% 84%, 69.8% 31%, 71.8% 19%, 73.8% 17%, 76.9% 77%, 80.5% 41%, 83.6% 68%, 85.3% 56%, 89.1% 66%, 92.5% 41%, 94.4% 67%, 96.8% 68%, 100% 34%, 100% 100%);
+  }
+
+  .formSide {
+    align-items: flex-start;
+    padding: 2.5rem 1.5rem 3rem;
+  }
+
+  .title {
+    font-size: 2.8rem;
+  }
+}

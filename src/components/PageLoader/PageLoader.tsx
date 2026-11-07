@@ -19,13 +19,24 @@ const windowLoaded = () =>
     else window.addEventListener("load", () => resolve(), { once: true });
   });
 
+// how far an image has to be on screen to count. Images just peeking in (e.g. tilted or mid fade-in)
+// are still offscreen as far as the browser's lazy loading is concerned, so it won't load them yet
+const VISIBLE_PX = 50;
+
 // images on screen that haven't finished loading (offscreen lazy images load later as you scroll)
-const pendingImages = () =>
-  Array.from(document.images).filter((img) => {
+const pendingImages = () => {
+  const pending = Array.from(document.images).filter((img) => {
     if (img.complete) return false;
     const rect = img.getBoundingClientRect();
-    return rect.width > 0 && rect.bottom > 0 && rect.top < window.innerHeight;
-  }).length;
+    return rect.width > 0 && rect.bottom > VISIBLE_PX && rect.top < window.innerHeight - VISIBLE_PX;
+  });
+  // the browser can hold off on lazy images while scrolling is locked (e.g. when it restores the
+  // scroll position on reload), so make sure the ones we're waiting on actually start loading
+  pending.forEach((img) => {
+    if (img.loading === "lazy") img.loading = "eager";
+  });
+  return pending.length;
+};
 
 // full-screen loading screen that covers the site until the page's fonts and images are loaded
 export default function PageLoader() {
